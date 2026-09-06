@@ -1,0 +1,581 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Placement Management System</title>
+
+    <!-- COMMON AUTHENTICATION + GLOBAL THEME -->
+    <script src="/JS/auth.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #333;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .navbar {
+            background: #1f3c88;
+            color: white;
+            padding: 18px 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .nav-buttons a {
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .login-btn {
+            background: white;
+            color: #1f3c88;
+        }
+
+        .register-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .theme-btn {
+            border: none;
+            background: #111827;
+            color: white;
+
+            padding: 10px 16px;
+            border-radius: 6px;
+
+            font-weight: bold;
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .theme-btn:hover {
+            opacity: 0.85;
+        }
+
+        .nav-buttons a:hover {
+            opacity: 0.85;
+        }
+
+        /* ==============================
+           HERO
+        ============================== */
+
+        .hero {
+            min-height: 500px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            padding: 60px 20px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            color: #1f3c88;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #28a745;
+        }
+
+        .hero p {
+            font-size: 19px;
+            line-height: 1.7;
+            color: #666;
+
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .hero-buttons a {
+            text-decoration: none;
+
+            padding: 14px 28px;
+            border-radius: 7px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .primary-btn {
+            background: #1f3c88;
+            color: white;
+        }
+
+        .secondary-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .hero-buttons a:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* ==============================
+           FEATURES
+        ============================== */
+
+        .features {
+            padding: 50px 30px;
+            background: white;
+        }
+
+        .features h2 {
+            text-align: center;
+            color: #1f3c88;
+
+            margin-bottom: 35px;
+            font-size: 30px;
+        }
+
+        .feature-container {
+            max-width: 1100px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+
+            padding: 30px 20px;
+            border-radius: 10px;
+
+            text-align: center;
+
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: #1f3c88;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* ==============================
+           ABOUT
+        ============================== */
+
+        .about {
+            padding: 50px 25px;
+            text-align: center;
+        }
+
+        .about h2 {
+            color: #1f3c88;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            max-width: 800px;
+            margin: auto;
+
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        footer {
+            background: #1f3c88;
+            color: white;
+
+            text-align: center;
+
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        /* ==============================
+           DARK MODE
+        ============================== */
+
+        body.dark-mode {
+            background: #111827;
+            color: #f3f4f6;
+        }
+
+        body.dark-mode .hero {
+            background: #111827;
+        }
+
+        body.dark-mode .hero h1 {
+            color: #60a5fa;
+        }
+
+        body.dark-mode .hero p {
+            color: #d1d5db;
+        }
+
+        body.dark-mode .features {
+            background: #1f2937;
+        }
+
+        body.dark-mode .features h2 {
+            color: #60a5fa;
+        }
+
+        body.dark-mode .feature-card {
+            background: #374151;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .feature-card h3 {
+            color: #60a5fa;
+        }
+
+        body.dark-mode .feature-card p {
+            color: #d1d5db;
+        }
+
+        body.dark-mode .about {
+            background: #111827;
+        }
+
+        body.dark-mode .about h2 {
+            color: #60a5fa;
+        }
+
+        body.dark-mode .about p {
+            color: #d1d5db;
+        }
+
+        body.dark-mode .theme-btn {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 900px) {
+
+            .feature-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 15px 20px;
+
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .hero {
+                padding: 45px 20px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .feature-container {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-buttons a,
+            .theme-btn {
+                flex: 1;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==============================
+         NAVBAR
+    ============================== -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            SPMS
+        </div>
+
+        <div class="nav-buttons">
+
+            <a href="/login.html" class="login-btn">
+                Login
+            </a>
+
+            <a href="/register.html" class="register-btn">
+                Register
+            </a>
+
+            <button
+                type="button"
+                class="theme-btn"
+                onclick="toggleDarkMode()">
+                🌙 Dark Mode
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ==============================
+         HERO SECTION
+    ============================== -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+                Smart Placement
+                <span>Management System</span>
+            </h1>
+
+            <p>
+                A complete platform for students and
+                administrators to manage placement
+                opportunities, company applications,
+                resumes and placement activities.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a
+                    href="/login.html"
+                    class="primary-btn">
+                    Login to System
+                </a>
+
+                <a
+                    href="/register.html"
+                    class="secondary-btn">
+                    Create Student Account
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         FEATURES
+    ============================== -->
+
+    <section class="features">
+
+        <h2>
+            System Features
+        </h2>
+
+        <div class="feature-container">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🎓
+                </div>
+
+                <h3>
+                    Student Management
+                </h3>
+
+                <p>
+                    Students can create profiles,
+                    update their information and
+                    upload resumes.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🏢
+                </div>
+
+                <h3>
+                    Company Management
+                </h3>
+
+                <p>
+                    View company opportunities,
+                    job roles, packages and
+                    eligibility requirements.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📄
+                </div>
+
+                <h3>
+                    Online Applications
+                </h3>
+
+                <p>
+                    Students can apply for eligible
+                    companies and track their
+                    application status.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📊
+                </div>
+
+                <h3>
+                    Placement Reports
+                </h3>
+
+                <p>
+                    Administrators can monitor
+                    applications and generate
+                    placement reports.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         ABOUT
+    ============================== -->
+
+    <section class="about">
+
+        <h2>
+            About SPMS
+        </h2>
+
+        <p>
+            Smart Placement Management System helps
+            colleges manage student placement activities
+            digitally. Students can discover companies,
+            check eligibility, apply for jobs and track
+            their applications, while administrators can
+            manage students, companies and placement
+            reports from one system.
+        </p>
+
+    </section>
+
+
+    <!-- ==============================
+         FOOTER
+    ============================== -->
+
+    <footer>
+
+        <p>
+            Smart Placement Management System © 2026
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
+

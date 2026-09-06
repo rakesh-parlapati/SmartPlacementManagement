@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>My Profile | SPMS</title>
+
+<!-- COMMON AUTHENTICATION + GLOBAL DARK MODE -->
+<script src="/JS/auth.js"></script>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: #f4f6f9;
+        color: #1e293b;
+        min-height: 100vh;
+        transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    /* ==============================
+       HEADER
+    ============================== */
+
+    header {
+        background: #2563eb;
+        color: white;
+        padding: 18px 40px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 15px;
+    }
+
+    header h2 {
+        font-size: 22px;
+    }
+
+    .header-buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .header-buttons button {
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .theme-btn {
+        background: #343a40;
+        color: white;
+    }
+
+    .theme-btn:hover {
+        background: #495057;
+    }
+
+    .logout {
+        background: white;
+        color: #2563eb;
+    }
+
+    .logout:hover {
+        background: #eff6ff;
+    }
+
+    /* ==============================
+       CONTAINER
+    ============================== */
+
+    .container {
+        width: 90%;
+        max-width: 800px;
+        margin: 35px auto;
+    }
+
+    .profile-card {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+        transition:
+            background 0.3s ease,
+            color 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+    .profile-title {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #2563eb;
+    }
+
+    /* ==============================
+       FORM
+    ============================== */
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: bold;
+        color: #334155;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 12px;
+
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+
+        font-size: 15px;
+
+        background: white;
+        color: #1e293b;
+
+        transition:
+            background 0.3s ease,
+            color 0.3s ease,
+            border-color 0.3s ease;
+    }
+
+    input:focus,
+    select:focus {
+        outline: none;
+        border-color: #2563eb;
+    }
+
+    input[readonly] {
+        background: #f1f5f9;
+        cursor: not-allowed;
+    }
+
+    select {
+        cursor: pointer;
+    }
+
+    /* ==============================
+       BUTTONS
+    ============================== */
+
+    .buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    .buttons button {
+        flex: 1;
+        padding: 12px;
+
+        border: none;
+        border-radius: 6px;
+
+        cursor: pointer;
+
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .update-btn {
+        background: #2563eb;
+        color: white;
+    }
+
+    .update-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .update-btn:disabled {
+        background: #94a3b8;
+        cursor: not-allowed;
+    }
+
+    .back-btn {
+        background: #64748b;
+        color: white;
+    }
+
+    .back-btn:hover {
+        background: #475569;
+    }
+
+    /* ==============================
+       MESSAGE
+    ============================== */
+
+    .message {
+        text-align: center;
+        margin-top: 18px;
+        font-weight: bold;
+        min-height: 20px;
+    }
+
+    .success-message {
+        color: #16a34a;
+    }
+
+    .error-message {
+        color: #dc2626;
+    }
+
+    .info-message {
+        color: #2563eb;
+    }
+
+    /* ==============================
+       RESUME
+    ============================== */
+
+    .resume-section {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .resume-link {
+        display: inline-block;
+        margin-top: 10px;
+
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .resume-link:hover {
+        text-decoration: underline;
+    }
+
+    .no-resume {
+        display: none;
+        margin-top: 10px;
+        color: #64748b;
+    }
+
+    .resume-note {
+        margin-top: 8px;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    /* ==============================
+       DARK MODE
+    ============================== */
+
+    body.dark-mode {
+        background: #121212;
+        color: #e9ecef;
+    }
+
+    body.dark-mode header {
+        background: #1f3c88;
+    }
+
+    body.dark-mode .profile-card {
+        background: #1e1e1e;
+        color: #e9ecef;
+
+        box-shadow:
+            0 4px 15px rgba(0, 0, 0, 0.35);
+    }
+
+    body.dark-mode .profile-title {
+        color: #6ea8fe;
+    }
+
+    body.dark-mode label {
+        color: #e9ecef;
+    }
+
+    body.dark-mode input,
+    body.dark-mode select {
+        background: #252525;
+        color: #ffffff;
+        border-color: #555555;
+    }
+
+    body.dark-mode input::placeholder {
+        color: #aaaaaa;
+    }
+
+    body.dark-mode input[readonly] {
+        background: #303030;
+        color: #bbbbbb;
+    }
+
+    body.dark-mode select option {
+        background: #252525;
+        color: #ffffff;
+    }
+
+    body.dark-mode .resume-section {
+        border-top-color: #444444;
+    }
+
+    body.dark-mode .resume-link {
+        color: #6ea8fe;
+    }
+
+    body.dark-mode .no-resume,
+    body.dark-mode .resume-note {
+        color: #aaaaaa;
+    }
+
+    body.dark-mode .theme-btn {
+        background: #f8f9fa;
+        color: #212529;
+    }
+
+    body.dark-mode .theme-btn:hover {
+        background: #dee2e6;
+    }
+
+    body.dark-mode .logout {
+        background: #2a2a2a;
+        color: #6ea8fe;
+        border: 1px solid #444444;
+    }
+
+    body.dark-mode .logout:hover {
+        background: #333333;
+    }
+
+    /* ==============================
+       MOBILE
+    ============================== */
+
+    @media (max-width: 600px) {
+
+        header {
+            padding: 15px 20px;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        header h2 {
+            font-size: 17px;
+            text-align: center;
+        }
+
+        .header-buttons {
+            justify-content: center;
+        }
+
+        .header-buttons button {
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+
+        .container {
+            width: 95%;
+            margin: 25px auto;
+        }
+
+        .profile-card {
+            padding: 20px;
+        }
+
+        .buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+
+</head>
+
+<body>
+
+<!-- ==============================
+     HEADER
+============================== -->
+
+<header>
+
+    <h2>
+        Smart Placement Management System
+    </h2>
+
+    <div class="header-buttons">
+
+        <button
+            type="button"
+            class="theme-btn"
+            onclick="toggleDarkMode()">
+            🌙 Dark Mode
+        </button>
+
+        <button
+            type="button"
+            class="logout"
+            onclick="logoutUser()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- ==============================
+     MAIN
+============================== -->
+
+<div class="container">
+
+    <div class="profile-card">
+
+        <h2 class="profile-title">
+            Edit My Profile
+        </h2>
+
+        <form id="profileForm">
+
+            <!-- STUDENT ID -->
+
+            <div class="form-group">
+
+                <label for="studentId">
+                    Student ID
+                </label>
+
+                <input
+                    type="text"
+                    id="studentId"
+                    readonly>
+
+            </div>
+
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your name"
+                    maxlength="100"
+                    required>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    readonly>
+
+                <div class="resume-note">
+                    Email is managed by the account and cannot be changed here.
+                </div>
+
+            </div>
+
+
+            <!-- BRANCH -->
+
+            <div class="form-group">
+
+                <label for="branch">
+                    Branch
+                </label>
+
+                <select id="branch" required>
+
+                    <option value="">
+                        Select your branch
+                    </option>
+
+                    <option value="CSE">
+                        Computer Science and Engineering (CSE)
+                    </option>
+
+                    <option value="ECE">
+                        Electronics and Communication Engineering (ECE)
+                    </option>
+
+                    <option value="EEE">
+                        Electrical and Electronics Engineering (EEE)
+                    </option>
+
+                    <option value="MECH">
+                        Mechanical Engineering (MECH)
+                    </option>
+
+                    <option value="CIVIL">
+                        Civil Engineering (CIVIL)
+                    </option>
+
+                    <option value="IT">
+                        Information Technology (IT)
+                    </option>
+
+                    <option value="AI&DS">
+                        Artificial Intelligence and Data Science (AI&DS)
+                    </option>
+
+                    <option value="AIML">
+                        Artificial Intelligence and Machine Learning (AIML)
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="form-group">
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Enter 10-digit phone number"
+                    maxlength="10"
+                    inputmode="numeric"
+                    required>
+
+            </div>
+
+
+            <!-- CGPA -->
+
+            <div class="form-group">
+
+                <label for="cgpa">
+                    CGPA
+                </label>
+
+                <input
+                    type="number"
+                    id="cgpa"
+                    min="0"
+                    max="10"
+                    step="0.01"
+                    placeholder="Enter CGPA"
+                    required>
+
+            </div>
+
+
+            <!-- CURRENT RESUME -->
+
+            <div class="resume-section">
+
+                <strong>
+                    Current Resume
+                </strong>
+
+                <br>
+
+                <a
+                    id="resumeLink"
+                    class="resume-link"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    📄 View Resume
+
+                </a>
+
+                <span
+                    id="noResume"
+                    class="no-resume">
+
+                    No resume uploaded
+
+                </span>
+
+                <div class="resume-note">
+                    Resume replacement can be done from the profile/resume update page.
+                </div>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="buttons">
+
+                <button
+                    type="submit"
+                    class="update-btn"
+                    id="updateButton">
+
+                    Update Profile
+
+                </button>
+
+                <button
+                    type="button"
+                    class="back-btn"
+                    onclick="goBack()">
+
+                    Back to Dashboard
+
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="message"
+            class="message">
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    // ==========================================
+    // PAGE INITIALIZATION
+    // ==========================================
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            if (!requireStudent()) {
+                return;
+            }
+
+            const studentId =
+                getStudentId();
+
+            if (!studentId) {
+
+                window.location.href =
+                    "/login.html";
+
+                return;
+            }
+
+            loadProfile(studentId);
+        }
+    );
+
+
+    // ==========================================
+    // LOAD PROFILE
+    // ==========================================
+
+    async function loadProfile(studentId) {
+
+        showMessage(
+            "Loading profile...",
+            "info"
+        );
+
+        try {
+
+            const response =
+                await fetch(
+                    "/students/" +
+                    encodeURIComponent(studentId),
+                    {
+                        method: "GET",
+                        headers: {
+                            "Accept":
+                                "application/json"
+                        },
+                        credentials:
+                            "same-origin"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                if (response.status === 403) {
+
+                    throw new Error(
+                        "You are not authorized to view this profile."
+                    );
+                }
+
+                if (response.status === 404) {
+
+                    throw new Error(
+                        "Student profile was not found."
+                    );
+                }
+
+                throw new Error(
+                    "Unable to load student profile."
+                );
+            }
+
+
+            const student =
+                await response.json();
+
+
+            // ==================================
+            // OWNERSHIP CHECK
+            // ==================================
+
+            if (
+                String(student.id) !==
+                String(studentId)
+            ) {
+
+                throw new Error(
+                    "You are not authorized to view this profile."
+                );
+            }
+
+
+            // ==================================
+            // FILL FORM
+            // ==================================
+
+            document.getElementById(
+                "studentId"
+            ).value =
+                student.id || "";
+
+
+            document.getElementById(
+                "name"
+            ).value =
+                student.name || "";
+
+
+            document.getElementById(
+                "email"
+            ).value =
+                student.email || "";
+
+
+            document.getElementById(
+                "branch"
+            ).value =
+                student.branch || "";
+
+
+            document.getElementById(
+                "phone"
+            ).value =
+                student.phone || "";
+
+
+            document.getElementById(
+                "cgpa"
+            ).value =
+                student.cgpa !== null &&
+                student.cgpa !== undefined
+                    ? student.cgpa
+                    : "";
+
+
+            // ==================================
+            // RESUME
+            // ==================================
+
+            const resumeLink =
+                document.getElementById(
+                    "resumeLink"
+                );
+
+            const noResume =
+                document.getElementById(
+                    "noResume"
+                );
+
+
+            if (
+                student.resume &&
+                student.resume !== "null" &&
+                student.resume.trim() !== ""
+            ) {
+
+                resumeLink.href =
+                    "/students/" +
+                    encodeURIComponent(
+                        student.id
+                    ) +
+                    "/resume";
+
+                resumeLink.style.display =
+                    "inline-block";
+
+                noResume.style.display =
+                    "none";
+
+            } else {
+
+                resumeLink.style.display =
+                    "none";
+
+                noResume.style.display =
+                    "inline";
+            }
+
+
+            showMessage(
+                "",
+                "info"
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Profile loading error:",
+                error
+            );
+
+            showMessage(
+                error.message ||
+                "Failed to load profile.",
+                "error"
+            );
+        }
+    }
+
+
+    // ==========================================
+    // UPDATE PROFILE
+    // ==========================================
+
+    document
+        .getElementById("profileForm")
+        .addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const studentId =
+                    getStudentId();
+
+
+                if (!studentId) {
+
+                    window.location.href =
+                        "/login.html";
+
+                    return;
+                }
+
+
+                // ==================================
+                // GET VALUES
+                // ==================================
+
+                const name =
+                    document.getElementById(
+                        "name"
+                    ).value.trim();
+
+
+                const branch =
+                    document.getElementById(
+                        "branch"
+                    ).value;
+
+
+                const phone =
+                    document.getElementById(
+                        "phone"
+                    ).value.trim();
+
+
+                const cgpaText =
+                    document.getElementById(
+                        "cgpa"
+                    ).value.trim();
+
+
+                const cgpa =
+                    Number(cgpaText);
+
+
+                // ==================================
+                // VALIDATE NAME
+                // ==================================
+
+                if (name.length < 2) {
+
+                    showMessage(
+                        "Please enter a valid name.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // ==================================
+                // VALIDATE BRANCH
+                // ==================================
+
+                if (!branch) {
+
+                    showMessage(
+                        "Please select your branch.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // ==================================
+                // VALIDATE PHONE
+                // ==================================
+
+                if (
+                    !/^[0-9]{10}$/.test(phone)
+                ) {
+
+                    showMessage(
+                        "Phone number must contain exactly 10 digits.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // ==================================
+                // VALIDATE CGPA
+                // ==================================
+
+                if (
+                    cgpaText === "" ||
+                    !Number.isFinite(cgpa) ||
+                    cgpa < 0 ||
+                    cgpa > 10
+                ) {
+
+                    showMessage(
+                        "CGPA must be between 0 and 10.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // ==================================
+                // FORM DATA
+                // ==================================
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "name",
+                    name
+                );
+
+                formData.append(
+                    "branch",
+                    branch
+                );
+
+                formData.append(
+                    "phone",
+                    phone
+                );
+
+                formData.append(
+                    "cgpa",
+                    cgpa
+                );
+
+
+                // ==================================
+                // UPDATE BUTTON
+                // ==================================
+
+                const updateButton =
+                    document.getElementById(
+                        "updateButton"
+                    );
+
+
+                updateButton.disabled =
+                    true;
+
+                updateButton.textContent =
+                    "Updating...";
+
+
+                showMessage(
+                    "Updating profile...",
+                    "info"
+                );
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/students/" +
+                            encodeURIComponent(
+                                studentId
+                            ),
+                            {
+                                method: "PUT",
+                                body: formData,
+                                credentials:
+                                    "same-origin"
+                            }
+                        );
+
+
+                    if (!response.ok) {
+
+                        let errorMessage =
+                            "Profile update failed.";
+
+
+                        try {
+
+                            const text =
+                                await response.text();
+
+                            if (text) {
+                                errorMessage =
+                                    text;
+                            }
+
+                        } catch (e) {
+                            console.error(e);
+                        }
+
+
+                        if (
+                            response.status ===
+                            403
+                        ) {
+
+                            errorMessage =
+                                "You are not authorized to update this profile.";
+                        }
+
+
+                        throw new Error(
+                            errorMessage
+                        );
+                    }
+
+
+                    // ==================================
+                    // READ UPDATED STUDENT
+                    // ==================================
+
+                    const updatedStudent =
+                        await response.json();
+
+
+                    // ==================================
+                    // SECURITY CHECK
+                    // ==================================
+
+                    if (
+                        updatedStudent.id &&
+                        String(updatedStudent.id) !==
+                        String(studentId)
+                    ) {
+
+                        throw new Error(
+                            "Unexpected student account returned by server."
+                        );
+                    }
+
+
+                    // ==================================
+                    // UPDATE LOCAL STORAGE
+                    // ==================================
+
+                    localStorage.setItem(
+                        "studentId",
+                        String(
+                            updatedStudent.id ||
+                            studentId
+                        )
+                    );
+
+
+                    if (
+                        updatedStudent.name
+                    ) {
+
+                        localStorage.setItem(
+                            "studentName",
+                            updatedStudent.name
+                        );
+                    }
+
+
+                    if (
+                        updatedStudent.email
+                    ) {
+
+                        localStorage.setItem(
+                            "studentEmail",
+                            updatedStudent.email
+                        );
+                    }
+
+
+                    // ==================================
+                    // SUCCESS
+                    // ==================================
+
+                    showMessage(
+                        "Profile updated successfully!",
+                        "success"
+                    );
+
+
+                    // Reload latest data.
+                    await loadProfile(
+                        studentId
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Profile update error:",
+                        error
+                    );
+
+                    showMessage(
+                        error.message ||
+                        "Profile update failed.",
+                        "error"
+                    );
+
+                } finally {
+
+                    updateButton.disabled =
+                        false;
+
+                    updateButton.textContent =
+                        "Update Profile";
+                }
+            }
+        );
+
+
+    // ==========================================
+    // SHOW MESSAGE
+    // ==========================================
+
+    function showMessage(
+        text,
+        type
+    ) {
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        message.textContent =
+            text;
+
+
+        message.className =
+            "message";
+
+
+        if (type === "success") {
+
+            message.classList.add(
+                "success-message"
+            );
+
+        } else if (type === "error") {
+
+            message.classList.add(
+                "error-message"
+            );
+
+        } else if (type === "info") {
+
+            message.classList.add(
+                "info-message"
+            );
+        }
+    }
+
+
+    // ==========================================
+    // BACK TO DASHBOARD
+    // ==========================================
+
+    function goBack() {
+
+        window.location.href =
+            "/student-dashboard.html";
+    }
+
+</script>
+
+
+</body>
+
+</html>

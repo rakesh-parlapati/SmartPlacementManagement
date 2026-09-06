@@ -1,0 +1,1228 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Apply for Job | SPMS</title>
+
+    <!-- COMMON ACCESS CONTROL + THEME -->
+    <script src="/JS/auth.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #222;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* HEADER */
+        .header {
+            background: #007bff;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header h2 {
+            font-size: 24px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .theme-btn,
+        .logout-btn {
+            background: white;
+            color: #007bff;
+            border: none;
+            padding: 9px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .theme-btn:hover,
+        .logout-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 700px;
+            margin: 35px auto;
+            padding: 0 20px 40px;
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .top-section h1 {
+            color: #222;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* FORM CARD */
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* COMPANY */
+        .company-box {
+            background: #eaf3ff;
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+        }
+
+        .company-box h3 {
+            color: #007bff;
+            margin-bottom: 7px;
+        }
+
+        /* ELIGIBILITY */
+        .eligibility-box {
+            margin-bottom: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .checking {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .eligible {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .not-eligible {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #444;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        input[readonly] {
+            background: #f1f3f5;
+        }
+
+        /* SUBMIT */
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 6px;
+            background: #198754;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: #146c43;
+        }
+
+        .submit-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .hint {
+            margin-top: 6px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        #message {
+            margin-top: 18px;
+            text-align: center;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+
+        .success {
+            color: #198754;
+        }
+
+        .error {
+            color: #dc3545;
+        }
+
+        .info {
+            color: #007bff;
+        }
+
+        /* ==============================
+           DARK MODE
+           ============================== */
+
+        body.dark-mode {
+            background: #121212;
+            color: #eeeeee;
+        }
+
+        body.dark-mode .top-section h1 {
+            color: #ffffff;
+        }
+
+        body.dark-mode .form-card {
+            background: #1e1e1e;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+        }
+
+        body.dark-mode .company-box {
+            background: #162b42;
+            border-left-color: #4da3ff;
+        }
+
+        body.dark-mode .company-box h3 {
+            color: #66b3ff;
+        }
+
+        body.dark-mode label {
+            color: #dddddd;
+        }
+
+        body.dark-mode input {
+            background: #2a2a2a;
+            color: #ffffff;
+            border-color: #555;
+        }
+
+        body.dark-mode input[readonly] {
+            background: #333333;
+            color: #dddddd;
+        }
+
+        body.dark-mode input::placeholder {
+            color: #aaaaaa;
+        }
+
+        body.dark-mode .hint {
+            color: #aaaaaa;
+        }
+
+        body.dark-mode .back-btn {
+            background: #555;
+        }
+
+        /* DARK MODE - ELIGIBILITY */
+        body.dark-mode .checking {
+            background: #4a3d14;
+            color: #ffe69c;
+        }
+
+        body.dark-mode .eligible {
+            background: #143d2c;
+            color: #9be7c0;
+        }
+
+        body.dark-mode .not-eligible {
+            background: #421c20;
+            color: #ffb3b8;
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .header h2 {
+                font-size: 19px;
+                text-align: center;
+            }
+
+            .header-actions {
+                justify-content: center;
+            }
+
+            .theme-btn,
+            .logout-btn {
+                flex: 1;
+            }
+
+            .container {
+                padding: 0 10px 30px;
+            }
+
+            .top-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .top-section h1 {
+                font-size: 25px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .back-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <h2>
+            Smart Placement Management System
+        </h2>
+
+        <div class="header-actions">
+
+            <button
+                class="theme-btn"
+                onclick="toggleDarkMode()">
+                🌙 Dark Mode
+            </button>
+
+            <button
+                class="logout-btn"
+                onclick="logoutUser()">
+                Logout
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+
+        <div class="top-section">
+
+            <h1>
+                📝 Apply for Job
+            </h1>
+
+            <a
+                href="/companies.html"
+                class="back-btn">
+                ← Companies
+            </a>
+
+        </div>
+
+
+        <div class="form-card">
+
+            <!-- COMPANY INFORMATION -->
+            <div class="company-box">
+
+                <h3 id="companyTitle">
+                    Loading company...
+                </h3>
+
+                <p id="companyDetails">
+                    Please wait...
+                </p>
+
+            </div>
+
+
+            <!-- ELIGIBILITY -->
+            <div
+                id="eligibilityBox"
+                class="eligibility-box checking">
+
+                ⏳ Checking eligibility...
+
+            </div>
+
+
+            <!-- APPLICATION FORM -->
+            <form id="applicationForm">
+
+                <!-- STUDENT NAME -->
+                <div class="form-group">
+
+                    <label for="studentName">
+                        Student Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="studentName"
+                        readonly
+                        required>
+
+                </div>
+
+
+                <!-- STUDENT EMAIL -->
+                <div class="form-group">
+
+                    <label for="studentEmail">
+                        Student Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="studentEmail"
+                        readonly
+                        required>
+
+                </div>
+
+
+                <!-- PHONE -->
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="Enter 10-digit phone number"
+                        maxlength="10"
+                        inputmode="numeric"
+                        required>
+
+                    <p class="hint">
+                        Enter your 10-digit mobile number.
+                    </p>
+
+                </div>
+
+
+                <!-- CGPA -->
+                <div class="form-group">
+
+                    <label for="cgpa">
+                        CGPA
+                    </label>
+
+                    <input
+                        type="number"
+                        id="cgpa"
+                        step="0.01"
+                        min="0"
+                        max="10"
+                        readonly
+                        required>
+
+                </div>
+
+
+                <!-- COMPANY -->
+                <div class="form-group">
+
+                    <label for="companyName">
+                        Company
+                    </label>
+
+                    <input
+                        type="text"
+                        id="companyName"
+                        readonly
+                        required>
+
+                </div>
+
+
+                <!-- RESUME -->
+                <div class="form-group">
+
+                    <label for="resume">
+                        Resume (PDF)
+                    </label>
+
+                    <input
+                        type="file"
+                        id="resume"
+                        accept=".pdf,application/pdf"
+                        required>
+
+                    <p class="hint">
+                        Upload your resume in PDF format.
+                    </p>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+                <button
+                    type="submit"
+                    id="submitBtn"
+                    class="submit-btn"
+                    disabled>
+
+                    Checking Eligibility...
+
+                </button>
+
+
+                <p id="message"></p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // ==========================================
+        // STUDENT ACCESS CONTROL
+        // ==========================================
+
+        if (!requireStudent()) {
+            throw new Error("Student authentication required.");
+        }
+
+
+        // ==========================================
+        // GET URL PARAMETERS
+        // ==========================================
+
+        const urlParams =
+            new URLSearchParams(window.location.search);
+
+        const companyId =
+            urlParams.get("companyId");
+
+
+        // ==========================================
+        // GET LOGGED-IN STUDENT
+        // ==========================================
+
+        const studentId =
+            getStudentId();
+
+        const userRole =
+            getUserRole();
+
+
+        // ==========================================
+        // VERIFY STUDENT ID
+        // ==========================================
+
+        if (userRole !== "student" || !studentId) {
+
+            alert("Please login as a student first.");
+
+            window.location.href =
+                "/login.html";
+
+            throw new Error(
+                "Student login required."
+            );
+        }
+
+
+        // ==========================================
+        // CHECK COMPANY ID
+        // ==========================================
+
+        if (!companyId) {
+
+            showMessage(
+                "No company was selected.",
+                "error"
+            );
+
+            disableSubmit();
+
+        }
+
+
+        // ==========================================
+        // LOAD STUDENT
+        // ==========================================
+
+        async function loadStudent() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/students/" +
+                        encodeURIComponent(studentId),
+                        {
+                            credentials: "same-origin"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Student not found."
+                    );
+
+                }
+
+
+                const student =
+                    await response.json();
+
+
+                // Extra ownership check
+                if (
+                    student.id != null &&
+                    String(student.id) !== String(studentId)
+                ) {
+
+                    throw new Error(
+                        "Student access verification failed."
+                    );
+
+                }
+
+
+                document.getElementById(
+                    "studentName"
+                ).value =
+                    student.name || "";
+
+
+                document.getElementById(
+                    "studentEmail"
+                ).value =
+                    student.email || "";
+
+
+                document.getElementById(
+                    "cgpa"
+                ).value =
+                    student.cgpa ?? "";
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Unable to load student information.",
+                    "error"
+                );
+
+                disableSubmit();
+
+            }
+
+        }
+
+
+        // ==========================================
+        // LOAD COMPANY
+        // ==========================================
+
+        async function loadCompany() {
+
+            if (!companyId) {
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/companies/" +
+                        encodeURIComponent(companyId),
+                        {
+                            credentials: "same-origin"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Company not found."
+                    );
+
+                }
+
+
+                const company =
+                    await response.json();
+
+
+                document.getElementById(
+                    "companyTitle"
+                ).textContent =
+                    company.companyName ||
+                    "Company";
+
+
+                document.getElementById(
+                    "companyDetails"
+                ).textContent =
+
+                    (company.jobRole ||
+                        "Job Role") +
+
+                    " | " +
+
+                    (company.location ||
+                        "Location") +
+
+                    " | " +
+
+                    (
+                        company.packageAmount != null
+                            ? company.packageAmount + " LPA"
+                            : "Package not specified"
+                    );
+
+
+                document.getElementById(
+                    "companyName"
+                ).value =
+                    company.companyName || "";
+
+
+                checkEligibility();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                document.getElementById(
+                    "companyTitle"
+                ).textContent =
+                    "Company not found";
+
+
+                showMessage(
+                    "Unable to load company information.",
+                    "error"
+                );
+
+
+                disableSubmit();
+
+            }
+
+        }
+
+
+        // ==========================================
+        // CHECK ELIGIBILITY
+        // ==========================================
+
+        async function checkEligibility() {
+
+            const box =
+                document.getElementById(
+                    "eligibilityBox"
+                );
+
+
+            const submitBtn =
+                document.getElementById(
+                    "submitBtn"
+                );
+
+
+            box.className =
+                "eligibility-box checking";
+
+            box.textContent =
+                "⏳ Checking eligibility...";
+
+
+            disableSubmit();
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `/companies/${encodeURIComponent(companyId)}/eligibility/${encodeURIComponent(studentId)}`,
+                        {
+                            credentials: "same-origin"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    const errorText =
+                        await response.text();
+
+
+                    throw new Error(
+                        errorText ||
+                        "Unable to check eligibility."
+                    );
+
+                }
+
+
+                const result =
+                    await response.json();
+
+
+                if (result.eligible) {
+
+                    box.className =
+                        "eligibility-box eligible";
+
+
+                    box.textContent =
+                        `✅ You are eligible. ${result.studentPercentage}% ≥ ${result.requiredPercentage}%`;
+
+
+                    submitBtn.disabled =
+                        false;
+
+
+                    submitBtn.textContent =
+                        "📝 Submit Application";
+
+
+                } else {
+
+                    box.className =
+                        "eligibility-box not-eligible";
+
+
+                    box.textContent =
+                        `❌ You are not eligible. ${result.studentPercentage}% < ${result.requiredPercentage}%`;
+
+
+                    disableSubmit();
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Eligibility error:",
+                    error
+                );
+
+
+                box.className =
+                    "eligibility-box not-eligible";
+
+
+                box.textContent =
+                    "❌ Unable to check eligibility.";
+
+
+                disableSubmit();
+
+            }
+
+        }
+
+
+        // ==========================================
+        // SUBMIT APPLICATION
+        // ==========================================
+
+        document
+            .getElementById("applicationForm")
+            .addEventListener(
+                "submit",
+                async function(event) {
+
+                    event.preventDefault();
+
+
+                    // Student details
+                    const studentName =
+                        document.getElementById(
+                            "studentName"
+                        ).value.trim();
+
+
+                    const studentEmail =
+                        document.getElementById(
+                            "studentEmail"
+                        ).value.trim();
+
+
+                    const phone =
+                        document.getElementById(
+                            "phone"
+                        ).value.trim();
+
+
+                    const cgpa =
+                        document.getElementById(
+                            "cgpa"
+                        ).value;
+
+
+                    const company =
+                        document.getElementById(
+                            "companyName"
+                        ).value.trim();
+
+
+                    const resume =
+                        document.getElementById(
+                            "resume"
+                        ).files[0];
+
+
+                    // ==================================
+                    // VALIDATE PHONE
+                    // ==================================
+
+                    if (!/^[0-9]{10}$/.test(phone)) {
+
+                        showMessage(
+                            "Please enter a valid 10-digit phone number.",
+                            "error"
+                        );
+
+                        return;
+                    }
+
+
+                    // ==================================
+                    // VALIDATE RESUME
+                    // ==================================
+
+                    if (!resume) {
+
+                        showMessage(
+                            "Please select your resume PDF.",
+                            "error"
+                        );
+
+                        return;
+                    }
+
+
+                    const fileName =
+                        resume.name.toLowerCase();
+
+
+                    if (
+                        resume.type !== "application/pdf" &&
+                        !fileName.endsWith(".pdf")
+                    ) {
+
+                        showMessage(
+                            "Only PDF resumes are allowed.",
+                            "error"
+                        );
+
+                        return;
+                    }
+
+
+                    // ==================================
+                    // CREATE FORM DATA
+                    // ==================================
+
+                    const formData =
+                        new FormData();
+
+
+                    formData.append(
+                        "studentName",
+                        studentName
+                    );
+
+
+                    formData.append(
+                        "studentEmail",
+                        studentEmail
+                    );
+
+
+                    formData.append(
+                        "phone",
+                        phone
+                    );
+
+
+                    formData.append(
+                        "cgpa",
+                        cgpa
+                    );
+
+
+                    formData.append(
+                        "companyName",
+                        company
+                    );
+
+
+                    formData.append(
+                        "resume",
+                        resume
+                    );
+
+
+                    // ==================================
+                    // BUTTON / MESSAGE
+                    // ==================================
+
+                    const message =
+                        document.getElementById(
+                            "message"
+                        );
+
+
+                    const submitBtn =
+                        document.getElementById(
+                            "submitBtn"
+                        );
+
+
+                    submitBtn.disabled =
+                        true;
+
+
+                    submitBtn.textContent =
+                        "Submitting...";
+
+
+                    message.className =
+                        "info";
+
+
+                    message.textContent =
+                        "Submitting your application...";
+
+
+                    // ==================================
+                    // SEND APPLICATION
+                    // ==================================
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                "/applications",
+                                {
+                                    method: "POST",
+                                    body: formData,
+                                    credentials: "same-origin"
+                                }
+                            );
+
+
+                        const responseText =
+                            await response.text();
+
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                responseText ||
+                                "Application failed."
+                            );
+
+                        }
+
+
+                        message.className =
+                            "success";
+
+
+                        message.textContent =
+                            "✅ Application submitted successfully!";
+
+
+                        setTimeout(
+                            function() {
+
+                                window.location.href =
+                                    "/my-applications.html";
+
+                            },
+                            1200
+                        );
+
+
+                    } catch (error) {
+
+                        console.error(error);
+
+
+                        let errorMessage =
+                            error.message ||
+                            "Unable to submit application.";
+
+
+                        // Duplicate application
+                        if (
+                            errorMessage
+                                .toLowerCase()
+                                .includes("already")
+                        ) {
+
+                            errorMessage =
+                                "⚠️ You have already applied to this company.";
+
+                        }
+
+
+                        message.className =
+                            "error";
+
+
+                        message.textContent =
+                            "❌ " + errorMessage;
+
+
+                        submitBtn.disabled =
+                            false;
+
+
+                        submitBtn.textContent =
+                            "📝 Submit Application";
+
+                    }
+
+                }
+            );
+
+
+        // ==========================================
+        // DISABLE SUBMIT
+        // ==========================================
+
+        function disableSubmit() {
+
+            const submitBtn =
+                document.getElementById(
+                    "submitBtn"
+                );
+
+
+            submitBtn.disabled =
+                true;
+
+
+            submitBtn.textContent =
+                "Cannot Apply";
+
+        }
+
+
+        // ==========================================
+        // SHOW MESSAGE
+        // ==========================================
+
+        function showMessage(
+            text,
+            type
+        ) {
+
+            const message =
+                document.getElementById(
+                    "message"
+                );
+
+
+            message.className =
+                type;
+
+
+            message.textContent =
+                text;
+
+        }
+
+
+        // ==========================================
+        // START
+        // ==========================================
+
+        if (studentId && companyId) {
+
+            loadStudent();
+
+            loadCompany();
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+

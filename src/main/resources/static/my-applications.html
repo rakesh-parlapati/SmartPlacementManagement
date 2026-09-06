@@ -1,0 +1,1375 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Applications | SPMS</title>
+
+    <!-- COMMON ACCESS CONTROL + THEME -->
+    <script src="/JS/auth.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #333;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ==============================
+           NAVBAR
+           ============================== */
+
+        nav {
+            background: #1f3c88;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        nav h2 {
+            font-size: 24px;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        nav button {
+            background: white;
+            color: #1f3c88;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        nav button:hover {
+            background: #e9ecef;
+        }
+
+        /* ==============================
+           CONTAINER
+           ============================== */
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+
+        .page-header h1 {
+            color: #1f3c88;
+        }
+
+        .back-btn {
+            background: #555;
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #333;
+        }
+
+        /* ==============================
+           WELCOME
+           ============================== */
+
+        .welcome {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .welcome h2 {
+            color: #1f3c88;
+            margin-bottom: 7px;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+        /* ==============================
+           SUMMARY
+           ============================== */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .summary-box h3 {
+            color: #666;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .summary-box p {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f3c88;
+        }
+
+        /* ==============================
+           APPLICATION CARD
+           ============================== */
+
+        .application-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .application-header h2 {
+            color: #1f3c88;
+            font-size: 22px;
+        }
+
+        .application-id {
+            color: #666;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        /* ==============================
+           STATUS
+           ============================== */
+
+        .status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* ==============================
+           STATUS MESSAGE
+           ============================== */
+
+        .status-message {
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .status-message.pending-message {
+            background: #fff8df;
+            color: #856404;
+        }
+
+        .status-message.approved-message {
+            background: #e4f7e8;
+            color: #155724;
+        }
+
+        .status-message.rejected-message {
+            background: #fde8eb;
+            color: #721c24;
+        }
+
+        /* ==============================
+           DETAILS
+           ============================== */
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .detail {
+            background: #f8f9fa;
+            padding: 14px;
+            border-radius: 7px;
+            word-break: break-word;
+        }
+
+        .detail strong {
+            display: block;
+            color: #555;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .detail span {
+            color: #222;
+            font-size: 15px;
+        }
+
+        .date {
+            color: #1f3c88 !important;
+            font-weight: bold;
+        }
+
+        /* ==============================
+           RESUME
+           ============================== */
+
+        .resume-section {
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .resume-section h3 {
+            color: #1f3c88;
+            margin-bottom: 12px;
+        }
+
+        .resume-btn {
+            display: inline-block;
+            background: #6f42c1;
+            color: white;
+            text-decoration: none;
+            padding: 10px 17px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .resume-btn:hover {
+            background: #59359a;
+        }
+
+        /* ==============================
+           EMPTY MESSAGE
+           ============================== */
+
+        .message {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .message h2 {
+            color: #1f3c88;
+            margin-bottom: 10px;
+        }
+
+        .message p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .browse-btn {
+            display: inline-block;
+            background: #1f3c88;
+            color: white;
+            text-decoration: none;
+            padding: 11px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .browse-btn:hover {
+            background: #162d68;
+        }
+
+        /* ==============================
+           ERROR
+           ============================== */
+
+        .error {
+            color: #b00020;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* ==============================
+           DARK MODE
+           ============================== */
+
+        body.dark-mode {
+            background: #121212;
+            color: #eeeeee;
+        }
+
+        body.dark-mode nav {
+            background: #172b5f;
+        }
+
+        body.dark-mode .page-header h1 {
+            color: #ffffff;
+        }
+
+        body.dark-mode .welcome,
+        body.dark-mode .summary-box,
+        body.dark-mode .application-card,
+        body.dark-mode .message {
+            background: #1e1e1e;
+            box-shadow: 0 3px 10px rgba(255, 255, 255, 0.04);
+        }
+
+        body.dark-mode .welcome h2 {
+            color: #66b3ff;
+        }
+
+        body.dark-mode .welcome p {
+            color: #bbbbbb;
+        }
+
+        body.dark-mode .summary-box h3 {
+            color: #bbbbbb;
+        }
+
+        body.dark-mode .summary-box p {
+            color: #66b3ff;
+        }
+
+        body.dark-mode .application-header {
+            border-bottom-color: #444;
+        }
+
+        body.dark-mode .application-header h2 {
+            color: #66b3ff;
+        }
+
+        body.dark-mode .application-id {
+            color: #aaaaaa;
+        }
+
+        body.dark-mode .detail {
+            background: #292929;
+        }
+
+        body.dark-mode .detail strong {
+            color: #bbbbbb;
+        }
+
+        body.dark-mode .detail span {
+            color: #eeeeee;
+        }
+
+        body.dark-mode .date {
+            color: #66b3ff !important;
+        }
+
+        body.dark-mode .resume-section {
+            border-top-color: #444;
+        }
+
+        body.dark-mode .resume-section h3 {
+            color: #66b3ff;
+        }
+
+        body.dark-mode .message h2 {
+            color: #66b3ff;
+        }
+
+        body.dark-mode .message p {
+            color: #bbbbbb;
+        }
+
+        body.dark-mode .back-btn {
+            background: #555;
+        }
+
+        body.dark-mode .back-btn:hover {
+            background: #666;
+        }
+
+        /* DARK STATUS */
+        body.dark-mode .pending {
+            background: #4a3d14;
+            color: #ffe69c;
+        }
+
+        body.dark-mode .approved {
+            background: #143d2c;
+            color: #9be7c0;
+        }
+
+        body.dark-mode .rejected {
+            background: #421c20;
+            color: #ffb3b8;
+        }
+
+        body.dark-mode .status-message.pending-message {
+            background: #4a3d14;
+            color: #ffe69c;
+        }
+
+        body.dark-mode .status-message.approved-message {
+            background: #143d2c;
+            color: #9be7c0;
+        }
+
+        body.dark-mode .status-message.rejected-message {
+            background: #421c20;
+            color: #ffb3b8;
+        }
+
+        /* ==============================
+           MOBILE
+           ============================== */
+
+        @media (max-width: 900px) {
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 15px 20px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            nav h2 {
+                font-size: 20px;
+                text-align: center;
+            }
+
+            .nav-actions {
+                justify-content: center;
+            }
+
+            nav button {
+                flex: 1;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .application-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .status {
+                align-self: flex-start;
+            }
+
+            .back-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .message {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+
+        <h2>
+            SPMS Student
+        </h2>
+
+        <div class="nav-actions">
+
+            <button
+                class="theme-btn"
+                onclick="toggleDarkMode()">
+                🌙 Dark Mode
+            </button>
+
+            <button
+                onclick="logoutUser()">
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN -->
+    <div class="container">
+
+        <!-- PAGE HEADER -->
+        <div class="page-header">
+
+            <h1>
+                My Applications
+            </h1>
+
+            <a
+                href="/student-dashboard.html"
+                class="back-btn">
+                ← Dashboard
+            </a>
+
+        </div>
+
+
+        <!-- WELCOME -->
+        <div class="welcome">
+
+            <h2 id="studentName">
+                Student
+            </h2>
+
+            <p>
+                Track the status of all your placement applications here.
+            </p>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+        <div class="summary">
+
+            <div class="summary-box">
+
+                <h3>
+                    Total Applications
+                </h3>
+
+                <p id="total">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h3>
+                    Pending
+                </h3>
+
+                <p id="pending">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h3>
+                    Approved
+                </h3>
+
+                <p id="approved">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h3>
+                    Rejected
+                </h3>
+
+                <p id="rejected">
+                    0
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- APPLICATIONS -->
+        <div id="applicationsContainer"></div>
+
+
+        <!-- ERROR -->
+        <div
+            id="errorMessage"
+            class="error">
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // ==========================================
+        // STUDENT ACCESS CONTROL
+        // ==========================================
+
+        if (!requireStudent()) {
+            throw new Error(
+                "Student authentication required."
+            );
+        }
+
+
+        // ==========================================
+        // GET LOGGED-IN STUDENT
+        // ==========================================
+
+        const studentId =
+            getStudentId();
+
+        const studentEmail =
+            localStorage.getItem("studentEmail");
+
+        const storedStudentName =
+            localStorage.getItem("studentName");
+
+
+        // ==========================================
+        // VERIFY STUDENT INFORMATION
+        // ==========================================
+
+        if (!studentId || !studentEmail) {
+
+            alert(
+                "Student login information is missing."
+            );
+
+            window.location.href =
+                "/login.html";
+
+            throw new Error(
+                "Student information missing."
+            );
+        }
+
+
+        // ==========================================
+        // DISPLAY STUDENT NAME
+        // ==========================================
+
+        document.getElementById(
+            "studentName"
+        ).textContent =
+            storedStudentName ||
+            "Student";
+
+
+        // ==========================================
+        // LOAD APPLICATIONS
+        // ==========================================
+
+        async function loadApplications() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/applications",
+                        {
+                            credentials: "same-origin"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to load applications"
+                    );
+
+                }
+
+
+                const applications =
+                    await response.json();
+
+
+                // ==================================
+                // ONLY SHOW THIS STUDENT'S
+                // APPLICATIONS
+                // ==================================
+
+                const myApplications =
+                    applications.filter(
+                        application =>
+
+                            application.studentEmail &&
+
+                            application.studentEmail
+                                .toLowerCase() ===
+                            studentEmail.toLowerCase()
+                    );
+
+
+                // ==================================
+                // NEWEST FIRST
+                // ==================================
+
+                myApplications.sort(
+                    (a, b) => {
+
+                        const dateA =
+                            new Date(
+                                a.applicationDate || 0
+                            ).getTime();
+
+
+                        const dateB =
+                            new Date(
+                                b.applicationDate || 0
+                            ).getTime();
+
+
+                        return dateB - dateA;
+
+                    }
+                );
+
+
+                updateSummary(
+                    myApplications
+                );
+
+
+                displayApplications(
+                    myApplications
+                );
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                document.getElementById(
+                    "errorMessage"
+                ).textContent =
+                    "Unable to load your applications.";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // UPDATE SUMMARY
+        // ==========================================
+
+        function updateSummary(
+            applications
+        ) {
+
+            document.getElementById(
+                "total"
+            ).textContent =
+                applications.length;
+
+
+            document.getElementById(
+                "pending"
+            ).textContent =
+
+                applications.filter(
+                    app =>
+                        (
+                            app.status ||
+                            "Pending"
+                        ).toLowerCase() ===
+                        "pending"
+                ).length;
+
+
+            document.getElementById(
+                "approved"
+            ).textContent =
+
+                applications.filter(
+                    app =>
+                        (
+                            app.status || ""
+                        ).toLowerCase() ===
+                        "approved"
+                ).length;
+
+
+            document.getElementById(
+                "rejected"
+            ).textContent =
+
+                applications.filter(
+                    app =>
+                        (
+                            app.status || ""
+                        ).toLowerCase() ===
+                        "rejected"
+                ).length;
+
+        }
+
+
+        // ==========================================
+        // DISPLAY APPLICATIONS
+        // ==========================================
+
+        function displayApplications(
+            applications
+        ) {
+
+            const container =
+                document.getElementById(
+                    "applicationsContainer"
+                );
+
+
+            container.innerHTML = "";
+
+
+            // ==================================
+            // NO APPLICATIONS
+            // ==================================
+
+            if (applications.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="message">
+
+                        <h2>
+                            No Applications Yet
+                        </h2>
+
+                        <p>
+                            You have not applied for
+                            any placement opportunities yet.
+                        </p>
+
+                        <a
+                            href="/companies.html"
+                            class="browse-btn">
+
+                            Browse Companies
+
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            // ==================================
+            // DISPLAY EACH APPLICATION
+            // ==================================
+
+            applications.forEach(
+                application => {
+
+                    const status =
+                        application.status ||
+                        "Pending";
+
+
+                    let statusClass =
+                        "pending";
+
+
+                    let messageClass =
+                        "pending-message";
+
+
+                    let statusMessage =
+                        "Your application is currently under review.";
+
+
+                    if (
+                        status.toLowerCase() ===
+                        "approved"
+                    ) {
+
+                        statusClass =
+                            "approved";
+
+                        messageClass =
+                            "approved-message";
+
+                        statusMessage =
+                            "Congratulations! Your application has been approved.";
+
+                    }
+
+
+                    if (
+                        status.toLowerCase() ===
+                        "rejected"
+                    ) {
+
+                        statusClass =
+                            "rejected";
+
+                        messageClass =
+                            "rejected-message";
+
+                        statusMessage =
+                            "Your application was rejected by the administrator.";
+
+                    }
+
+
+                    // ==================================
+                    // RESUME
+                    // ==================================
+
+                    const resume =
+                        application.resume
+
+                        ? `
+
+                            <a
+                                href="/applications/${encodeURIComponent(application.id)}/resume"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="resume-btn">
+
+                                📄 View Resume
+
+                            </a>
+
+                          `
+
+                        : `
+
+                            <p>
+                                Resume not available.
+                            </p>
+
+                          `;
+
+
+                    // ==================================
+                    // APPLICATION CARD
+                    // ==================================
+
+                    container.innerHTML += `
+
+                        <div class="application-card">
+
+                            <!-- HEADER -->
+
+                            <div class="application-header">
+
+                                <div>
+
+                                    <h2>
+
+                                        ${escapeHTML(
+                                            application.companyName ||
+                                            "Unknown Company"
+                                        )}
+
+                                    </h2>
+
+                                    <p class="application-id">
+
+                                        Application ID:
+
+                                        <strong>
+                                            #${escapeHTML(
+                                                application.id
+                                            )}
+                                        </strong>
+
+                                    </p>
+
+                                </div>
+
+
+                                <span
+                                    class="status ${statusClass}">
+
+                                    ${escapeHTML(status)}
+
+                                </span>
+
+                            </div>
+
+
+                            <!-- STATUS MESSAGE -->
+
+                            <div
+                                class="status-message ${messageClass}">
+
+                                ${escapeHTML(
+                                    statusMessage
+                                )}
+
+                            </div>
+
+
+                            <!-- DETAILS -->
+
+                            <div class="details">
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        Student Name
+                                    </strong>
+
+                                    <span>
+
+                                        ${escapeHTML(
+                                            application.studentName ||
+                                            "-"
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        Email
+                                    </strong>
+
+                                    <span>
+
+                                        ${escapeHTML(
+                                            application.studentEmail ||
+                                            "-"
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        Phone
+                                    </strong>
+
+                                    <span>
+
+                                        ${escapeHTML(
+                                            application.phone ||
+                                            "Not Available"
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        CGPA
+                                    </strong>
+
+                                    <span>
+
+                                        ${formatCgpa(
+                                            application.cgpa
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        Percentage
+                                    </strong>
+
+                                    <span>
+
+                                        ${formatPercentage(
+                                            application.cgpa
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        Application Date
+                                    </strong>
+
+                                    <span class="date">
+
+                                        ${formatDate(
+                                            application.applicationDate
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- RESUME -->
+
+                            <div class="resume-section">
+
+                                <h3>
+                                    Submitted Resume
+                                </h3>
+
+                                ${resume}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+        }
+
+
+        // ==========================================
+        // FORMAT CGPA
+        // ==========================================
+
+        function formatCgpa(
+            cgpa
+        ) {
+
+            const value =
+                Number(cgpa);
+
+
+            if (
+                cgpa === null ||
+                cgpa === undefined ||
+                cgpa === "" ||
+                isNaN(value)
+            ) {
+
+                return "-";
+
+            }
+
+
+            return value.toFixed(2);
+
+        }
+
+
+        // ==========================================
+        // FORMAT PERCENTAGE
+        // ==========================================
+
+        function formatPercentage(
+            cgpa
+        ) {
+
+            const value =
+                Number(cgpa);
+
+
+            if (
+                cgpa === null ||
+                cgpa === undefined ||
+                cgpa === "" ||
+                isNaN(value)
+            ) {
+
+                return "-";
+
+            }
+
+
+            return (value * 10).toFixed(2) + "%";
+
+        }
+
+
+        // ==========================================
+        // FORMAT DATE
+        // ==========================================
+
+        function formatDate(
+            dateValue
+        ) {
+
+            if (!dateValue) {
+
+                return "Not available";
+
+            }
+
+
+            const date =
+                new Date(dateValue);
+
+
+            if (
+                isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return "Not available";
+
+            }
+
+
+            return date.toLocaleString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+        }
+
+
+        // ==========================================
+        // ESCAPE HTML
+        // ==========================================
+
+        function escapeHTML(
+            value
+        ) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        // ==========================================
+        // START
+        // ==========================================
+
+        loadApplications();
+
+    </script>
+
+</body>
+
+</html>
+

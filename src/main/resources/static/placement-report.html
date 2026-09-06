@@ -1,0 +1,1866 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Placement Report | SPMS</title>
+
+    <!-- COMMON AUTHENTICATION + GLOBAL DARK MODE -->
+    <script src="/JS/auth.js"></script>
+
+    <style>
+
+        /* =========================================
+           RESET
+        ========================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* =========================================
+           BODY
+        ========================================= */
+
+        body {
+            background: #f4f6f9;
+            color: #333;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        .navbar {
+            background: #1f3c88;
+            color: white;
+
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .navbar h2 {
+            font-size: 24px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-buttons button {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            background: white;
+            color: #1f3c88;
+        }
+
+        .back-btn:hover {
+            background: #e9ecef;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .logout-btn:hover {
+            background: #bb2d3b;
+        }
+
+        .theme-btn {
+            background: white;
+            color: #1f3c88;
+        }
+
+        .theme-btn:hover {
+            background: #e9ecef;
+        }
+
+        /* =========================================
+           CONTAINER
+        ========================================= */
+
+        .container {
+            width: 94%;
+            max-width: 1400px;
+            margin: 30px auto;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            color: #1f3c88;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #666;
+        }
+
+        /* =========================================
+           ERROR
+        ========================================= */
+
+        .error {
+            background: #f8d7da;
+            color: #842029;
+
+            padding: 15px;
+            border-radius: 6px;
+
+            margin-bottom: 20px;
+
+            display: none;
+        }
+
+        /* =========================================
+           STATISTICS
+        ========================================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.08);
+
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #1f3c88;
+        }
+
+        /* =========================================
+           SECTIONS
+        ========================================= */
+
+        .section {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #1f3c88;
+            margin-bottom: 20px;
+        }
+
+        /* =========================================
+           FILTERS
+        ========================================= */
+
+        .filters {
+            display: flex;
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 20px;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 14px;
+
+            background: white;
+            color: #333;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .filters input:focus,
+        .filters select:focus {
+            outline: none;
+            border-color: #1f3c88;
+        }
+
+        .print-btn {
+            background: #198754;
+            color: white;
+
+            border: none;
+
+            padding: 12px 20px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .print-btn:hover {
+            background: #157347;
+        }
+
+        /* =========================================
+           TABLE
+        ========================================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+
+            min-width: 900px;
+        }
+
+        th {
+            background: #1f3c88;
+            color: white;
+
+            padding: 13px;
+
+            text-align: left;
+
+            font-size: 14px;
+        }
+
+        td {
+            padding: 12px;
+
+            border-bottom: 1px solid #ddd;
+
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .status {
+            padding: 6px 10px;
+
+            border-radius: 15px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            display: inline-block;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .approved {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .rejected {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        /* =========================================
+           STATES
+        ========================================= */
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #1f3c88;
+            font-weight: bold;
+        }
+
+        .company-summary table {
+            min-width: 700px;
+        }
+
+        .rate {
+            font-weight: bold;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .footer {
+            text-align: center;
+            color: #777;
+            padding: 20px;
+        }
+
+        /* =========================================
+           DARK MODE
+           auth.js applies dark-mode to BODY
+        ========================================= */
+
+        body.dark-mode {
+            background: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .page-title h1 {
+            color: #8ab4f8;
+        }
+
+        body.dark-mode .page-title p {
+            color: #aaa;
+        }
+
+        body.dark-mode .stat-card,
+        body.dark-mode .section {
+            background: #1e1e1e;
+            color: #e0e0e0;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.35);
+        }
+
+        body.dark-mode .stat-card h3 {
+            color: #aaa;
+        }
+
+        body.dark-mode .stat-card .number {
+            color: #8ab4f8;
+        }
+
+        body.dark-mode .section h2 {
+            color: #8ab4f8;
+        }
+
+        body.dark-mode .filters input,
+        body.dark-mode .filters select {
+            background: #2a2a2a;
+            color: #eee;
+            border-color: #555;
+        }
+
+        body.dark-mode .filters input::placeholder {
+            color: #aaa;
+        }
+
+        body.dark-mode td {
+            border-bottom-color: #444;
+        }
+
+        body.dark-mode tbody tr:hover {
+            background: #292929;
+        }
+
+        body.dark-mode .empty,
+        body.dark-mode .footer {
+            color: #aaa;
+        }
+
+        body.dark-mode .error {
+            background: #4a2025;
+            color: #ffb3b8;
+        }
+
+        body.dark-mode .back-btn,
+        body.dark-mode .theme-btn {
+            background: #2a2a2a;
+            color: #8ab4f8;
+        }
+
+        body.dark-mode .back-btn:hover,
+        body.dark-mode .theme-btn:hover {
+            background: #333;
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 1200px) {
+
+            .stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 15px 20px;
+
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+            .navbar h2 {
+                font-size: 20px;
+                text-align: center;
+            }
+
+            .nav-buttons {
+                width: 100%;
+
+                justify-content: center;
+
+                flex-wrap: wrap;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .container {
+                width: 96%;
+            }
+
+            .section {
+                padding: 18px;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .nav-buttons button {
+                width: 100%;
+            }
+        }
+
+        /* =========================================
+           PRINT
+        ========================================= */
+
+        @media print {
+
+            .navbar,
+            .filters,
+            .print-btn,
+            .footer {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .container {
+                width: 100%;
+                max-width: none;
+                margin: 0;
+            }
+
+            .section,
+            .stat-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            table {
+                min-width: 0;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+
+            h1,
+            h2 {
+                color: black;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <div class="navbar">
+
+        <h2>
+            Smart Placement Management System
+        </h2>
+
+        <div class="nav-buttons">
+
+            <button
+                type="button"
+                class="theme-btn"
+                onclick="toggleDarkMode()">
+
+                🌙 Dark Mode
+
+            </button>
+
+            <button
+                type="button"
+                class="back-btn"
+                onclick="goBack()">
+
+                Admin Dashboard
+
+            </button>
+
+            <button
+                type="button"
+                class="logout-btn"
+                onclick="logoutUser()">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================== -->
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1>
+                Placement Report
+            </h1>
+
+            <p>
+                Complete placement application and company-wise report
+            </p>
+
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div
+            id="errorMessage"
+            class="error">
+        </div>
+
+
+        <!-- =====================================
+             STATISTICS
+        ====================================== -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <h3>
+                    Total Students
+                </h3>
+
+                <div
+                    class="number"
+                    id="totalStudents">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>
+                    Total Companies
+                </h3>
+
+                <div
+                    class="number"
+                    id="totalCompanies">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>
+                    Total Applications
+                </h3>
+
+                <div
+                    class="number"
+                    id="totalApplications">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>
+                    Approved
+                </h3>
+
+                <div
+                    class="number"
+                    id="approvedApplications">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>
+                    Rejected
+                </h3>
+
+                <div
+                    class="number"
+                    id="rejectedApplications">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>
+                    Placement Rate
+                </h3>
+
+                <div
+                    class="number"
+                    id="placementRate">
+
+                    0%
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             APPLICATION REPORT
+        ====================================== -->
+
+        <div class="section">
+
+            <h2>
+                Application Report
+            </h2>
+
+
+            <div class="filters">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-box"
+                    placeholder="Search student, email, company or phone..."
+                    oninput="filterApplications()">
+
+
+                <select
+                    id="statusFilter"
+                    onchange="filterApplications()">
+
+                    <option value="All">
+                        All Status
+                    </option>
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                    <option value="Approved">
+                        Approved
+                    </option>
+
+                    <option value="Rejected">
+                        Rejected
+                    </option>
+
+                </select>
+
+
+                <button
+                    type="button"
+                    class="print-btn"
+                    onclick="window.print()">
+
+                    Print Report
+
+                </button>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Application ID
+                            </th>
+
+                            <th>
+                                Student Name
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Phone
+                            </th>
+
+                            <th>
+                                Company
+                            </th>
+
+                            <th>
+                                CGPA
+                            </th>
+
+                            <th>
+                                Percentage
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Application Date
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="applicationTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="9"
+                                class="loading">
+
+                                Loading report...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             COMPANY SUMMARY
+        ====================================== -->
+
+        <div class="section company-summary">
+
+            <h2>
+                Company-wise Placement Summary
+            </h2>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Company
+                            </th>
+
+                            <th>
+                                Applications
+                            </th>
+
+                            <th>
+                                Approved
+                            </th>
+
+                            <th>
+                                Rejected
+                            </th>
+
+                            <th>
+                                Pending
+                            </th>
+
+                            <th>
+                                Approval Rate
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="companyTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="loading">
+
+                                Loading company report...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <div class="footer">
+
+        Smart Placement Management System © 2026
+
+    </div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script>
+
+        // =========================================
+        // ADMIN ACCESS
+        // =========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                if (!requireAdmin()) {
+                    return;
+                }
+
+                loadReport();
+
+            }
+        );
+
+
+        // =========================================
+        // GLOBAL DATA
+        // =========================================
+
+        let students = [];
+
+        let companies = [];
+
+        let applications = [];
+
+
+        // =========================================
+        // LOAD REPORT
+        // =========================================
+
+        async function loadReport() {
+
+            hideError();
+
+
+            try {
+
+                const [
+                    studentsResponse,
+                    companiesResponse,
+                    applicationsResponse
+                ] = await Promise.all([
+
+                    fetch(
+                        "/students",
+                        {
+                            method: "GET",
+                            credentials: "same-origin"
+                        }
+                    ),
+
+                    fetch(
+                        "/companies",
+                        {
+                            method: "GET",
+                            credentials: "same-origin"
+                        }
+                    ),
+
+                    fetch(
+                        "/applications",
+                        {
+                            method: "GET",
+                            credentials: "same-origin"
+                        }
+                    )
+
+                ]);
+
+
+                if (!studentsResponse.ok) {
+
+                    throw new Error(
+                        "Failed to load students."
+                    );
+
+                }
+
+
+                if (!companiesResponse.ok) {
+
+                    throw new Error(
+                        "Failed to load companies."
+                    );
+
+                }
+
+
+                if (!applicationsResponse.ok) {
+
+                    throw new Error(
+                        "Failed to load applications."
+                    );
+
+                }
+
+
+                students =
+                    await studentsResponse.json();
+
+
+                companies =
+                    await companiesResponse.json();
+
+
+                applications =
+                    await applicationsResponse.json();
+
+
+                // =====================================
+                // ENSURE ARRAYS
+                // =====================================
+
+                if (!Array.isArray(students)) {
+                    students = [];
+                }
+
+                if (!Array.isArray(companies)) {
+                    companies = [];
+                }
+
+                if (!Array.isArray(applications)) {
+                    applications = [];
+                }
+
+
+                // =====================================
+                // NEWEST FIRST
+                // =====================================
+
+                applications.sort(
+                    function(a, b) {
+
+                        const dateA =
+                            new Date(
+                                a.applicationDate || 0
+                            ).getTime();
+
+                        const dateB =
+                            new Date(
+                                b.applicationDate || 0
+                            ).getTime();
+
+                        return dateB - dateA;
+
+                    }
+                );
+
+
+                // =====================================
+                // DISPLAY
+                // =====================================
+
+                updateStatistics();
+
+                displayApplications(
+                    applications
+                );
+
+                displayCompanySummary();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Placement report error:",
+                    error
+                );
+
+
+                showError(
+                    error.message ||
+                    "Unable to load placement report."
+                );
+
+            }
+
+        }
+
+
+        // =========================================
+        // UPDATE STATISTICS
+        // =========================================
+
+        function updateStatistics() {
+
+            const total =
+                applications.length;
+
+
+            const approved =
+                applications.filter(
+                    function(app) {
+
+                        return normalizeStatus(
+                            app.status
+                        ) === "approved";
+
+                    }
+                ).length;
+
+
+            const rejected =
+                applications.filter(
+                    function(app) {
+
+                        return normalizeStatus(
+                            app.status
+                        ) === "rejected";
+
+                    }
+                ).length;
+
+
+            document.getElementById(
+                "totalStudents"
+            ).textContent =
+                students.length;
+
+
+            document.getElementById(
+                "totalCompanies"
+            ).textContent =
+                companies.length;
+
+
+            document.getElementById(
+                "totalApplications"
+            ).textContent =
+                total;
+
+
+            document.getElementById(
+                "approvedApplications"
+            ).textContent =
+                approved;
+
+
+            document.getElementById(
+                "rejectedApplications"
+            ).textContent =
+                rejected;
+
+
+            const rate =
+                total > 0
+                    ? (approved / total) * 100
+                    : 0;
+
+
+            document.getElementById(
+                "placementRate"
+            ).textContent =
+                rate.toFixed(1) + "%";
+
+        }
+
+
+        // =========================================
+        // DISPLAY APPLICATIONS
+        // =========================================
+
+        function displayApplications(data) {
+
+            const tbody =
+                document.getElementById(
+                    "applicationTableBody"
+                );
+
+
+            if (
+                !Array.isArray(data) ||
+                data.length === 0
+            ) {
+
+                tbody.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="9"
+                            class="empty">
+
+                            No applications found.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+            tbody.innerHTML =
+                data.map(
+                    function(app) {
+
+                        // =================================
+                        // CGPA
+                        // =================================
+
+                        const cgpaValue =
+                            Number(app.cgpa);
+
+
+                        const validCgpa =
+                            Number.isFinite(
+                                cgpaValue
+                            );
+
+
+                        const cgpa =
+                            validCgpa
+                                ? cgpaValue.toFixed(2)
+                                : "N/A";
+
+
+                        // =================================
+                        // PERCENTAGE
+                        // =================================
+
+                        const percentage =
+                            validCgpa
+                                ? (
+                                    cgpaValue * 10
+                                ).toFixed(1) + "%"
+                                : "N/A";
+
+
+                        // =================================
+                        // STATUS
+                        // =================================
+
+                        const status =
+                            normalizeStatus(
+                                app.status
+                            );
+
+
+                        const displayStatus =
+                            status
+                                ? status
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                  status.slice(1)
+                                : "Pending";
+
+
+                        const allowedStatuses = [
+                            "pending",
+                            "approved",
+                            "rejected"
+                        ];
+
+
+                        const statusClass =
+                            allowedStatuses.includes(
+                                status
+                            )
+                                ? status
+                                : "pending";
+
+
+                        return `
+
+                            <tr>
+
+                                <td>
+
+                                    ${escapeHTML(
+                                        String(
+                                            app.id ?? "N/A"
+                                        )
+                                    )}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${escapeHTML(
+                                        app.studentName ||
+                                        "N/A"
+                                    )}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${escapeHTML(
+                                        app.studentEmail ||
+                                        "N/A"
+                                    )}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${escapeHTML(
+                                        app.phone ||
+                                        "N/A"
+                                    )}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${escapeHTML(
+                                        app.companyName ||
+                                        "N/A"
+                                    )}
+
+                                </td>
+
+
+                                <td>
+                                    ${cgpa}
+                                </td>
+
+
+                                <td>
+                                    ${percentage}
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="status ${statusClass}">
+
+                                        ${escapeHTML(
+                                            displayStatus
+                                        )}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    ${formatDate(
+                                        app.applicationDate
+                                    )}
+
+                                </td>
+
+                            </tr>
+
+                        `;
+
+                    }
+                ).join("");
+
+        }
+
+
+        // =========================================
+        // FILTER APPLICATIONS
+        // =========================================
+
+        function filterApplications() {
+
+            const search =
+                document.getElementById(
+                    "searchInput"
+                ).value
+                .toLowerCase()
+                .trim();
+
+
+            const selectedStatus =
+                document.getElementById(
+                    "statusFilter"
+                ).value
+                .toLowerCase();
+
+
+            const filtered =
+                applications.filter(
+                    function(app) {
+
+                        const searchableText = (
+
+                            (app.studentName || "") +
+                            " " +
+                            (app.studentEmail || "") +
+                            " " +
+                            (app.phone || "") +
+                            " " +
+                            (app.companyName || "") +
+                            " " +
+                            (app.id || "")
+
+                        )
+                        .toLowerCase();
+
+
+                        const matchesSearch =
+                            searchableText.includes(
+                                search
+                            );
+
+
+                        const appStatus =
+                            normalizeStatus(
+                                app.status
+                            ) || "pending";
+
+
+                        const matchesStatus =
+                            selectedStatus === "all" ||
+                            appStatus === selectedStatus;
+
+
+                        return (
+                            matchesSearch &&
+                            matchesStatus
+                        );
+
+                    }
+                );
+
+
+            displayApplications(
+                filtered
+            );
+
+        }
+
+
+        // =========================================
+        // COMPANY SUMMARY
+        // =========================================
+
+        function displayCompanySummary() {
+
+            const tbody =
+                document.getElementById(
+                    "companyTableBody"
+                );
+
+
+            const companyMap =
+                new Map();
+
+
+            // =====================================
+            // ADD ALL COMPANIES
+            // =====================================
+
+            companies.forEach(
+                function(company) {
+
+                    const name =
+                        company.companyName ||
+                        "Unknown Company";
+
+
+                    companyMap.set(
+                        name,
+                        {
+                            applications: 0,
+                            approved: 0,
+                            rejected: 0,
+                            pending: 0
+                        }
+                    );
+
+                }
+            );
+
+
+            // =====================================
+            // ADD APPLICATION DATA
+            // =====================================
+
+            applications.forEach(
+                function(app) {
+
+                    const name =
+                        app.companyName ||
+                        "Unknown Company";
+
+
+                    if (!companyMap.has(name)) {
+
+                        companyMap.set(
+                            name,
+                            {
+                                applications: 0,
+                                approved: 0,
+                                rejected: 0,
+                                pending: 0
+                            }
+                        );
+
+                    }
+
+
+                    const data =
+                        companyMap.get(name);
+
+
+                    data.applications++;
+
+
+                    const status =
+                        normalizeStatus(
+                            app.status
+                        );
+
+
+                    if (status === "approved") {
+
+                        data.approved++;
+
+                    }
+
+                    else if (status === "rejected") {
+
+                        data.rejected++;
+
+                    }
+
+                    else {
+
+                        data.pending++;
+
+                    }
+
+                }
+            );
+
+
+            // =====================================
+            // SORT
+            // =====================================
+
+            const rows =
+                Array.from(
+                    companyMap.entries()
+                ).sort(
+                    function(a, b) {
+
+                        return (
+                            b[1].applications -
+                            a[1].applications
+                        );
+
+                    }
+                );
+
+
+            if (rows.length === 0) {
+
+                tbody.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="empty">
+
+                            No companies found.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+            // =====================================
+            // DISPLAY
+            // =====================================
+
+            tbody.innerHTML =
+                rows.map(
+                    function(item) {
+
+                        const companyName =
+                            item[0];
+
+
+                        const data =
+                            item[1];
+
+
+                        const approvalRate =
+                            data.applications > 0
+                                ? (
+                                    data.approved /
+                                    data.applications
+                                ) * 100
+                                : 0;
+
+
+                        return `
+
+                            <tr>
+
+                                <td>
+
+                                    <strong>
+
+                                        ${escapeHTML(
+                                            companyName
+                                        )}
+
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+                                    ${data.applications}
+                                </td>
+
+
+                                <td>
+                                    ${data.approved}
+                                </td>
+
+
+                                <td>
+                                    ${data.rejected}
+                                </td>
+
+
+                                <td>
+                                    ${data.pending}
+                                </td>
+
+
+                                <td class="rate">
+
+                                    ${approvalRate.toFixed(1)}%
+
+                                </td>
+
+                            </tr>
+
+                        `;
+
+                    }
+                ).join("");
+
+        }
+
+
+        // =========================================
+        // NORMALIZE STATUS
+        // =========================================
+
+        function normalizeStatus(status) {
+
+            if (!status) {
+                return "pending";
+            }
+
+
+            return String(status)
+                .trim()
+                .toLowerCase();
+
+        }
+
+
+        // =========================================
+        // DATE FORMAT
+        // =========================================
+
+        function formatDate(dateValue) {
+
+            if (!dateValue) {
+                return "N/A";
+            }
+
+
+            const date =
+                new Date(dateValue);
+
+
+            if (
+                isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return "N/A";
+
+            }
+
+
+            return date.toLocaleString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+        }
+
+
+        // =========================================
+        // HTML ESCAPE
+        // =========================================
+
+        function escapeHTML(value) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        // =========================================
+        // ERROR
+        // =========================================
+
+        function showError(message) {
+
+            const error =
+                document.getElementById(
+                    "errorMessage"
+                );
+
+
+            error.textContent =
+                message;
+
+
+            error.style.display =
+                "block";
+
+        }
+
+
+        function hideError() {
+
+            const error =
+                document.getElementById(
+                    "errorMessage"
+                );
+
+
+            error.textContent = "";
+
+            error.style.display =
+                "none";
+
+        }
+
+
+        // =========================================
+        // BACK TO ADMIN DASHBOARD
+        // =========================================
+
+        function goBack() {
+
+            window.location.href =
+                "/admin.html";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

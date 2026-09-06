@@ -1,0 +1,1524 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Applications | SPMS</title>
+
+    <!-- COMMON ACCESS CONTROL -->
+    <script src="/JS/auth.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #333;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        nav {
+            background: #1e3a8a;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        nav h2 {
+            font-size: 24px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        nav button {
+            background: white;
+            color: #1e3a8a;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        nav button:hover {
+            background: #e9ecef;
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #1e3a8a;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+        }
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+        }
+
+        .summary-card h3 {
+            color: #555;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .summary-card p {
+            font-size: 30px;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .pending p {
+            color: #f59e0b;
+        }
+
+        .approved p {
+            color: #16a34a;
+        }
+
+        .rejected p {
+            color: #dc2626;
+        }
+
+        /* =========================
+           CONTROLS
+        ========================= */
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+            margin-bottom: 25px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .controls input,
+        .controls select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+            background: white;
+            color: #333;
+        }
+
+        .controls input {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .controls select {
+            min-width: 180px;
+        }
+
+        .controls input:focus,
+        .controls select:focus {
+            border-color: #1e3a8a;
+        }
+
+        /* =========================
+           APPLICATIONS
+        ========================= */
+
+        .applications {
+            display: grid;
+            gap: 20px;
+        }
+
+        .application-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .application-header h2 {
+            color: #1e3a8a;
+            font-size: 21px;
+        }
+
+        .application-id {
+            color: #777;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status.approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* =========================
+           DETAILS
+        ========================= */
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detail {
+            background: #f8fafc;
+            padding: 14px;
+            border-radius: 7px;
+        }
+
+        .detail strong {
+            display: block;
+            color: #555;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .detail span {
+            color: #222;
+            word-break: break-word;
+        }
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            border-top: 1px solid #eee;
+            padding-top: 18px;
+        }
+
+        .actions a,
+        .actions button {
+            border: none;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .view-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .approve-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .approve-btn:hover {
+            background: #15803d;
+        }
+
+        .reject-btn {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .reject-btn:hover {
+            background: #d97706;
+        }
+
+        .resume-btn {
+            background: #7c3aed;
+            color: white;
+        }
+
+        .resume-btn:hover {
+            background: #6d28d9;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #b91c1c;
+        }
+
+        .disabled-btn {
+            background: #cbd5e1;
+            color: #64748b;
+            cursor: not-allowed !important;
+        }
+
+        /* =========================
+           LOADING / EMPTY
+        ========================= */
+
+        .loading,
+        .empty {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 10px;
+            color: #666;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 22px;
+            background: #64748b;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #475569;
+        }
+
+        /* =========================
+           DARK MODE
+        ========================= */
+
+        body.dark-mode {
+            background: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .header,
+        body.dark-mode .summary-card,
+        body.dark-mode .controls,
+        body.dark-mode .application-card,
+        body.dark-mode .loading,
+        body.dark-mode .empty {
+            background: #1e1e1e;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .header h1,
+        body.dark-mode .application-header h2 {
+            color: #8ab4f8;
+        }
+
+        body.dark-mode .header p,
+        body.dark-mode .application-id {
+            color: #aaa;
+        }
+
+        body.dark-mode .summary-card h3 {
+            color: #bbb;
+        }
+
+        body.dark-mode .controls input,
+        body.dark-mode .controls select {
+            background: #2a2a2a;
+            color: #eee;
+            border-color: #555;
+        }
+
+        body.dark-mode .controls input::placeholder {
+            color: #aaa;
+        }
+
+        body.dark-mode .detail {
+            background: #2a2a2a;
+        }
+
+        body.dark-mode .detail strong {
+            color: #bbb;
+        }
+
+        body.dark-mode .detail span {
+            color: #eee;
+        }
+
+        body.dark-mode .actions {
+            border-top-color: #444;
+        }
+
+        body.dark-mode .loading,
+        body.dark-mode .empty {
+            color: #bbb;
+        }
+
+        body.dark-mode nav button {
+            background: #2a2a2a;
+            color: #8ab4f8;
+        }
+
+        body.dark-mode nav button:hover {
+            background: #3a3a3a;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 15px 20px;
+            }
+
+            nav h2 {
+                font-size: 18px;
+            }
+
+            .nav-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            nav button {
+                padding: 8px 12px;
+            }
+
+            .container {
+                width: 95%;
+                margin: 20px auto;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .controls input,
+            .controls select {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .actions a,
+            .actions button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav>
+
+        <h2>
+            Smart Placement Management System
+        </h2>
+
+        <div class="nav-actions">
+
+            <button
+                type="button"
+                class="theme-btn"
+                onclick="toggleDarkMode()">
+                🌙 Dark Mode
+            </button>
+
+            <button
+                type="button"
+                onclick="logoutUser()">
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <div class="container">
+
+        <div class="header">
+
+            <h1>
+                Student Applications
+            </h1>
+
+            <p>
+                Manage and review all student placement applications.
+            </p>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="summary">
+
+            <div class="summary-card">
+
+                <h3>
+                    Total Applications
+                </h3>
+
+                <p id="totalCount">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="summary-card pending">
+
+                <h3>
+                    Pending
+                </h3>
+
+                <p id="pendingCount">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="summary-card approved">
+
+                <h3>
+                    Approved
+                </h3>
+
+                <p id="approvedCount">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="summary-card rejected">
+
+                <h3>
+                    Rejected
+                </h3>
+
+                <p id="rejectedCount">
+                    0
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- SEARCH AND FILTER -->
+
+        <div class="controls">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search student, email, phone, company or application ID..."
+                oninput="filterApplications()">
+
+
+            <select
+                id="statusFilter"
+                onchange="filterApplications()">
+
+                <option value="All">
+                    All Status
+                </option>
+
+                <option value="Pending">
+                    Pending
+                </option>
+
+                <option value="Approved">
+                    Approved
+                </option>
+
+                <option value="Rejected">
+                    Rejected
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- APPLICATIONS -->
+
+        <div id="applicationsContainer">
+
+            <div class="loading">
+                Loading applications...
+            </div>
+
+        </div>
+
+
+        <a
+            href="/admin.html"
+            class="back-btn">
+            ← Back to Admin Dashboard
+        </a>
+
+    </div>
+
+
+    <script>
+
+        // ==========================================
+        // PAGE INITIALIZATION
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                if (!requireAdmin()) {
+                    return;
+                }
+
+                loadApplications();
+
+            }
+        );
+
+
+        let allApplications = [];
+
+
+        // ==========================================
+        // LOAD APPLICATIONS
+        // ==========================================
+
+        async function loadApplications() {
+
+            const container =
+                document.getElementById(
+                    "applicationsContainer"
+                );
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/applications",
+                        {
+                            method: "GET",
+                            credentials: "same-origin"
+                        }
+                    );
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to load applications"
+                    );
+                }
+
+                allApplications =
+                    await response.json();
+
+                // Newest applications first
+                allApplications.sort(
+                    (a, b) => {
+
+                        const dateA =
+                            new Date(
+                                a.applicationDate
+                            ).getTime();
+
+                        const dateB =
+                            new Date(
+                                b.applicationDate
+                            ).getTime();
+
+                        return (
+                            (Number.isFinite(dateB)
+                                ? dateB
+                                : 0) -
+                            (Number.isFinite(dateA)
+                                ? dateA
+                                : 0)
+                        );
+                    }
+                );
+
+                updateSummary();
+                filterApplications();
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading applications:",
+                    error
+                );
+
+                container.innerHTML = `
+
+                    <div class="empty">
+                        Unable to load applications.
+                        Please try again.
+                    </div>
+
+                `;
+            }
+        }
+
+
+        // ==========================================
+        // UPDATE SUMMARY
+        // ==========================================
+
+        function updateSummary() {
+
+            const total =
+                allApplications.length;
+
+            const pending =
+                allApplications.filter(
+                    app =>
+                        String(
+                            app.status || "Pending"
+                        ).toLowerCase() ===
+                        "pending"
+                ).length;
+
+            const approved =
+                allApplications.filter(
+                    app =>
+                        String(
+                            app.status || ""
+                        ).toLowerCase() ===
+                        "approved"
+                ).length;
+
+            const rejected =
+                allApplications.filter(
+                    app =>
+                        String(
+                            app.status || ""
+                        ).toLowerCase() ===
+                        "rejected"
+                ).length;
+
+
+            document.getElementById(
+                "totalCount"
+            ).textContent = total;
+
+            document.getElementById(
+                "pendingCount"
+            ).textContent = pending;
+
+            document.getElementById(
+                "approvedCount"
+            ).textContent = approved;
+
+            document.getElementById(
+                "rejectedCount"
+            ).textContent = rejected;
+        }
+
+
+        // ==========================================
+        // FILTER APPLICATIONS
+        // ==========================================
+
+        function filterApplications() {
+
+            const search =
+                document
+                    .getElementById("searchInput")
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+            const selectedStatus =
+                document
+                    .getElementById("statusFilter")
+                    .value
+                    .toLowerCase();
+
+
+            const filtered =
+                allApplications.filter(
+                    app => {
+
+                        const searchableText = (
+
+                            app.id +
+
+                            " " +
+
+                            (app.studentName || "") +
+
+                            " " +
+
+                            (app.studentEmail || "") +
+
+                            " " +
+
+                            (app.phone || "") +
+
+                            " " +
+
+                            (app.companyName || "") +
+
+                            " " +
+
+                            (app.status || "")
+
+                        ).toLowerCase();
+
+
+                        const matchesSearch =
+                            searchableText.includes(
+                                search
+                            );
+
+
+                        const applicationStatus =
+                            String(
+                                app.status ||
+                                "Pending"
+                            ).toLowerCase();
+
+
+                        const matchesStatus =
+                            selectedStatus === "all" ||
+                            applicationStatus ===
+                            selectedStatus;
+
+
+                        return (
+                            matchesSearch &&
+                            matchesStatus
+                        );
+                    }
+                );
+
+
+            displayApplications(filtered);
+        }
+
+
+        // ==========================================
+        // DISPLAY APPLICATIONS
+        // ==========================================
+
+        function displayApplications(
+            applications
+        ) {
+
+            const container =
+                document.getElementById(
+                    "applicationsContainer"
+                );
+
+
+            if (applications.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="empty">
+                        No applications found.
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            container.innerHTML =
+
+                applications.map(
+                    app => {
+
+                        const status =
+                            String(
+                                app.status ||
+                                "Pending"
+                            ).trim();
+
+
+                        let statusClass =
+                            status.toLowerCase();
+
+                        if (
+                            ![
+                                "pending",
+                                "approved",
+                                "rejected"
+                            ].includes(statusClass)
+                        ) {
+                            statusClass =
+                                "pending";
+                        }
+
+
+                        const applicationDate =
+                            formatDate(
+                                app.applicationDate
+                            );
+
+
+                        const cgpa =
+                            Number(app.cgpa);
+
+
+                        const validCgpa =
+                            Number.isFinite(cgpa);
+
+
+                        const percentage =
+                            validCgpa
+                                ? (
+                                    cgpa * 10
+                                ).toFixed(2) + "%"
+                                : "Not Available";
+
+
+                        const cgpaText =
+                            validCgpa
+                                ? cgpa.toFixed(2)
+                                : "Not Available";
+
+
+                        const resumeButton =
+                            app.resume
+                                ? `
+
+                                    <a
+                                        class="resume-btn"
+                                        href="/applications/${encodeURIComponent(app.id)}/resume"
+                                        target="_blank"
+                                        rel="noopener noreferrer">
+
+                                        📄 View Resume
+
+                                    </a>
+
+                                  `
+                                : `
+
+                                    <button
+                                        type="button"
+                                        class="disabled-btn"
+                                        disabled>
+
+                                        No Resume
+
+                                    </button>
+
+                                  `;
+
+
+                        const approveButton =
+
+                            statusClass ===
+                            "approved"
+
+                                ? `
+
+                                    <button
+                                        type="button"
+                                        class="disabled-btn"
+                                        disabled>
+
+                                        ✓ Approved
+
+                                    </button>
+
+                                  `
+
+                                : `
+
+                                    <button
+                                        type="button"
+                                        class="approve-btn"
+                                        onclick="updateStatus(
+                                            ${Number(app.id)},
+                                            'Approved'
+                                        )">
+
+                                        ✓ Approve
+
+                                    </button>
+
+                                  `;
+
+
+                        const rejectButton =
+
+                            statusClass ===
+                            "rejected"
+
+                                ? `
+
+                                    <button
+                                        type="button"
+                                        class="disabled-btn"
+                                        disabled>
+
+                                        ✕ Rejected
+
+                                    </button>
+
+                                  `
+
+                                : `
+
+                                    <button
+                                        type="button"
+                                        class="reject-btn"
+                                        onclick="updateStatus(
+                                            ${Number(app.id)},
+                                            'Rejected'
+                                        )">
+
+                                        ✕ Reject
+
+                                    </button>
+
+                                  `;
+
+
+                        return `
+
+                            <div class="application-card">
+
+                                <div class="application-header">
+
+                                    <div>
+
+                                        <h2>
+                                            ${escapeHTML(
+                                                app.companyName ||
+                                                "Unknown Company"
+                                            )}
+                                        </h2>
+
+                                        <div class="application-id">
+
+                                            Application ID:
+                                            #${escapeHTML(
+                                                app.id
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <span
+                                        class="status ${statusClass}">
+
+                                        ${escapeHTML(status)}
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="details">
+
+                                    <div class="detail">
+
+                                        <strong>
+                                            Student Name
+                                        </strong>
+
+                                        <span>
+                                            ${escapeHTML(
+                                                app.studentName ||
+                                                "-"
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="detail">
+
+                                        <strong>
+                                            Email
+                                        </strong>
+
+                                        <span>
+                                            ${escapeHTML(
+                                                app.studentEmail ||
+                                                "-"
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="detail">
+
+                                        <strong>
+                                            Phone
+                                        </strong>
+
+                                        <span>
+                                            ${escapeHTML(
+                                                app.phone ||
+                                                "Not Available"
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="detail">
+
+                                        <strong>
+                                            CGPA
+                                        </strong>
+
+                                        <span>
+                                            ${cgpaText}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="detail">
+
+                                        <strong>
+                                            Percentage
+                                        </strong>
+
+                                        <span>
+                                            ${percentage}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="detail">
+
+                                        <strong>
+                                            Application Date
+                                        </strong>
+
+                                        <span>
+                                            ${applicationDate}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="actions">
+
+                                    <a
+                                        class="view-btn"
+                                        href="/application-details.html?id=${encodeURIComponent(app.id)}">
+
+                                        👁 View Details
+
+                                    </a>
+
+
+                                    ${approveButton}
+
+
+                                    ${rejectButton}
+
+
+                                    ${resumeButton}
+
+
+                                    <button
+                                        type="button"
+                                        class="delete-btn"
+                                        onclick="deleteApplication(
+                                            ${Number(app.id)}
+                                        )">
+
+                                        🗑 Delete
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        `;
+                    }
+                ).join("");
+        }
+
+
+        // ==========================================
+        // UPDATE APPLICATION STATUS
+        // ==========================================
+
+        async function updateStatus(
+            applicationId,
+            newStatus
+        ) {
+
+            const confirmation =
+                confirm(
+                    `Are you sure you want to mark this application as ${newStatus}?`
+                );
+
+
+            if (!confirmation) {
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `/applications/${encodeURIComponent(applicationId)}/status`,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            credentials:
+                                "same-origin",
+
+                            body:
+                                JSON.stringify({
+                                    status:
+                                        newStatus
+                                })
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    const errorText =
+                        await response.text();
+
+                    throw new Error(
+                        errorText ||
+                        "Unable to update status"
+                    );
+                }
+
+
+                const application =
+                    allApplications.find(
+                        app =>
+                            Number(app.id) ===
+                            Number(applicationId)
+                    );
+
+
+                if (application) {
+
+                    application.status =
+                        newStatus;
+                }
+
+
+                updateSummary();
+                filterApplications();
+
+
+                alert(
+                    `Application ${newStatus.toLowerCase()} successfully.`
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Error updating application status:",
+                    error
+                );
+
+                alert(
+                    error.message ||
+                    "Failed to update application status."
+                );
+            }
+        }
+
+
+        // ==========================================
+        // DELETE APPLICATION
+        // ==========================================
+
+        async function deleteApplication(
+            applicationId
+        ) {
+
+            const confirmation =
+                confirm(
+                    "Are you sure you want to delete this application?"
+                );
+
+
+            if (!confirmation) {
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `/applications/${encodeURIComponent(applicationId)}`,
+                        {
+                            method: "DELETE",
+                            credentials: "same-origin"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    const errorText =
+                        await response.text();
+
+                    throw new Error(
+                        errorText ||
+                        "Unable to delete application"
+                    );
+                }
+
+
+                allApplications =
+                    allApplications.filter(
+                        app =>
+                            Number(app.id) !==
+                            Number(applicationId)
+                    );
+
+
+                updateSummary();
+                filterApplications();
+
+
+                alert(
+                    "Application deleted successfully."
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Error deleting application:",
+                    error
+                );
+
+                alert(
+                    error.message ||
+                    "Failed to delete application."
+                );
+            }
+        }
+
+
+        // ==========================================
+        // FORMAT DATE
+        // ==========================================
+
+        function formatDate(dateValue) {
+
+            if (!dateValue) {
+                return "Not Available";
+            }
+
+
+            const date =
+                new Date(dateValue);
+
+
+            if (
+                isNaN(
+                    date.getTime()
+                )
+            ) {
+                return "Not Available";
+            }
+
+
+            return date.toLocaleString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+        }
+
+
+        // ==========================================
+        // ESCAPE HTML
+        // ==========================================
+
+        function escapeHTML(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+                return "";
+            }
+
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+        }
+
+    </script>
+
+</body>
+
+</html>
+

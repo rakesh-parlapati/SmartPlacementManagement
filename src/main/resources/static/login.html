@@ -1,0 +1,1166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | SPMS</title>
+
+    <!-- COMMON AUTHENTICATION + GLOBAL THEME -->
+    <script src="/JS/auth.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: linear-gradient(
+                120deg,
+                #e0f2fe,
+                #dbeafe,
+                #eff6ff,
+                #dbeafe
+            );
+
+            background-size: 400% 400%;
+            animation: backgroundMove 12s ease infinite;
+
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ==============================
+           BACKGROUND ANIMATION
+        ============================== */
+
+        @keyframes backgroundMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* ==============================
+           BACKGROUND CIRCLES
+        ============================== */
+
+        .background-circle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .circle-one {
+            width: 300px;
+            height: 300px;
+
+            background: rgba(96, 165, 250, 0.22);
+
+            top: -100px;
+            left: -100px;
+
+            animation: circleOne 10s ease-in-out infinite;
+        }
+
+        .circle-two {
+            width: 350px;
+            height: 350px;
+
+            background: rgba(147, 197, 253, 0.28);
+
+            right: -120px;
+            bottom: -120px;
+
+            animation: circleTwo 12s ease-in-out infinite;
+        }
+
+        .circle-three {
+            width: 180px;
+            height: 180px;
+
+            background: rgba(125, 211, 252, 0.20);
+
+            right: 20%;
+            top: 8%;
+
+            animation: circleThree 8s ease-in-out infinite;
+        }
+
+        @keyframes circleOne {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(120px, 100px) scale(1.15);
+            }
+        }
+
+        @keyframes circleTwo {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(-100px, -100px) scale(1.12);
+            }
+        }
+
+        @keyframes circleThree {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-70px, 90px);
+            }
+        }
+
+        /* ==============================
+           PARTICLES
+        ============================== */
+
+        .particles {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+
+            width: 5px;
+            height: 5px;
+
+            background: rgba(37, 99, 235, 0.35);
+
+            border-radius: 50%;
+
+            animation: particleFloat 8s linear infinite;
+        }
+
+        .particle:nth-child(1) {
+            left: 10%;
+            top: 80%;
+            animation-duration: 8s;
+        }
+
+        .particle:nth-child(2) {
+            left: 20%;
+            top: 60%;
+            animation-duration: 10s;
+        }
+
+        .particle:nth-child(3) {
+            left: 35%;
+            top: 90%;
+            animation-duration: 9s;
+        }
+
+        .particle:nth-child(4) {
+            left: 50%;
+            top: 75%;
+            animation-duration: 11s;
+        }
+
+        .particle:nth-child(5) {
+            left: 65%;
+            top: 85%;
+            animation-duration: 10s;
+        }
+
+        .particle:nth-child(6) {
+            left: 75%;
+            top: 50%;
+            animation-duration: 12s;
+        }
+
+        .particle:nth-child(7) {
+            left: 85%;
+            top: 75%;
+            animation-duration: 9s;
+        }
+
+        .particle:nth-child(8) {
+            left: 92%;
+            top: 35%;
+            animation-duration: 11s;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: translateY(-220px) scale(1);
+                opacity: 0.7;
+            }
+
+            80% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateY(-450px) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        /* ==============================
+           LOGIN CARD
+        ============================== */
+
+        .login-card {
+            width: 100%;
+            max-width: 430px;
+
+            background: rgba(255, 255, 255, 0.97);
+
+            padding: 42px 40px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 20px 60px rgba(30, 64, 175, 0.18);
+
+            position: relative;
+            z-index: 5;
+
+            animation: cardEnter 0.8s ease;
+
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        @keyframes cardEnter {
+            from {
+                opacity: 0;
+                transform:
+                    translateY(35px)
+                    scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+        /* ==============================
+           THEME BUTTON
+        ============================== */
+
+        .theme-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+
+            border: none;
+            border-radius: 7px;
+
+            background: #111827;
+            color: white;
+
+            padding: 8px 12px;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .theme-btn:hover {
+            opacity: 0.85;
+        }
+
+        /* ==============================
+           LOGO
+        ============================== */
+
+        .logo {
+            width: 65px;
+            height: 65px;
+
+            margin: 25px auto 20px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: #3b82f6;
+            color: white;
+
+            border-radius: 16px;
+
+            font-size: 19px;
+            font-weight: bold;
+
+            box-shadow:
+                0 6px 18px rgba(59, 130, 246, 0.25);
+
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% {
+                transform: translateY(0);
+
+                box-shadow:
+                    0 6px 18px
+                    rgba(59, 130, 246, 0.25);
+            }
+
+            50% {
+                transform: translateY(-4px);
+
+                box-shadow:
+                    0 10px 25px
+                    rgba(59, 130, 246, 0.35);
+            }
+        }
+
+        /* ==============================
+           TITLE
+        ============================== */
+
+        .login-card h1 {
+            text-align: center;
+
+            color: #1e293b;
+
+            font-size: 30px;
+
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            margin-bottom: 30px;
+        }
+
+        /* ==============================
+           FORM
+        ============================== */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            color: #334155;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        .input-box {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+
+            left: 14px;
+
+            color: #64748b;
+
+            font-size: 16px;
+
+            z-index: 1;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px 55px 13px 42px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 9px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.25s;
+        }
+
+        input:focus {
+            border-color: #60a5fa;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(96, 165, 250, 0.15);
+        }
+
+        /* ==============================
+           SHOW PASSWORD
+        ============================== */
+
+        .show-password {
+            position: absolute;
+            right: 10px;
+
+            border: none;
+            background: transparent;
+
+            color: #2563eb;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .show-password:hover {
+            color: #1d4ed8;
+        }
+
+        /* ==============================
+           FORGOT PASSWORD
+        ============================== */
+
+        .forgot-password {
+            text-align: right;
+
+            margin-top: -10px;
+            margin-bottom: 18px;
+        }
+
+        .forgot-password a {
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .forgot-password a:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+
+        /* ==============================
+           LOGIN BUTTON
+        ============================== */
+
+        .login-btn {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: #3b82f6;
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+
+            transition: 0.25s;
+        }
+
+        .login-btn:hover {
+            background: #2563eb;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(37, 99, 235, 0.25);
+        }
+
+        .login-btn:disabled {
+            background: #93c5fd;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+        /* ==============================
+           MESSAGE
+        ============================== */
+
+        #message {
+            text-align: center;
+
+            min-height: 20px;
+
+            margin-top: 16px;
+
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        #message.success {
+            color: #16a34a;
+        }
+
+        #message.error {
+            color: #dc2626;
+        }
+
+        /* ==============================
+           REGISTER
+        ============================== */
+
+        .register-link {
+            text-align: center;
+
+            margin-top: 22px;
+            padding-top: 18px;
+
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .register-link p {
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            margin-left: 5px;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* ==============================
+           BACK HOME
+        ============================== */
+
+        .back-home {
+            text-align: center;
+
+            margin-top: 18px;
+        }
+
+        .back-home a {
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+        .back-home a:hover {
+            text-decoration: underline;
+        }
+
+        /* ==============================
+           DARK MODE
+        ============================== */
+
+        body.dark-mode {
+            background: #111827;
+        }
+
+        body.dark-mode .login-card {
+            background: rgba(31, 41, 55, 0.97);
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.45);
+        }
+
+        body.dark-mode .login-card h1 {
+            color: #f3f4f6;
+        }
+
+        body.dark-mode .subtitle {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode label {
+            color: #e5e7eb;
+        }
+
+        body.dark-mode input {
+            background: #374151;
+            color: #f3f4f6;
+
+            border-color: #4b5563;
+        }
+
+        body.dark-mode input::placeholder {
+            color: #9ca3af;
+        }
+
+        body.dark-mode input:focus {
+            border-color: #60a5fa;
+        }
+
+        body.dark-mode .register-link {
+            border-top-color: #4b5563;
+        }
+
+        body.dark-mode .register-link p {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .theme-btn {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media (max-width: 500px) {
+
+            .login-card {
+                padding: 35px 25px;
+                border-radius: 15px;
+            }
+
+            .login-card h1 {
+                font-size: 26px;
+            }
+
+            .circle-one {
+                width: 200px;
+                height: 200px;
+            }
+
+            .circle-two {
+                width: 230px;
+                height: 230px;
+            }
+
+            .theme-btn {
+                top: 12px;
+                right: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BACKGROUND -->
+
+    <div class="background-circle circle-one"></div>
+    <div class="background-circle circle-two"></div>
+    <div class="background-circle circle-three"></div>
+
+    <div class="particles">
+
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+
+    </div>
+
+
+    <!-- LOGIN CARD -->
+
+    <div class="login-card">
+
+        <!-- GLOBAL THEME -->
+
+        <button
+            type="button"
+            class="theme-btn"
+            onclick="toggleDarkMode()">
+            🌙 Dark Mode
+        </button>
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+            SPMS
+        </div>
+
+
+        <h1>
+            Welcome Back
+        </h1>
+
+        <p class="subtitle">
+            Login to your account
+        </p>
+
+
+        <!-- LOGIN FORM -->
+
+        <form id="loginForm">
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <div class="input-box">
+
+                    <span class="input-icon">
+                        ✉
+                    </span>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="input-box">
+
+                    <span class="input-icon">
+                        🔒
+                    </span>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        id="showPassword"
+                        onclick="togglePassword()">
+                        Show
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- FORGOT PASSWORD -->
+
+            <div class="forgot-password">
+
+                <a href="/forgot-password.html">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+
+            <!-- LOGIN -->
+
+            <button
+                type="submit"
+                class="login-btn"
+                id="loginButton">
+
+                Login →
+
+            </button>
+
+        </form>
+
+
+        <!-- MESSAGE -->
+
+        <p id="message"></p>
+
+
+        <!-- REGISTER -->
+
+        <div class="register-link">
+
+            <p>
+                New student?
+
+                <a href="/register.html">
+                    Register Here
+                </a>
+            </p>
+
+        </div>
+
+
+        <!-- HOME -->
+
+        <div class="back-home">
+
+            <a href="/index.html">
+                ← Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        // ==========================================
+        // SHOW / HIDE PASSWORD
+        // ==========================================
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById("password");
+
+            const button =
+                document.getElementById("showPassword");
+
+            if (password.type === "password") {
+
+                password.type = "text";
+                button.textContent = "Hide";
+
+            } else {
+
+                password.type = "password";
+                button.textContent = "Show";
+            }
+        }
+
+
+        // ==========================================
+        // LOGIN
+        // ==========================================
+
+        document
+            .getElementById("loginForm")
+            .addEventListener(
+                "submit",
+                async function(event) {
+
+                    event.preventDefault();
+
+                    const email =
+                        document
+                            .getElementById("email")
+                            .value
+                            .trim();
+
+                    const password =
+                        document
+                            .getElementById("password")
+                            .value;
+
+                    const message =
+                        document.getElementById("message");
+
+                    const loginButton =
+                        document.getElementById("loginButton");
+
+
+                    // CLEAR OLD MESSAGE
+
+                    message.textContent = "";
+                    message.className = "";
+
+
+                    // FORM DATA
+
+                    const formData =
+                        new URLSearchParams();
+
+                    formData.append(
+                        "email",
+                        email
+                    );
+
+                    formData.append(
+                        "password",
+                        password
+                    );
+
+
+                    // DISABLE BUTTON
+
+                    loginButton.disabled = true;
+
+                    loginButton.textContent =
+                        "Logging in...";
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                "/auth/login",
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/x-www-form-urlencoded"
+                                    },
+
+                                    credentials: "same-origin",
+
+                                    body: formData
+                                }
+                            );
+
+
+                        const result =
+                            await response.text();
+
+
+                        // ==================================
+                        // SUCCESS
+                        // ==================================
+
+                        if (response.ok) {
+
+                            let data;
+
+                            try {
+
+                                data = JSON.parse(result);
+
+                            } catch (error) {
+
+                                throw new Error(
+                                    "Invalid server response."
+                                );
+                            }
+
+
+                            // ==================================
+                            // ADMIN LOGIN
+                            // ==================================
+
+                            if (data.role === "admin") {
+
+                                localStorage.setItem(
+                                    "userRole",
+                                    "admin"
+                                );
+
+                                localStorage.removeItem(
+                                    "studentId"
+                                );
+
+                                localStorage.removeItem(
+                                    "studentName"
+                                );
+
+                                localStorage.removeItem(
+                                    "studentEmail"
+                                );
+
+
+                                message.textContent =
+                                    "Admin login successful! ✓";
+
+                                message.className =
+                                    "success";
+
+
+                                setTimeout(
+                                    function() {
+
+                                        window.location.href =
+                                            "/admin.html";
+
+                                    },
+                                    800
+                                );
+
+                            }
+
+
+                            // ==================================
+                            // STUDENT LOGIN
+                            // ==================================
+
+                            else if (
+                                data.role === "student"
+                            ) {
+
+                                if (!data.id) {
+
+                                    throw new Error(
+                                        "Student ID was not returned by the server."
+                                    );
+                                }
+
+
+                                localStorage.setItem(
+                                    "userRole",
+                                    "student"
+                                );
+
+                                localStorage.setItem(
+                                    "studentId",
+                                    data.id
+                                );
+
+                                localStorage.setItem(
+                                    "studentName",
+                                    data.name || ""
+                                );
+
+                                localStorage.setItem(
+                                    "studentEmail",
+                                    data.email || email
+                                );
+
+
+                                message.textContent =
+                                    "Student login successful! ✓";
+
+                                message.className =
+                                    "success";
+
+
+                                setTimeout(
+                                    function() {
+
+                                        window.location.href =
+                                            "/student-dashboard.html";
+
+                                    },
+                                    800
+                                );
+
+                            }
+
+
+                            // ==================================
+                            // UNKNOWN ROLE
+                            // ==================================
+
+                            else {
+
+                                message.textContent =
+                                    "Unknown user role.";
+
+                                message.className =
+                                    "error";
+                            }
+                        }
+
+
+                        // ==================================
+                        // LOGIN FAILED
+                        // ==================================
+
+                        else {
+
+                            message.textContent =
+                                result ||
+                                "Invalid email or password.";
+
+                            message.className =
+                                "error";
+                        }
+
+                    } catch (error) {
+
+                        console.error(
+                            "Login error:",
+                            error
+                        );
+
+                        message.textContent =
+                            error.message ||
+                            "Unable to connect to server.";
+
+                        message.className =
+                            "error";
+
+                    } finally {
+
+                        loginButton.disabled =
+                            false;
+
+                        loginButton.textContent =
+                            "Login →";
+                    }
+                }
+            );
+
+    </script>
+
+</body>
+
+</html>
+

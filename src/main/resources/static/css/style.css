@@ -1,0 +1,686 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+}
+
+
+/* =========================================
+   APPLY PAGE
+========================================= */
+
+.apply-page {
+    min-height: 100vh;
+    background: #f4f7fb;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding: 40px 20px;
+}
+
+
+/* =========================================
+   MAIN BOX
+========================================= */
+
+.apply-wrapper {
+    width: 100%;
+    max-width: 1050px;
+
+    display: grid;
+    grid-template-columns: 40% 60%;
+
+    background: white;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================
+   LEFT SECTION
+========================================= */
+
+.apply-info {
+    background: #1d4ed8;
+    color: white;
+
+    padding: 50px 45px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+
+/* Logo */
+
+.logo {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+    color: #1d4ed8;
+
+    font-weight: bold;
+
+    border-radius: 12px;
+
+    margin-bottom: 30px;
+}
+
+
+/* Main Heading */
+
+.apply-info h1 {
+    font-size: 36px;
+
+    margin-bottom: 18px;
+
+    color: white;
+
+    text-align: left;
+
+    line-height: 1.2;
+}
+
+
+/* Main Description */
+
+.apply-info > p {
+    color: #dbeafe;
+
+    line-height: 1.7;
+
+    margin-bottom: 40px;
+
+    font-size: 16px;
+}
+
+
+/* =========================================
+   INFORMATION ITEMS
+========================================= */
+
+.info-item {
+    display: flex;
+
+    gap: 15px;
+
+    margin-bottom: 28px;
+}
+
+
+.info-item > span {
+    width: 30px;
+    height: 30px;
+
+    min-width: 30px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.2);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+}
+
+
+.info-item strong {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: white;
+}
+
+
+.info-item small {
+    color: #dbeafe;
+
+    line-height: 1.5;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   RIGHT SECTION
+========================================= */
+
+.apply-card {
+    padding: 45px 50px;
+
+    background: white;
+}
+
+
+/* =========================================
+   FORM HEADER
+========================================= */
+
+.form-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+
+.form-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+
+    border-radius: 12px;
+
+    font-size: 24px;
+}
+
+
+.form-header h2 {
+    font-size: 27px;
+
+    color: #222;
+
+    text-align: left;
+
+    margin: 0;
+}
+
+
+.form-header p {
+    margin-top: 5px;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   SELECTED COMPANY
+========================================= */
+
+.selected-company {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 17px;
+
+    margin-bottom: 25px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 10px;
+}
+
+
+.selected-company > span {
+    font-size: 28px;
+}
+
+
+.selected-company small {
+    color: #64748b;
+}
+
+
+.selected-company h3 {
+    margin-top: 4px;
+
+    color: #1e293b;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    color: #334155;
+}
+
+
+.form-group input {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    background: white;
+}
+
+
+.form-group input:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+
+/* =========================================
+   FILE UPLOAD
+========================================= */
+
+.file-upload {
+    position: relative;
+
+    border: 1px dashed #94a3b8;
+
+    border-radius: 8px;
+
+    padding: 14px;
+
+    text-align: center;
+
+    background: #f8fafc;
+
+    cursor: pointer;
+}
+
+
+.file-upload:hover {
+    border-color: #2563eb;
+
+    background: #eff6ff;
+}
+
+
+.file-upload input {
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0;
+
+    cursor: pointer;
+}
+
+
+.file-upload span {
+    color: #475569;
+
+    font-size: 14px;
+}
+
+
+.form-group > small {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #94a3b8;
+}
+
+
+/* =========================================
+   SUBMIT BUTTON
+========================================= */
+
+.submit-btn {
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+.submit-btn:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+#message {
+    text-align: center;
+
+    margin-top: 15px;
+
+    font-weight: bold;
+
+    min-height: 20px;
+}
+
+
+#message.success {
+    color: #16a34a;
+}
+
+
+#message.error {
+    color: #dc2626;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.back-btn {
+    display: block;
+
+    margin: 20px auto 0;
+
+    border: none;
+
+    background: none;
+
+    color: #2563eb;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+
+.back-btn:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   COMPANY PAGE
+========================================= */
+
+.container {
+    max-width: 1000px;
+
+    margin: auto;
+
+    padding: 40px 20px;
+}
+
+
+.container h1 {
+    text-align: center;
+
+    margin-bottom: 25px;
+
+    color: #222;
+}
+
+
+/* Search */
+
+.search-box {
+    position: relative;
+
+    width: 100%;
+
+    margin-bottom: 30px;
+}
+
+
+.search-box span {
+    position: absolute;
+
+    left: 20px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 20px;
+}
+
+
+#searchBox {
+    width: 100%;
+
+    padding: 15px 20px 15px 55px;
+
+    font-size: 16px;
+
+    color: #333;
+
+    background: white;
+
+    border: 2px solid #e0e0e0;
+
+    border-radius: 30px;
+
+    outline: none;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+#searchBox:focus {
+    border-color: #007bff;
+}
+
+
+/* Company Container */
+
+#companyContainer {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(300px, 1fr));
+
+    gap: 20px;
+}
+
+
+/* Company Card */
+
+.company-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.1);
+
+    transition: 0.3s;
+}
+
+
+.company-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+.company-card h2 {
+    margin-bottom: 15px;
+
+    color: #007bff;
+}
+
+
+.company-card p {
+    margin-bottom: 10px;
+
+    color: #444;
+
+    line-height: 1.5;
+}
+
+
+.company-card b {
+    color: #222;
+}
+
+
+.company-card a {
+    color: #007bff;
+
+    text-decoration: none;
+}
+
+
+.company-card a:hover {
+    text-decoration: underline;
+}
+
+
+/* Apply Button */
+
+.apply-btn {
+    display: block;
+
+    width: 100%;
+
+    margin-top: 15px;
+
+    padding: 12px;
+
+    background: #007bff;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    text-align: center;
+
+    transition: 0.3s;
+}
+
+
+.apply-btn:hover {
+    background: #0056b3;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .apply-page {
+        padding: 20px 10px;
+    }
+
+
+    .apply-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+
+    .apply-info {
+        padding: 35px 30px;
+    }
+
+
+    .apply-info h1 {
+        font-size: 30px;
+    }
+
+
+    .apply-card {
+        padding: 35px 25px;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .apply-info {
+        padding: 30px 20px;
+    }
+
+
+    .apply-card {
+        padding: 30px 20px;
+    }
+
+
+    .company-card {
+        padding: 20px;
+    }
+
+}
+

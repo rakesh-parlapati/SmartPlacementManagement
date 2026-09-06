@@ -1,0 +1,697 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Company Details | SPMS</title>
+
+    <!-- COMMON ACCESS CONTROL + GLOBAL THEME -->
+    <script src="/JS/auth.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #333;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        nav {
+            background: #1f2937;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        nav h2 {
+            font-size: 22px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        nav button {
+            border: none;
+            padding: 9px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .theme-btn {
+            background: #374151;
+            color: white;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+
+        .company-box {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .company-box h1 {
+            color: #2563eb;
+            margin-bottom: 25px;
+        }
+
+        .info {
+            margin: 15px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            line-height: 1.6;
+        }
+
+        .info strong {
+            display: inline-block;
+            width: 150px;
+            color: #374151;
+        }
+
+        .package {
+            color: #15803d;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .eligibility {
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .eligibility strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            margin-top: 20px;
+            line-height: 1.7;
+        }
+
+        .description strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .buttons button {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            background: #374151;
+        }
+
+        .apply-btn {
+            background: #16a34a;
+        }
+
+        .edit-btn {
+            background: #2563eb;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+        }
+
+        .buttons button:hover,
+        nav button:hover {
+            opacity: 0.9;
+        }
+
+        #loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+        }
+
+        #error {
+            text-align: center;
+            padding: 40px;
+            color: #dc2626;
+            display: none;
+        }
+
+        /* ==========================
+           DARK MODE
+           ========================== */
+
+        body.dark-mode {
+            background: #111827;
+            color: #f3f4f6;
+        }
+
+        body.dark-mode nav {
+            background: #020617;
+        }
+
+        body.dark-mode .company-box {
+            background: #1f2937;
+            color: #f3f4f6;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+        }
+
+        body.dark-mode .company-box h1 {
+            color: #60a5fa;
+        }
+
+        body.dark-mode .info {
+            border-bottom-color: #374151;
+        }
+
+        body.dark-mode .info strong {
+            color: #d1d5db;
+        }
+
+        body.dark-mode .eligibility {
+            background: #172554;
+            border-left-color: #60a5fa;
+        }
+
+        body.dark-mode #error {
+            color: #f87171;
+        }
+
+        body.dark-mode .theme-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 15px 20px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            nav h2 {
+                font-size: 17px;
+                text-align: center;
+            }
+
+            .nav-buttons {
+                justify-content: center;
+            }
+
+            .container {
+                width: 94%;
+                margin: 25px auto;
+            }
+
+            .company-box {
+                padding: 22px;
+            }
+
+            .info strong {
+                display: block;
+                width: auto;
+                margin-bottom: 4px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .buttons button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2>Smart Placement Management System</h2>
+
+        <div class="nav-buttons">
+            <button
+                class="theme-btn"
+                type="button"
+                onclick="toggleDarkMode()">
+                🌙 Dark Mode
+            </button>
+
+            <button
+                class="logout-btn"
+                type="button"
+                onclick="logoutUser()">
+                Logout
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div id="loading">
+            Loading company details...
+        </div>
+
+        <div id="error">
+            Unable to load company details.
+        </div>
+
+        <div
+            id="companyBox"
+            class="company-box"
+            style="display: none;">
+
+            <h1 id="companyName"></h1>
+
+            <div class="info">
+                <strong>Company ID:</strong>
+                <span id="companyId"></span>
+            </div>
+
+            <div class="info">
+                <strong>Email:</strong>
+                <span id="email"></span>
+            </div>
+
+            <div class="info">
+                <strong>Location:</strong>
+                <span id="location"></span>
+            </div>
+
+            <div class="info">
+                <strong>Job Role:</strong>
+                <span id="jobRole"></span>
+            </div>
+
+            <div class="info package">
+                <strong>Package:</strong>
+                <span id="packageAmount"></span>
+            </div>
+
+            <div class="eligibility">
+                <strong>Eligibility:</strong>
+                <p id="eligibility"></p>
+            </div>
+
+            <div class="description">
+                <strong>Description:</strong>
+                <p id="description"></p>
+            </div>
+
+            <div class="buttons">
+
+                <button
+                    class="back-btn"
+                    type="button"
+                    onclick="goBack()">
+                    ← Back
+                </button>
+
+                <button
+                    id="applyBtn"
+                    class="apply-btn"
+                    type="button"
+                    onclick="applyNow()"
+                    style="display: none;">
+                    Apply Now
+                </button>
+
+                <button
+                    id="editBtn"
+                    class="edit-btn"
+                    type="button"
+                    onclick="editCompany()"
+                    style="display: none;">
+                    Edit Company
+                </button>
+
+                <button
+                    id="deleteBtn"
+                    class="delete-btn"
+                    type="button"
+                    onclick="deleteCompany()"
+                    style="display: none;">
+                    Delete Company
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        // ==========================================
+        // LOGIN CHECK
+        // ==========================================
+
+        if (!requireLogin()) {
+            // requireLogin() redirects automatically
+        }
+
+        // ==========================================
+        // GET URL PARAMETERS
+        // ==========================================
+
+        const urlParams =
+            new URLSearchParams(window.location.search);
+
+        const companyId =
+            urlParams.get("id");
+
+        // ==========================================
+        // GET LOGGED-IN USER
+        // ==========================================
+
+        const userRole =
+            getUserRole();
+
+        const studentId =
+            getStudentId();
+
+        // ==========================================
+        // CHECK COMPANY ID
+        // ==========================================
+
+        if (!companyId) {
+
+            document.getElementById("loading")
+                .style.display = "none";
+
+            document.getElementById("error")
+                .style.display = "block";
+
+            document.getElementById("error").textContent =
+                "Company ID is missing.";
+
+        } else {
+
+            loadCompany();
+        }
+
+        // ==========================================
+        // LOAD COMPANY
+        // ==========================================
+
+        function loadCompany() {
+
+            fetch("/companies/" + encodeURIComponent(companyId), {
+                method: "GET",
+                credentials: "same-origin"
+            })
+
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error("Company not found.");
+                }
+
+                return response.json();
+            })
+
+            .then(company => {
+
+                document.getElementById("loading")
+                    .style.display = "none";
+
+                document.getElementById("companyBox")
+                    .style.display = "block";
+
+                document.getElementById("companyName")
+                    .textContent =
+                    company.companyName || "N/A";
+
+                document.getElementById("companyId")
+                    .textContent =
+                    company.id ?? "N/A";
+
+                document.getElementById("email")
+                    .textContent =
+                    company.email || "N/A";
+
+                document.getElementById("location")
+                    .textContent =
+                    company.location || "N/A";
+
+                document.getElementById("jobRole")
+                    .textContent =
+                    company.jobRole || "N/A";
+
+                document.getElementById("packageAmount")
+                    .textContent =
+                    company.packageAmount != null
+                        ? "₹ " + company.packageAmount + " LPA"
+                        : "Not specified";
+
+                document.getElementById("eligibility")
+                    .textContent =
+                    company.eligibility || "Not specified";
+
+                document.getElementById("description")
+                    .textContent =
+                    company.description ||
+                    "No description available.";
+
+                // ==================================
+                // STUDENT BUTTONS
+                // ==================================
+
+                if (userRole === "student" && studentId) {
+
+                    document.getElementById("applyBtn")
+                        .style.display = "inline-block";
+                }
+
+                // ==================================
+                // ADMIN BUTTONS
+                // ==================================
+
+                if (userRole === "admin") {
+
+                    document.getElementById("editBtn")
+                        .style.display = "inline-block";
+
+                    document.getElementById("deleteBtn")
+                        .style.display = "inline-block";
+                }
+            })
+
+            .catch(error => {
+
+                console.error(
+                    "Company loading error:",
+                    error
+                );
+
+                document.getElementById("loading")
+                    .style.display = "none";
+
+                document.getElementById("companyBox")
+                    .style.display = "none";
+
+                document.getElementById("error")
+                    .style.display = "block";
+
+                document.getElementById("error").textContent =
+                    error.message ||
+                    "Unable to load company details.";
+            });
+        }
+
+        // ==========================================
+        // STUDENT APPLY
+        // ==========================================
+
+        function applyNow() {
+
+            if (userRole !== "student") {
+
+                alert(
+                    "Please login as a student to apply."
+                );
+
+                return;
+            }
+
+            if (!studentId) {
+
+                alert(
+                    "Student login information not found."
+                );
+
+                window.location.href =
+                    "/login.html";
+
+                return;
+            }
+
+            window.location.href =
+                "/apply.html?companyId=" +
+                encodeURIComponent(companyId) +
+                "&studentId=" +
+                encodeURIComponent(studentId);
+        }
+
+        // ==========================================
+        // ADMIN EDIT
+        // ==========================================
+
+        function editCompany() {
+
+            if (userRole !== "admin") {
+
+                alert(
+                    "Administrator login is required."
+                );
+
+                return;
+            }
+
+            window.location.href =
+                "/company-edit.html?id=" +
+                encodeURIComponent(companyId);
+        }
+
+        // ==========================================
+        // ADMIN DELETE
+        // ==========================================
+
+        async function deleteCompany() {
+
+            if (userRole !== "admin") {
+
+                alert(
+                    "Administrator login is required."
+                );
+
+                return;
+            }
+
+            const confirmed =
+                confirm(
+                    "Are you sure you want to delete this company?"
+                );
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/companies/" +
+                        encodeURIComponent(companyId),
+                        {
+                            method: "DELETE",
+                            credentials: "same-origin"
+                        }
+                    );
+
+                if (!response.ok) {
+
+                    let message =
+                        "Failed to delete company.";
+
+                    try {
+
+                        const errorData =
+                            await response.json();
+
+                        if (errorData.message) {
+                            message =
+                                errorData.message;
+                        }
+
+                    } catch (e) {
+                        // Ignore invalid error response
+                    }
+
+                    throw new Error(message);
+                }
+
+                alert(
+                    "Company deleted successfully!"
+                );
+
+                window.location.href =
+                    "/companies.html";
+
+            } catch (error) {
+
+                console.error(
+                    "Delete company error:",
+                    error
+                );
+
+                alert(
+                    error.message ||
+                    "Failed to delete company."
+                );
+            }
+        }
+
+        // ==========================================
+        // BACK
+        // ==========================================
+
+        function goBack() {
+
+            if (
+                userRole === "student" ||
+                userRole === "admin"
+            ) {
+
+                window.location.href =
+                    "/companies.html";
+
+            } else {
+
+                window.location.href =
+                    "/login.html";
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
+

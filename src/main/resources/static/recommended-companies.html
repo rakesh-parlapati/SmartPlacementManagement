@@ -1,0 +1,1571 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Recommended Companies | SPMS</title>
+
+    <!-- COMMON AUTHENTICATION + GLOBAL DARK MODE -->
+    <script src="/JS/auth.js"></script>
+
+    <style>
+
+        /* =========================================
+           RESET
+        ========================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* =========================================
+           BODY
+        ========================================= */
+
+        body {
+            background: #f4f6f8;
+            color: #333;
+            transition:
+                background 0.3s ease,
+                color 0.3s ease;
+        }
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        nav {
+            background: #1f3c88;
+            color: white;
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        nav h2 {
+            font-size: 23px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        nav button {
+            border: none;
+            padding: 9px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .dashboard-btn {
+            background: white;
+            color: #1f3c88;
+        }
+
+        .dashboard-btn:hover {
+            background: #e9ecef;
+        }
+
+        .theme-btn {
+            background: #343a40;
+            color: white;
+        }
+
+        .theme-btn:hover {
+            background: #495057;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .logout-btn:hover {
+            background: #bb2d3b;
+        }
+
+        /* =========================================
+           CONTAINER
+        ========================================= */
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        /* =========================================
+           HEADING
+        ========================================= */
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            color: #1f3c88;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* =========================================
+           STUDENT INFO
+        ========================================= */
+
+        .student-info {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 25px;
+        }
+
+        .student-info h3 {
+            color: #1f3c88;
+            margin-bottom: 12px;
+        }
+
+        .student-info p {
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .cgpa {
+            font-weight: bold;
+            color: #1f3c88;
+        }
+
+        /* =========================================
+           SEARCH
+        ========================================= */
+
+        .search-area {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 25px;
+        }
+
+        .search-area input {
+            width: 100%;
+            padding: 12px;
+
+            border: 1px solid #ccc;
+            border-radius: 7px;
+
+            outline: none;
+            font-size: 15px;
+        }
+
+        .search-area input:focus {
+            border-color: #1f3c88;
+        }
+
+        /* =========================================
+           SUMMARY
+        ========================================= */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .summary-card h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .summary-card p {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f3c88;
+        }
+
+        .eligible-number {
+            color: #155724 !important;
+        }
+
+        .not-eligible-number {
+            color: #721c24 !important;
+        }
+
+        /* =========================================
+           COMPANY GRID
+        ========================================= */
+
+        .company-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .company-card {
+            background: white;
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.08);
+
+            position: relative;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .company-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .company-card h3 {
+            color: #1f3c88;
+            margin-bottom: 10px;
+            padding-right: 100px;
+        }
+
+        .company-card p {
+            color: #666;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .company-card strong {
+            color: #444;
+        }
+
+        /* =========================================
+           ELIGIBILITY STATUS
+        ========================================= */
+
+        .eligibility {
+            position: absolute;
+
+            top: 18px;
+            right: 18px;
+
+            padding: 6px 10px;
+
+            border-radius: 15px;
+
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .eligible {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .not-eligible {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* =========================================
+           CARD BUTTONS
+        ========================================= */
+
+        .card-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .card-buttons a {
+            text-decoration: none;
+
+            padding: 9px 13px;
+
+            border-radius: 6px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            text-align: center;
+
+            flex: 1;
+        }
+
+        .details-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .details-btn:hover {
+            background: #5c636a;
+        }
+
+        .apply-btn {
+            background: #1f3c88;
+            color: white;
+        }
+
+        .apply-btn:hover {
+            background: #172f6b;
+        }
+
+        .disabled-btn {
+            background: #ddd;
+            color: #777;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* =========================================
+           LOADING
+        ========================================= */
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        /* =========================================
+           NO DATA
+        ========================================= */
+
+        .no-data {
+            background: white;
+            padding: 35px;
+
+            text-align: center;
+
+            border-radius: 12px;
+
+            color: #666;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        /* =========================================
+           ERROR
+        ========================================= */
+
+        .error {
+            text-align: center;
+            color: #b00020;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        /* =========================================
+           DARK MODE
+           auth.js adds dark-mode to BODY
+        ========================================= */
+
+        body.dark-mode {
+            background: #121212;
+            color: #e9ecef;
+        }
+
+        body.dark-mode nav {
+            background: #162d68;
+            color: white;
+        }
+
+        body.dark-mode .heading h1 {
+            color: #6ea8fe;
+        }
+
+        body.dark-mode .heading p {
+            color: #bdbdbd;
+        }
+
+        body.dark-mode .student-info,
+        body.dark-mode .search-area,
+        body.dark-mode .summary-card,
+        body.dark-mode .company-card,
+        body.dark-mode .no-data {
+            background: #1e1e1e;
+            color: #e9ecef;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.35);
+        }
+
+        body.dark-mode .student-info h3 {
+            color: #6ea8fe;
+        }
+
+        body.dark-mode .student-info p {
+            color: #d0d0d0;
+        }
+
+        body.dark-mode .cgpa {
+            color: #6ea8fe;
+        }
+
+        body.dark-mode .search-area input {
+            background: #252525;
+            color: white;
+            border-color: #555;
+        }
+
+        body.dark-mode .search-area input::placeholder {
+            color: #aaa;
+        }
+
+        body.dark-mode .summary-card h3 {
+            color: #bbb;
+        }
+
+        body.dark-mode .summary-card p {
+            color: #6ea8fe;
+        }
+
+        body.dark-mode .company-card h3 {
+            color: #6ea8fe;
+        }
+
+        body.dark-mode .company-card p {
+            color: #c7c7c7;
+        }
+
+        body.dark-mode .company-card strong {
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .loading {
+            color: #bbb;
+        }
+
+        body.dark-mode .no-data {
+            color: #bbb;
+        }
+
+        body.dark-mode .theme-btn {
+            background: #f8f9fa;
+            color: #212529;
+        }
+
+        body.dark-mode .theme-btn:hover {
+            background: #dee2e6;
+        }
+
+        body.dark-mode .dashboard-btn {
+            background: #2a2a2a;
+            color: #6ea8fe;
+            border: 1px solid #444;
+        }
+
+        body.dark-mode .dashboard-btn:hover {
+            background: #333;
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 950px) {
+
+            .company-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav h2 {
+                font-size: 19px;
+                text-align: center;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            nav button {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .company-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 94%;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .card-buttons {
+                flex-direction: column;
+            }
+
+            .company-card h3 {
+                padding-right: 0;
+                margin-top: 35px;
+            }
+
+            .eligibility {
+                top: 15px;
+                right: 15px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <nav>
+
+        <h2>
+            SPMS Student
+        </h2>
+
+        <div class="nav-buttons">
+
+            <!-- DASHBOARD -->
+            <button
+                type="button"
+                class="dashboard-btn"
+                onclick="goDashboard()">
+
+                Dashboard
+
+            </button>
+
+            <!-- GLOBAL DARK MODE -->
+            <button
+                type="button"
+                class="theme-btn"
+                id="themeButton"
+                onclick="toggleDarkMode()">
+
+                🌙 Dark Mode
+
+            </button>
+
+            <!-- LOGOUT -->
+            <button
+                type="button"
+                class="logout-btn"
+                onclick="logoutUser()">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================== -->
+
+    <div class="container">
+
+        <!-- HEADING -->
+
+        <div class="heading">
+
+            <h1>
+                Recommended Companies
+            </h1>
+
+            <p>
+                Companies are recommended based on your
+                current CGPA and their eligibility requirements.
+            </p>
+
+        </div>
+
+
+        <!-- =====================================
+             STUDENT INFORMATION
+        ====================================== -->
+
+        <div class="student-info">
+
+            <h3>
+                Your Profile
+            </h3>
+
+            <p>
+                Student:
+                <strong id="studentName">
+                    Loading...
+                </strong>
+            </p>
+
+            <p>
+                Email:
+                <strong id="studentEmail">
+                    Loading...
+                </strong>
+            </p>
+
+            <p>
+                Current CGPA:
+                <span
+                    class="cgpa"
+                    id="studentCgpa">
+
+                    Loading...
+
+                </span>
+            </p>
+
+        </div>
+
+
+        <!-- =====================================
+             SEARCH
+        ====================================== -->
+
+        <div class="search-area">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search company, job role or location..."
+                oninput="filterCompanies()">
+
+        </div>
+
+
+        <!-- =====================================
+             SUMMARY
+        ====================================== -->
+
+        <div class="summary">
+
+            <div class="summary-card">
+
+                <h3>
+                    Total Companies
+                </h3>
+
+                <p id="totalCount">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <h3>
+                    Eligible Companies
+                </h3>
+
+                <p
+                    class="eligible-number"
+                    id="eligibleCount">
+
+                    0
+
+                </p>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <h3>
+                    Not Eligible
+                </h3>
+
+                <p
+                    class="not-eligible-number"
+                    id="notEligibleCount">
+
+                    0
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             LOADING
+        ====================================== -->
+
+        <div
+            id="loading"
+            class="loading">
+
+            Checking company eligibility...
+
+        </div>
+
+
+        <!-- =====================================
+             COMPANY LIST
+        ====================================== -->
+
+        <div
+            id="companyGrid"
+            class="company-grid">
+
+        </div>
+
+
+        <!-- =====================================
+             ERROR
+        ====================================== -->
+
+        <div
+            id="errorMessage"
+            class="error">
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script>
+
+        // =========================================
+        // STUDENT ACCESS PROTECTION
+        // =========================================
+
+        if (!requireStudent()) {
+            throw new Error("Unauthorized");
+        }
+
+
+        // =========================================
+        // GET LOGGED-IN STUDENT
+        // =========================================
+
+        const studentId = getStudentId();
+
+        const userRole = getUserRole();
+
+
+        if (!studentId || userRole !== "student") {
+
+            alert("Please login as a student.");
+
+            window.location.href = "/login.html";
+
+        }
+
+
+        // =========================================
+        // GLOBAL DATA
+        // =========================================
+
+        let student = null;
+
+        let allCompanies = [];
+
+
+        // =========================================
+        // LOAD DATA
+        // =========================================
+
+        async function loadData() {
+
+            const loading =
+                document.getElementById("loading");
+
+            const errorMessage =
+                document.getElementById("errorMessage");
+
+            try {
+
+                const [
+                    studentResponse,
+                    companiesResponse
+                ] = await Promise.all([
+
+                    fetch(
+                        `/students/${encodeURIComponent(studentId)}`,
+                        {
+                            credentials: "same-origin"
+                        }
+                    ),
+
+                    fetch(
+                        "/companies",
+                        {
+                            credentials: "same-origin"
+                        }
+                    )
+
+                ]);
+
+
+                if (!studentResponse.ok) {
+
+                    throw new Error(
+                        "Unable to load student profile."
+                    );
+
+                }
+
+
+                if (!companiesResponse.ok) {
+
+                    throw new Error(
+                        "Unable to load companies."
+                    );
+
+                }
+
+
+                student =
+                    await studentResponse.json();
+
+
+                allCompanies =
+                    await companiesResponse.json();
+
+
+                // =====================================
+                // STUDENT INFORMATION
+                // =====================================
+
+                document.getElementById(
+                    "studentName"
+                ).textContent =
+                    student.name ||
+                    localStorage.getItem("studentName") ||
+                    "Student";
+
+
+                document.getElementById(
+                    "studentEmail"
+                ).textContent =
+                    student.email ||
+                    localStorage.getItem("studentEmail") ||
+                    "N/A";
+
+
+                const cgpa =
+                    Number(student.cgpa);
+
+
+                if (
+                    !Number.isFinite(cgpa) ||
+                    cgpa < 0 ||
+                    cgpa > 10
+                ) {
+
+                    throw new Error(
+                        "Student CGPA is not available."
+                    );
+
+                }
+
+
+                document.getElementById(
+                    "studentCgpa"
+                ).textContent =
+                    cgpa.toFixed(2);
+
+
+                // =====================================
+                // TOTAL COMPANIES
+                // =====================================
+
+                document.getElementById(
+                    "totalCount"
+                ).textContent =
+                    allCompanies.length;
+
+
+                loading.style.display =
+                    "none";
+
+
+                // =====================================
+                // CHECK ELIGIBILITY
+                // =====================================
+
+                await calculateEligibility();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Recommended companies error:",
+                    error
+                );
+
+                loading.style.display =
+                    "none";
+
+                errorMessage.textContent =
+                    error.message ||
+                    "Unable to load recommended companies.";
+
+                errorMessage.style.display =
+                    "block";
+            }
+        }
+
+
+        // =========================================
+        // CALCULATE ELIGIBILITY
+        // =========================================
+
+        async function calculateEligibility() {
+
+            const studentPercentage =
+                Number(student.cgpa) * 10;
+
+
+            let eligibleCount = 0;
+
+            let notEligibleCount = 0;
+
+
+            const companiesWithEligibility = [];
+
+
+            for (const company of allCompanies) {
+
+                let requiredPercentage = null;
+
+                let eligible = false;
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `/companies/${encodeURIComponent(company.id)}/eligibility/${encodeURIComponent(studentId)}`,
+                            {
+                                credentials: "same-origin"
+                            }
+                        );
+
+
+                    if (response.ok) {
+
+                        const data =
+                            await response.json();
+
+
+                        eligible =
+                            data.eligible === true;
+
+
+                        if (
+                            data.requiredPercentage !== null &&
+                            data.requiredPercentage !== undefined
+                        ) {
+
+                            const value =
+                                Number(
+                                    data.requiredPercentage
+                                );
+
+
+                            if (Number.isFinite(value)) {
+
+                                requiredPercentage =
+                                    value;
+
+                            }
+
+                        }
+
+                    }
+
+                    else {
+
+                        // =================================
+                        // FALLBACK
+                        // =================================
+
+                        requiredPercentage =
+                            extractPercentage(
+                                company.eligibility
+                            );
+
+
+                        if (
+                            requiredPercentage !== null
+                        ) {
+
+                            eligible =
+                                studentPercentage >=
+                                requiredPercentage;
+
+                        }
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Eligibility check failed for company:",
+                        company.id,
+                        error
+                    );
+
+
+                    // =================================
+                    // FALLBACK
+                    // =================================
+
+                    requiredPercentage =
+                        extractPercentage(
+                            company.eligibility
+                        );
+
+
+                    if (
+                        requiredPercentage !== null
+                    ) {
+
+                        eligible =
+                            studentPercentage >=
+                            requiredPercentage;
+
+                    }
+
+                }
+
+
+                if (eligible) {
+
+                    eligibleCount++;
+
+                }
+
+                else {
+
+                    notEligibleCount++;
+
+                }
+
+
+                companiesWithEligibility.push({
+
+                    ...company,
+
+                    eligible: eligible,
+
+                    requiredPercentage:
+                        requiredPercentage
+
+                });
+
+            }
+
+
+            // =========================================
+            // SAVE RESULTS
+            // =========================================
+
+            allCompanies =
+                companiesWithEligibility;
+
+
+            document.getElementById(
+                "eligibleCount"
+            ).textContent =
+                eligibleCount;
+
+
+            document.getElementById(
+                "notEligibleCount"
+            ).textContent =
+                notEligibleCount;
+
+
+            filterCompanies();
+
+        }
+
+
+        // =========================================
+        // EXTRACT PERCENTAGE
+        // =========================================
+
+        function extractPercentage(value) {
+
+            if (
+                value === null ||
+                value === undefined ||
+                value === ""
+            ) {
+
+                return null;
+
+            }
+
+
+            const text =
+                String(value).trim();
+
+
+            const match =
+                text.match(
+                    /(\d+(?:\.\d+)?)/
+                );
+
+
+            if (!match) {
+
+                return null;
+
+            }
+
+
+            const number =
+                Number(match[1]);
+
+
+            if (!Number.isFinite(number)) {
+
+                return null;
+
+            }
+
+
+            return number;
+
+        }
+
+
+        // =========================================
+        // FILTER COMPANIES
+        // =========================================
+
+        function filterCompanies() {
+
+            const search =
+                document.getElementById(
+                    "searchInput"
+                ).value
+                .toLowerCase()
+                .trim();
+
+
+            const filtered =
+                allCompanies.filter(
+                    function(company) {
+
+                        const companyName =
+                            String(
+                                company.companyName || ""
+                            ).toLowerCase();
+
+
+                        const jobRole =
+                            String(
+                                company.jobRole || ""
+                            ).toLowerCase();
+
+
+                        const location =
+                            String(
+                                company.location || ""
+                            ).toLowerCase();
+
+
+                        return (
+                            companyName.includes(search) ||
+                            jobRole.includes(search) ||
+                            location.includes(search)
+                        );
+
+                    }
+                );
+
+
+            displayCompanies(filtered);
+
+        }
+
+
+        // =========================================
+        // DISPLAY COMPANIES
+        // =========================================
+
+        function displayCompanies(companies) {
+
+            const grid =
+                document.getElementById(
+                    "companyGrid"
+                );
+
+
+            grid.innerHTML = "";
+
+
+            if (companies.length === 0) {
+
+                grid.innerHTML = `
+
+                    <div
+                        class="no-data"
+                        style="grid-column:1/-1;">
+
+                        No companies found.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            companies.forEach(
+                function(company) {
+
+                    const required =
+                        company.requiredPercentage;
+
+
+                    const statusText =
+                        company.eligible
+                            ? "Eligible"
+                            : "Not Eligible";
+
+
+                    const statusClass =
+                        company.eligible
+                            ? "eligible"
+                            : "not-eligible";
+
+
+                    let eligibilityText =
+                        "Eligibility not specified";
+
+
+                    if (
+                        required !== null &&
+                        required !== undefined &&
+                        Number.isFinite(
+                            Number(required)
+                        )
+                    ) {
+
+                        eligibilityText =
+                            Number(required)
+                                .toFixed(2) +
+                            "% required";
+
+                    }
+
+
+                    // =====================================
+                    // APPLY BUTTON
+                    // =====================================
+
+                    let applyLink = "";
+
+
+                    if (company.eligible) {
+
+                        applyLink = `
+
+                            <a
+                                class="apply-btn"
+                                href="/apply.html?companyId=${encodeURIComponent(company.id)}&studentId=${encodeURIComponent(studentId)}">
+
+                                Apply Now
+
+                            </a>
+
+                        `;
+
+                    }
+
+                    else {
+
+                        applyLink = `
+
+                            <a
+                                class="disabled-btn"
+                                aria-disabled="true">
+
+                                Not Eligible
+
+                            </a>
+
+                        `;
+
+                    }
+
+
+                    // =====================================
+                    // COMPANY CARD
+                    // =====================================
+
+                    grid.innerHTML += `
+
+                        <div class="company-card">
+
+                            <span
+                                class="eligibility ${statusClass}">
+
+                                ${statusText}
+
+                            </span>
+
+
+                            <h3>
+
+                                ${escapeHTML(
+                                    company.companyName ||
+                                    "Unknown Company"
+                                )}
+
+                            </h3>
+
+
+                            <p>
+
+                                <strong>
+                                    Job Role:
+                                </strong>
+
+                                ${escapeHTML(
+                                    company.jobRole ||
+                                    "Not specified"
+                                )}
+
+                            </p>
+
+
+                            <p>
+
+                                <strong>
+                                    Location:
+                                </strong>
+
+                                ${escapeHTML(
+                                    company.location ||
+                                    "Not specified"
+                                )}
+
+                            </p>
+
+
+                            <p>
+
+                                <strong>
+                                    Package:
+                                </strong>
+
+                                ${formatPackage(
+                                    company.packageAmount
+                                )}
+
+                            </p>
+
+
+                            <p>
+
+                                <strong>
+                                    Required:
+                                </strong>
+
+                                ${escapeHTML(
+                                    eligibilityText
+                                )}
+
+                            </p>
+
+
+                            <div class="card-buttons">
+
+                                <a
+                                    class="details-btn"
+                                    href="/company-details.html?id=${encodeURIComponent(company.id)}">
+
+                                    View Details
+
+                                </a>
+
+
+                                ${applyLink}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+        }
+
+
+        // =========================================
+        // PACKAGE FORMAT
+        // =========================================
+
+        function formatPackage(amount) {
+
+            if (
+                amount === null ||
+                amount === undefined ||
+                amount === ""
+            ) {
+
+                return "Not specified";
+
+            }
+
+
+            const number =
+                Number(amount);
+
+
+            if (!Number.isFinite(number)) {
+
+                return escapeHTML(amount);
+
+            }
+
+
+            return "₹" +
+                number.toFixed(2) +
+                " LPA";
+
+        }
+
+
+        // =========================================
+        // HTML ESCAPE
+        // =========================================
+
+        function escapeHTML(value) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        // =========================================
+        // DASHBOARD
+        // =========================================
+
+        function goDashboard() {
+
+            window.location.href =
+                "/student-dashboard.html";
+
+        }
+
+
+        // =========================================
+        // START
+        // =========================================
+
+        loadData();
+
+    </script>
+
+</body>
+
+</html>
+

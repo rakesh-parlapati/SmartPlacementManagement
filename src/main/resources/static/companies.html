@@ -1,0 +1,1410 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Companies | SPMS</title>
+
+    <!-- COMMON AUTHENTICATION + GLOBAL THEME -->
+    <script src="/JS/auth.js"></script>
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* =====================================================
+           BODY
+        ===================================================== */
+
+        body {
+            background: #f4f6f8;
+            color: #333;
+
+            transition:
+                background 0.3s,
+                color 0.3s;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        nav {
+            background: #1f2937;
+            color: white;
+
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        nav h2 {
+            font-size: 22px;
+        }
+
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        nav button {
+            color: white;
+            border: none;
+
+            padding: 9px 16px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           THEME BUTTON
+        ===================================================== */
+
+        .theme-btn {
+            background: #374151;
+        }
+
+
+        .theme-btn:hover {
+            background: #4b5563;
+        }
+
+
+        /* =====================================================
+           LOGOUT
+        ===================================================== */
+
+        .logout-btn {
+            background: #ef4444;
+        }
+
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+
+        /* =====================================================
+           CONTAINER
+        ===================================================== */
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+
+            margin: 35px auto;
+        }
+
+
+        /* =====================================================
+           TOP SECTION
+        ===================================================== */
+
+        .top-section {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 25px;
+
+            gap: 15px;
+        }
+
+
+        .top-section h1 {
+            color: #1f2937;
+        }
+
+
+        /* =====================================================
+           TOP BUTTONS
+        ===================================================== */
+
+        .add-btn,
+        .back-btn {
+            color: white;
+
+            border: none;
+
+            padding: 11px 18px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        .add-btn {
+            background: #2563eb;
+        }
+
+
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+
+        .back-btn {
+            background: #374151;
+        }
+
+
+        .back-btn:hover {
+            background: #111827;
+        }
+
+
+        /* =====================================================
+           SEARCH
+        ===================================================== */
+
+        .search-box {
+            margin-bottom: 25px;
+        }
+
+
+        .search-box input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            background: white;
+            color: #333;
+        }
+
+
+        .search-box input:focus {
+            border-color: #2563eb;
+        }
+
+
+        /* =====================================================
+           COMPANY GRID
+        ===================================================== */
+
+        #companyContainer {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(320px, 1fr));
+
+            gap: 20px;
+        }
+
+
+        /* =====================================================
+           COMPANY CARD
+        ===================================================== */
+
+        .company-card {
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.08);
+
+            transition:
+                background 0.3s,
+                color 0.3s,
+                transform 0.2s,
+                box-shadow 0.3s;
+        }
+
+
+        .company-card:hover {
+            transform: translateY(-2px);
+        }
+
+
+        .company-card h2 {
+            color: #2563eb;
+
+            margin-bottom: 15px;
+        }
+
+
+        .company-card p {
+            margin: 8px 0;
+
+            line-height: 1.5;
+        }
+
+
+        .company-card strong {
+            color: #374151;
+        }
+
+
+        /* =====================================================
+           PACKAGE
+        ===================================================== */
+
+        .package {
+            color: #15803d;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           ELIGIBILITY
+        ===================================================== */
+
+        .eligibility {
+            background: #eff6ff;
+
+            padding: 10px;
+
+            border-left:
+                4px solid #2563eb;
+
+            margin-top: 12px;
+
+            border-radius: 4px;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .buttons {
+            display: flex;
+
+            gap: 8px;
+
+            margin-top: 18px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .buttons button {
+            border: none;
+
+            padding: 9px 13px;
+
+            border-radius: 5px;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        .view-btn {
+            background: #16a34a;
+        }
+
+
+        .view-btn:hover {
+            background: #15803d;
+        }
+
+
+        .edit-btn {
+            background: #2563eb;
+        }
+
+
+        .edit-btn:hover {
+            background: #1d4ed8;
+        }
+
+
+        .delete-btn {
+            background: #dc2626;
+        }
+
+
+        .delete-btn:hover {
+            background: #b91c1c;
+        }
+
+
+        .apply-btn {
+            background: #16a34a;
+        }
+
+
+        .apply-btn:hover {
+            background: #15803d;
+        }
+
+
+        /* =====================================================
+           LOADING / EMPTY / ERROR
+        ===================================================== */
+
+        .loading,
+        .empty {
+            text-align: center;
+
+            padding: 40px;
+
+            font-size: 18px;
+        }
+
+
+        .error {
+            text-align: center;
+
+            padding: 40px;
+
+            color: #dc2626;
+
+            font-size: 18px;
+        }
+
+
+        /* =====================================================
+           DARK MODE
+           auth.js adds dark-mode directly to BODY
+        ===================================================== */
+
+        body.dark-mode {
+            background: #111827;
+            color: #e5e7eb;
+        }
+
+
+        body.dark-mode nav {
+            background: #030712;
+        }
+
+
+        body.dark-mode .top-section h1 {
+            color: #f9fafb;
+        }
+
+
+        body.dark-mode .search-box input {
+            background: #1f2937;
+
+            color: #f9fafb;
+
+            border-color: #4b5563;
+        }
+
+
+        body.dark-mode .search-box input::placeholder {
+            color: #9ca3af;
+        }
+
+
+        body.dark-mode .company-card {
+            background: #1f2937;
+
+            color: #e5e7eb;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.35);
+        }
+
+
+        body.dark-mode .company-card h2 {
+            color: #60a5fa;
+        }
+
+
+        body.dark-mode .company-card strong {
+            color: #d1d5db;
+        }
+
+
+        body.dark-mode .package {
+            color: #4ade80;
+        }
+
+
+        body.dark-mode .eligibility {
+            background: #172554;
+
+            color: #dbeafe;
+
+            border-left-color: #60a5fa;
+        }
+
+
+        body.dark-mode .empty,
+        body.dark-mode .loading {
+            color: #d1d5db;
+        }
+
+
+        body.dark-mode .theme-btn {
+            background: #f8f9fa;
+            color: #212529;
+        }
+
+
+        body.dark-mode .theme-btn:hover {
+            background: #dee2e6;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 15px 20px;
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            nav h2 {
+                font-size: 17px;
+            }
+
+
+            .nav-buttons {
+                width: 100%;
+            }
+
+
+            .nav-buttons button {
+                flex: 1;
+            }
+
+
+            .top-section {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+
+            .top-section > div {
+                width: 100%;
+            }
+
+
+            .add-btn,
+            .back-btn {
+                width: 100%;
+
+                margin-bottom: 8px;
+            }
+
+
+            #companyContainer {
+                grid-template-columns: 1fr;
+            }
+
+
+            .company-card {
+                padding: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ===================================================== -->
+
+    <nav>
+
+        <h2>
+            Smart Placement Management System
+        </h2>
+
+
+        <div class="nav-buttons">
+
+            <!-- GLOBAL DARK MODE -->
+
+            <button
+                type="button"
+                class="theme-btn"
+                onclick="toggleDarkMode()">
+
+                🌙 Dark Mode
+
+            </button>
+
+
+            <!-- GLOBAL LOGOUT -->
+
+            <button
+                type="button"
+                class="logout-btn"
+                onclick="logout()">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         MAIN CONTAINER
+    ===================================================== -->
+
+    <div class="container">
+
+
+        <!-- =================================================
+             TOP SECTION
+        ================================================= -->
+
+        <div class="top-section">
+
+            <h1 id="pageTitle">
+                Companies
+            </h1>
+
+
+            <div>
+
+                <!-- ADMIN ONLY -->
+
+                <button
+                    type="button"
+                    id="addCompanyBtn"
+                    class="add-btn"
+                    onclick="addCompany()">
+
+                    + Add Company
+
+                </button>
+
+
+                <!-- STUDENT ONLY -->
+
+                <button
+                    type="button"
+                    id="backBtn"
+                    class="back-btn"
+                    onclick="goBack()"
+                    style="display: none;">
+
+                    ← Student Dashboard
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SEARCH
+        ================================================= -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="Search by company, job role or location..."
+                onkeyup="searchCompanies()">
+
+        </div>
+
+
+
+        <!-- =================================================
+             LOADING
+        ================================================= -->
+
+        <div
+            id="loading"
+            class="loading">
+
+            Loading companies...
+
+        </div>
+
+
+
+        <!-- =================================================
+             COMPANY CARDS
+        ================================================= -->
+
+        <div id="companyContainer"></div>
+
+    </div>
+
+
+
+    <script>
+
+        /* ==================================================
+           AUTHENTICATION
+        ================================================== */
+
+        if (!requireLogin()) {
+
+            throw new Error(
+                "Unauthorized access"
+            );
+        }
+
+
+
+        /* ==================================================
+           USER INFORMATION
+        ================================================== */
+
+        let companies = [];
+
+        const userRole = getUserRole();
+
+        const studentId = getStudentId();
+
+
+
+        /* ==================================================
+           ROLE VALIDATION
+        ================================================== */
+
+        if (userRole === "student") {
+
+            if (!studentId) {
+
+                alert(
+                    "Student login information not found."
+                );
+
+                window.location.href =
+                    "/login.html";
+
+                throw new Error(
+                    "Student ID missing"
+                );
+            }
+
+
+            document.getElementById(
+                "pageTitle"
+            ).textContent =
+                "Browse Companies";
+
+
+            document.getElementById(
+                "addCompanyBtn"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "backBtn"
+            ).style.display =
+                "inline-block";
+
+        }
+
+
+        else if (userRole === "admin") {
+
+            document.getElementById(
+                "pageTitle"
+            ).textContent =
+                "Company Management";
+
+        }
+
+
+        else {
+
+            alert(
+                "Invalid user role. Please login again."
+            );
+
+            window.location.href =
+                "/login.html";
+
+            throw new Error(
+                "Invalid role"
+            );
+        }
+
+
+
+        /* ==================================================
+           LOAD COMPANIES
+        ================================================== */
+
+        loadCompanies();
+
+
+
+        async function loadCompanies() {
+
+            const loading =
+                document.getElementById(
+                    "loading"
+                );
+
+
+            try {
+
+                loading.className =
+                    "loading";
+
+                loading.textContent =
+                    "Loading companies...";
+
+                loading.style.display =
+                    "block";
+
+
+                const response =
+                    await fetch(
+                        "/companies",
+                        {
+                            credentials:
+                                "same-origin"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to load companies"
+                    );
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                companies =
+                    Array.isArray(data)
+                        ? data
+                        : [];
+
+
+                loading.style.display =
+                    "none";
+
+
+                displayCompanies(
+                    companies
+                );
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Company loading error:",
+                    error
+                );
+
+
+                loading.className =
+                    "error";
+
+
+                loading.style.display =
+                    "block";
+
+
+                loading.textContent =
+                    "Error loading companies: "
+                    + error.message;
+            }
+
+        }
+
+
+
+        /* ==================================================
+           DISPLAY COMPANIES
+        ================================================== */
+
+        function displayCompanies(data) {
+
+            const container =
+                document.getElementById(
+                    "companyContainer"
+                );
+
+
+            container.innerHTML = "";
+
+
+            if (
+                !data ||
+                data.length === 0
+            ) {
+
+                container.innerHTML = `
+                    <div class="empty">
+                        No companies found.
+                    </div>
+                `;
+
+                return;
+            }
+
+
+
+            data.forEach(
+                company => {
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "company-card";
+
+
+                    let buttons = "";
+
+
+
+                    /* ==================================
+                       STUDENT BUTTONS
+                    ================================== */
+
+                    if (
+                        userRole === "student"
+                    ) {
+
+                        buttons = `
+                            <button
+                                type="button"
+                                class="view-btn"
+                                onclick="viewCompany(${company.id})">
+
+                                View Details
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="apply-btn"
+                                onclick="applyCompany(${company.id})">
+
+                                Apply
+
+                            </button>
+                        `;
+
+                    }
+
+
+
+                    /* ==================================
+                       ADMIN BUTTONS
+                    ================================== */
+
+                    else if (
+                        userRole === "admin"
+                    ) {
+
+                        buttons = `
+                            <button
+                                type="button"
+                                class="view-btn"
+                                onclick="viewCompany(${company.id})">
+
+                                View Details
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="edit-btn"
+                                onclick="editCompany(${company.id})">
+
+                                Edit
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="delete-btn"
+                                onclick="deleteCompany(${company.id})">
+
+                                Delete
+
+                            </button>
+                        `;
+
+                    }
+
+
+
+                    /* ==================================
+                       COMPANY CARD
+                    ================================== */
+
+                    card.innerHTML = `
+
+                        <h2>
+                            ${escapeHtml(
+                                company.companyName ||
+                                "N/A"
+                            )}
+                        </h2>
+
+
+                        <p>
+                            <strong>ID:</strong>
+                            ${company.id ?? "N/A"}
+                        </p>
+
+
+                        <p>
+                            <strong>Email:</strong>
+                            ${escapeHtml(
+                                company.email ||
+                                "N/A"
+                            )}
+                        </p>
+
+
+                        <p>
+                            <strong>Location:</strong>
+                            ${escapeHtml(
+                                company.location ||
+                                "N/A"
+                            )}
+                        </p>
+
+
+                        <p>
+                            <strong>Job Role:</strong>
+                            ${escapeHtml(
+                                company.jobRole ||
+                                "N/A"
+                            )}
+                        </p>
+
+
+                        <p class="package">
+
+                            <strong>
+                                Package:
+                            </strong>
+
+                            ₹ ${company.packageAmount ?? "N/A"} LPA
+
+                        </p>
+
+
+                        <div class="eligibility">
+
+                            <strong>
+                                Eligibility:
+                            </strong>
+
+                            <br>
+
+                            ${escapeHtml(
+                                company.eligibility ||
+                                "N/A"
+                            )}
+
+                        </div>
+
+
+                        <p>
+
+                            <strong>
+                                Description:
+                            </strong>
+
+                            ${escapeHtml(
+                                company.description ||
+                                "No description"
+                            )}
+
+                        </p>
+
+
+                        <div class="buttons">
+
+                            ${buttons}
+
+                        </div>
+
+                    `;
+
+
+                    container.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* ==================================================
+           SEARCH COMPANIES
+        ================================================== */
+
+        function searchCompanies() {
+
+            const search =
+                document
+                    .getElementById("search")
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+
+            const filtered =
+                companies.filter(
+                    company =>
+
+                        (
+                            company.companyName ||
+                            ""
+                        )
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        (
+                            company.jobRole ||
+                            ""
+                        )
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        (
+                            company.location ||
+                            ""
+                        )
+                            .toLowerCase()
+                            .includes(search)
+                );
+
+
+            displayCompanies(
+                filtered
+            );
+
+        }
+
+
+
+        /* ==================================================
+           VIEW COMPANY
+        ================================================== */
+
+        function viewCompany(id) {
+
+            window.location.href =
+                "/company-details.html?id="
+                + encodeURIComponent(id);
+        }
+
+
+
+        /* ==================================================
+           STUDENT APPLY
+        ================================================== */
+
+        function applyCompany(id) {
+
+            if (
+                userRole !== "student" ||
+                !studentId
+            ) {
+
+                alert(
+                    "Student login information not found."
+                );
+
+                window.location.href =
+                    "/login.html";
+
+                return;
+            }
+
+
+            window.location.href =
+                "/apply.html?companyId="
+                + encodeURIComponent(id)
+                + "&studentId="
+                + encodeURIComponent(studentId);
+        }
+
+
+
+        /* ==================================================
+           ADMIN EDIT
+        ================================================== */
+
+        function editCompany(id) {
+
+            if (userRole !== "admin") {
+
+                alert(
+                    "Administrator access required."
+                );
+
+                return;
+            }
+
+
+            window.location.href =
+                "/company-edit.html?id="
+                + encodeURIComponent(id);
+        }
+
+
+
+        /* ==================================================
+           ADMIN DELETE
+        ================================================== */
+
+        async function deleteCompany(id) {
+
+            if (userRole !== "admin") {
+
+                alert(
+                    "Administrator access required."
+                );
+
+                return;
+            }
+
+
+            const company =
+                companies.find(
+                    c => c.id === id
+                );
+
+
+            const name =
+                company
+                    ? company.companyName
+                    : "this company";
+
+
+            if (
+                !confirm(
+                    "Are you sure you want to delete "
+                    + name
+                    + "?"
+                )
+            ) {
+
+                return;
+            }
+
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/companies/" + id,
+                        {
+                            method: "DELETE",
+                            credentials:
+                                "same-origin"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    const errorText =
+                        await response.text();
+
+
+                    throw new Error(
+                        errorText ||
+                        "Failed to delete company"
+                    );
+                }
+
+
+                alert(
+                    "Company deleted successfully!"
+                );
+
+
+                loadCompanies();
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Delete company error:",
+                    error
+                );
+
+
+                alert(
+                    error.message ||
+                    "Failed to delete company."
+                );
+            }
+
+        }
+
+
+
+        /* ==================================================
+           ADD COMPANY
+        ================================================== */
+
+        function addCompany() {
+
+            if (userRole !== "admin") {
+
+                alert(
+                    "Administrator access required."
+                );
+
+                return;
+            }
+
+
+            window.location.href =
+                "/company-add.html";
+        }
+
+
+
+        /* ==================================================
+           BACK BUTTON
+        ================================================== */
+
+        function goBack() {
+
+            if (
+                userRole === "student"
+            ) {
+
+                window.location.href =
+                    "/student-dashboard.html";
+
+            }
+
+            else {
+
+                window.location.href =
+                    "/admin.html";
+            }
+
+        }
+
+
+
+        /* ==================================================
+           LOGOUT
+        ================================================== */
+
+        function logout() {
+
+            logoutUser();
+        }
+
+
+
+        /* ==================================================
+           SECURITY HELPER
+        ================================================== */
+
+        function escapeHtml(value) {
+
+            return String(value)
+
+                .replace(/&/g, "&amp;")
+
+                .replace(/</g, "&lt;")
+
+                .replace(/>/g, "&gt;")
+
+                .replace(/"/g, "&quot;")
+
+                .replace(/'/g, "&#039;");
+        }
+
+    </script>
+
+</body>
+
+</html>
+

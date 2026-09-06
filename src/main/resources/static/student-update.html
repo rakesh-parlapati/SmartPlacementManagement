@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Update Student | SPMS</title>
+
+<!-- COMMON AUTHENTICATION -->
+<script src="/JS/auth.js"></script>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: #f4f6f9;
+        color: #222;
+        min-height: 100vh;
+        transition: background 0.3s, color 0.3s;
+    }
+
+    /* ==============================
+       NAVBAR
+    ============================== */
+
+    nav {
+        background: #1e3a8a;
+        color: white;
+        padding: 18px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    nav h2 {
+        font-size: 22px;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .theme-btn,
+    .logout-btn {
+        border: none;
+        padding: 9px 15px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .theme-btn {
+        background: white;
+        color: #1e3a8a;
+    }
+
+    .logout-btn {
+        background: #ef4444;
+        color: white;
+    }
+
+    .theme-btn:hover,
+    .logout-btn:hover {
+        opacity: 0.9;
+    }
+
+    /* ==============================
+       CONTAINER
+    ============================== */
+
+    .container {
+        width: 90%;
+        max-width: 650px;
+        margin: 40px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+        text-align: center;
+        color: #1e3a8a;
+        margin-bottom: 25px;
+    }
+
+    /* ==============================
+       MESSAGE
+    ============================== */
+
+    #message {
+        text-align: center;
+        margin-bottom: 18px;
+        font-weight: bold;
+        min-height: 20px;
+    }
+
+    .success {
+        color: #198754;
+    }
+
+    .error {
+        color: #dc3545;
+    }
+
+    /* ==============================
+       FORM
+    ============================== */
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: bold;
+        color: #334155;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 11px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 15px;
+        background: white;
+        color: #222;
+    }
+
+    input:focus,
+    select:focus {
+        outline: none;
+        border-color: #2563eb;
+    }
+
+    input[readonly] {
+        background: #f1f5f9;
+        cursor: not-allowed;
+    }
+
+    select {
+        cursor: pointer;
+    }
+
+    /* ==============================
+       RESUME
+    ============================== */
+
+    .resume-box {
+        background: #f8fafc;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 18px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .resume-box a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .resume-box a:hover {
+        text-decoration: underline;
+    }
+
+    /* ==============================
+       BUTTONS
+    ============================== */
+
+    .update-btn,
+    .back-btn {
+        width: 100%;
+        border: none;
+        padding: 13px;
+        border-radius: 7px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .update-btn {
+        background: #2563eb;
+        color: white;
+    }
+
+    .update-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .update-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .back-btn {
+        margin-top: 12px;
+        background: #64748b;
+        color: white;
+    }
+
+    .back-btn:hover {
+        background: #475569;
+    }
+
+    /* ==============================
+       DARK MODE
+    ============================== */
+
+    body.dark-mode {
+        background: #121212;
+        color: #eeeeee;
+    }
+
+    body.dark-mode .container {
+        background: #1e1e1e;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    body.dark-mode h1 {
+        color: #60a5fa;
+    }
+
+    body.dark-mode label {
+        color: #d1d5db;
+    }
+
+    body.dark-mode input,
+    body.dark-mode select {
+        background: #2a2a2a;
+        color: #ffffff;
+        border-color: #555;
+    }
+
+    body.dark-mode input[readonly] {
+        background: #333;
+    }
+
+    body.dark-mode .resume-box {
+        background: #252525;
+        border-color: #444;
+    }
+
+    body.dark-mode .theme-btn {
+        background: #333;
+        color: #ffffff;
+    }
+
+    /* ==============================
+       MOBILE
+    ============================== */
+
+    @media (max-width: 600px) {
+
+        nav {
+            padding: 15px;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        nav h2 {
+            font-size: 18px;
+        }
+
+        .nav-right {
+            width: 100%;
+            justify-content: flex-end;
+        }
+
+        .container {
+            width: 94%;
+            padding: 20px;
+            margin: 25px auto;
+        }
+
+        h1 {
+            font-size: 25px;
+        }
+    }
+</style>
+
+
+</head>
+
+<body>
+
+
+<!-- ==============================
+     NAVBAR
+============================== -->
+
+<nav>
+
+    <h2>
+        Smart Placement Management System
+    </h2>
+
+    <div class="nav-right">
+
+        <button
+            class="theme-btn"
+            onclick="toggleDarkMode()">
+            🌙 Dark Mode
+        </button>
+
+        <button
+            class="logout-btn"
+            onclick="logoutUser()">
+            Logout
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- ==============================
+     MAIN CONTAINER
+============================== -->
+
+<div class="container">
+
+    <h1>Update Student</h1>
+
+    <div id="message"></div>
+
+
+    <form id="studentForm">
+
+        <!-- STUDENT ID -->
+
+        <div class="form-group">
+
+            <label for="id">
+                Student ID
+            </label>
+
+            <input
+                type="text"
+                id="id"
+                readonly>
+
+        </div>
+
+
+        <!-- NAME -->
+
+        <div class="form-group">
+
+            <label for="name">
+                Student Name
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter student name"
+                maxlength="100"
+                required>
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+            <label for="email">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter email"
+                maxlength="100"
+                required>
+
+        </div>
+
+
+        <!-- PHONE -->
+
+        <div class="form-group">
+
+            <label for="phone">
+                Phone Number
+            </label>
+
+            <input
+                type="tel"
+                id="phone"
+                placeholder="Enter 10-digit phone number"
+                maxlength="10"
+                inputmode="numeric"
+                required>
+
+        </div>
+
+
+        <!-- BRANCH DROPDOWN -->
+
+        <div class="form-group">
+
+            <label for="branch">
+                Branch
+            </label>
+
+            <select
+                id="branch"
+                required>
+
+                <option value="">
+                    Select Branch
+                </option>
+
+                <option value="CSE">
+                    CSE - Computer Science and Engineering
+                </option>
+
+                <option value="ECE">
+                    ECE - Electronics and Communication Engineering
+                </option>
+
+                <option value="EEE">
+                    EEE - Electrical and Electronics Engineering
+                </option>
+
+                <option value="MECH">
+                    MECH - Mechanical Engineering
+                </option>
+
+                <option value="CIVIL">
+                    CIVIL - Civil Engineering
+                </option>
+
+                <option value="IT">
+                    IT - Information Technology
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- CGPA -->
+
+        <div class="form-group">
+
+            <label for="cgpa">
+                CGPA
+            </label>
+
+            <input
+                type="number"
+                id="cgpa"
+                min="0"
+                max="10"
+                step="0.01"
+                placeholder="Enter CGPA"
+                required>
+
+        </div>
+
+
+        <!-- CURRENT RESUME -->
+
+        <div class="resume-box">
+
+            <strong>
+                Current Resume:
+            </strong>
+
+            <span id="currentResume">
+                Loading...
+            </span>
+
+        </div>
+
+
+        <!-- NEW RESUME -->
+
+        <div class="form-group">
+
+            <label for="resume">
+
+                Upload New Resume
+
+                <small>
+                    (Optional - PDF only)
+                </small>
+
+            </label>
+
+            <input
+                type="file"
+                id="resume"
+                accept="application/pdf">
+
+        </div>
+
+
+        <!-- UPDATE -->
+
+        <button
+            type="submit"
+            class="update-btn">
+
+            Update Student
+
+        </button>
+
+
+        <!-- BACK -->
+
+        <button
+            type="button"
+            class="back-btn"
+            onclick="goBack()">
+
+            Back to Student Details
+
+        </button>
+
+    </form>
+
+</div>
+
+
+<script>
+
+    // ==========================================
+    // ADMIN ACCESS PROTECTION
+    // ==========================================
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            if (
+                typeof requireAdmin !== "function"
+            ) {
+
+                document.getElementById(
+                    "message"
+                ).textContent =
+                    "Authentication system not found.";
+
+                document.getElementById(
+                    "message"
+                ).className = "error";
+
+                return;
+            }
+
+
+            if (!requireAdmin()) {
+                return;
+            }
+
+
+            loadStudent();
+
+        }
+    );
+
+
+    // ==========================================
+    // GET STUDENT ID
+    // ==========================================
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const studentId =
+        params.get("id");
+
+
+    // ==========================================
+    // LOAD STUDENT
+    // ==========================================
+
+    async function loadStudent() {
+
+        if (!studentId) {
+
+            showMessage(
+                "Student ID is missing.",
+                "error"
+            );
+
+            setTimeout(
+                function () {
+
+                    window.location.href =
+                        "/students.html";
+
+                },
+                1200
+            );
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/students/" +
+                    encodeURIComponent(
+                        studentId
+                    ),
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Accept":
+                                "application/json"
+                        },
+
+                        credentials:
+                            "same-origin"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                if (
+                    response.status === 401
+                ) {
+
+                    showMessage(
+                        "Your session has expired. Please login again.",
+                        "error"
+                    );
+
+                    setTimeout(
+                        function () {
+                            window.location.href =
+                                "/login.html";
+                        },
+                        1200
+                    );
+
+                    return;
+                }
+
+
+                if (
+                    response.status === 403
+                ) {
+
+                    showMessage(
+                        "Administrator access is required.",
+                        "error"
+                    );
+
+                    setTimeout(
+                        function () {
+                            window.location.href =
+                                "/login.html";
+                        },
+                        1200
+                    );
+
+                    return;
+                }
+
+
+                throw new Error(
+                    "Student not found."
+                );
+            }
+
+
+            const student =
+                await response.json();
+
+
+            // ==================================
+            // FILL FORM
+            // ==================================
+
+            document.getElementById(
+                "id"
+            ).value =
+                student.id || "";
+
+
+            document.getElementById(
+                "name"
+            ).value =
+                student.name || "";
+
+
+            document.getElementById(
+                "email"
+            ).value =
+                student.email || "";
+
+
+            document.getElementById(
+                "phone"
+            ).value =
+                student.phone || "";
+
+
+            // Automatically select
+            // student's existing branch
+
+            document.getElementById(
+                "branch"
+            ).value =
+                student.branch || "";
+
+
+            document.getElementById(
+                "cgpa"
+            ).value =
+                student.cgpa ?? "";
+
+
+            // ==================================
+            // CURRENT RESUME
+            // ==================================
+
+            const resumeElement =
+                document.getElementById(
+                    "currentResume"
+                );
+
+
+            const hasResume =
+                student.resume &&
+                student.resume !== "null" &&
+                student.resume !== "";
+
+
+            if (hasResume) {
+
+                resumeElement.innerHTML = `
+                    <a
+                        href="/students/${encodeURIComponent(student.id)}/resume"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        📄 View Current Resume
+                    </a>
+                `;
+
+            } else {
+
+                resumeElement.textContent =
+                    "No resume uploaded.";
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Load student error:",
+                error
+            );
+
+
+            showMessage(
+                "Unable to load student information.",
+                "error"
+            );
+        }
+    }
+
+
+    // ==========================================
+    // UPDATE STUDENT
+    // ==========================================
+
+    document
+        .getElementById("studentForm")
+        .addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const name =
+                    document.getElementById(
+                        "name"
+                    ).value.trim();
+
+
+                const email =
+                    document.getElementById(
+                        "email"
+                    ).value.trim();
+
+
+                const phone =
+                    document.getElementById(
+                        "phone"
+                    ).value.trim();
+
+
+                const branch =
+                    document.getElementById(
+                        "branch"
+                    ).value;
+
+
+                const cgpa =
+                    document.getElementById(
+                        "cgpa"
+                    ).value.trim();
+
+
+                const resume =
+                    document.getElementById(
+                        "resume"
+                    ).files[0];
+
+
+                // ==================================
+                // VALIDATE NAME
+                // ==================================
+
+                if (name.length < 2) {
+
+                    showMessage(
+                        "Student name must contain at least 2 characters.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // ==================================
+                // VALIDATE EMAIL
+                // ==================================
+
+                const emailPattern =
+                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+                if (
+                    !emailPattern.test(email)
+                ) {
+
+                    showMessage(
+                        "Please enter a valid email address.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // ==================================
+                // VALIDATE PHONE
+                // ==================================
+
+                if (
+                    !/^[0-9]{10}$/.test(phone)
+                ) {
+
+                    showMessage(
+                        "Phone number must contain exactly 10 digits.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // ==================================
+                // VALIDATE BRANCH
+                // ==================================
+
+                if (branch === "") {
+
+                    showMessage(
+                        "Please select a branch.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // ==================================
+                // VALIDATE CGPA
+                // ==================================
+
+                const cgpaValue =
+                    Number(cgpa);
+
+
+                if (
+                    !Number.isFinite(
+                        cgpaValue
+                    ) ||
+                    cgpaValue < 0 ||
+                    cgpaValue > 10
+                ) {
+
+                    showMessage(
+                        "CGPA must be between 0 and 10.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // ==================================
+                // VALIDATE RESUME
+                // ==================================
+
+                if (resume) {
+
+                    const isPdf =
+                        resume.type ===
+                        "application/pdf"
+                        ||
+                        resume.name
+                            .toLowerCase()
+                            .endsWith(".pdf");
+
+
+                    if (!isPdf) {
+
+                        showMessage(
+                            "Only PDF resume files are allowed.",
+                            "error"
+                        );
+
+                        return;
+                    }
+
+
+                    // 20 MB limit
+
+                    if (
+                        resume.size >
+                        20 * 1024 * 1024
+                    ) {
+
+                        showMessage(
+                            "Resume file must be smaller than 20 MB.",
+                            "error"
+                        );
+
+                        return;
+                    }
+                }
+
+
+                // ==================================
+                // CREATE FORM DATA
+                // ==================================
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "name",
+                    name
+                );
+
+
+                formData.append(
+                    "email",
+                    email
+                );
+
+
+                formData.append(
+                    "phone",
+                    phone
+                );
+
+
+                formData.append(
+                    "branch",
+                    branch
+                );
+
+
+                formData.append(
+                    "cgpa",
+                    cgpaValue
+                );
+
+
+                // Add resume only if
+                // a new resume was selected
+
+                if (resume) {
+
+                    formData.append(
+                        "resume",
+                        resume
+                    );
+                }
+
+
+                // ==================================
+                // UPDATE BUTTON
+                // ==================================
+
+                const button =
+                    document.querySelector(
+                        ".update-btn"
+                    );
+
+
+                button.disabled = true;
+
+                button.textContent =
+                    "Updating...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/students/" +
+                            encodeURIComponent(
+                                studentId
+                            ),
+                            {
+                                method: "PUT",
+
+                                body: formData,
+
+                                credentials:
+                                    "same-origin"
+                            }
+                        );
+
+
+                    if (!response.ok) {
+
+                        let errorText = "";
+
+                        try {
+
+                            errorText =
+                                await response.text();
+
+                        } catch (e) {
+
+                            errorText = "";
+                        }
+
+
+                        throw new Error(
+                            errorText ||
+                            "Unable to update student."
+                        );
+                    }
+
+
+                    // ==================================
+                    // SUCCESS
+                    // ==================================
+
+                    showMessage(
+                        "Student updated successfully!",
+                        "success"
+                    );
+
+
+                    setTimeout(
+                        function () {
+
+                            window.location.href =
+                                "/student-details.html?id=" +
+                                encodeURIComponent(
+                                    studentId
+                                );
+
+                        },
+                        1000
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Update student error:",
+                        error
+                    );
+
+
+                    showMessage(
+                        error.message ||
+                        "Failed to update student.",
+                        "error"
+                    );
+
+
+                    button.disabled = false;
+
+                    button.textContent =
+                        "Update Student";
+                }
+
+            }
+        );
+
+
+    // ==========================================
+    // BACK
+    // ==========================================
+
+    function goBack() {
+
+        if (!studentId) {
+
+            window.location.href =
+                "/students.html";
+
+            return;
+        }
+
+
+        window.location.href =
+            "/student-details.html?id=" +
+            encodeURIComponent(
+                studentId
+            );
+    }
+
+
+    // ==========================================
+    // MESSAGE
+    // ==========================================
+
+    function showMessage(
+        text,
+        type
+    ) {
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        message.textContent =
+            text;
+
+
+        message.className =
+            type === "success"
+                ? "success"
+                : "error";
+    }
+
+</script>
+
+
+</body>
+
+</html>

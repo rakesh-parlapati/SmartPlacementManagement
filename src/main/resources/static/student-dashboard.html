@@ -1,0 +1,2086 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Student Dashboard | SPMS</title>
+
+    <!-- COMMON AUTHENTICATION + GLOBAL THEME -->
+    <script src="/JS/auth.js"></script>
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* =====================================================
+           BODY
+        ===================================================== */
+
+        body {
+            background: #f4f6f8;
+            color: #333;
+
+            transition:
+                background 0.3s ease,
+                color 0.3s ease;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        nav {
+            background: #1f3c88;
+            color: white;
+
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        nav h2 {
+            font-size: 24px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        nav button {
+            border: none;
+
+            padding: 9px 18px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           THEME BUTTON
+        ===================================================== */
+
+        .theme-btn {
+            background: #343a40;
+            color: white;
+        }
+
+        .theme-btn:hover {
+            background: #495057;
+        }
+
+
+        /* =====================================================
+           LOGOUT BUTTON
+        ===================================================== */
+
+        .logout-btn {
+            background: white;
+            color: #1f3c88;
+        }
+
+        .logout-btn:hover {
+            background: #e9ecef;
+        }
+
+
+        /* =====================================================
+           CONTAINER
+        ===================================================== */
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+
+            margin: 35px auto;
+        }
+
+
+        /* =====================================================
+           WELCOME
+        ===================================================== */
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            color: #1f3c88;
+
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+
+        /* =====================================================
+           PROFILE
+        ===================================================== */
+
+        .profile-card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 25px;
+
+            transition:
+                background 0.3s ease,
+                color 0.3s ease;
+        }
+
+        .profile-card h2 {
+            color: #1f3c88;
+
+            margin-bottom: 20px;
+        }
+
+        .profile-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+        }
+
+        .profile-item {
+            background: #f8f9fa;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            transition:
+                background 0.3s ease,
+                color 0.3s ease;
+        }
+
+        .profile-item strong {
+            display: block;
+
+            color: #666;
+
+            font-size: 13px;
+
+            margin-bottom: 6px;
+        }
+
+        .profile-item span {
+            font-weight: bold;
+
+            color: #333;
+        }
+
+
+        /* =====================================================
+           DASHBOARD ACTIONS
+        ===================================================== */
+
+        .dashboard-actions {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            border: none;
+
+            padding: 16px;
+
+            border-radius: 8px;
+
+            background: #1f3c88;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+
+            transform: translateY(-2px);
+        }
+
+        .recommended-btn {
+            background: #198754;
+        }
+
+        .application-btn {
+            background: #6f42c1;
+        }
+
+
+        /* =====================================================
+           STATISTICS
+        ===================================================== */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.08);
+
+            text-align: center;
+
+            transition:
+                background 0.3s ease,
+                color 0.3s ease;
+        }
+
+        .stat-card h3 {
+            color: #666;
+
+            font-size: 14px;
+
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 30px;
+
+            font-weight: bold;
+
+            color: #1f3c88;
+        }
+
+
+        /* =====================================================
+           STATUS CARDS
+        ===================================================== */
+
+        .status-section {
+            margin-bottom: 30px;
+        }
+
+        .status-section h2 {
+            color: #1f3c88;
+
+            margin-bottom: 18px;
+        }
+
+        .status-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+        .status-card {
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.08);
+
+            text-align: center;
+
+            transition:
+                background 0.3s ease,
+                color 0.3s ease;
+        }
+
+        .status-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .status-card .number {
+            font-size: 30px;
+
+            font-weight: bold;
+        }
+
+        .pending {
+            color: #856404;
+        }
+
+        .approved {
+            color: #155724;
+        }
+
+        .rejected {
+            color: #721c24;
+        }
+
+
+        /* =====================================================
+           RECENT APPLICATIONS
+        ===================================================== */
+
+        .applications-section {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.08);
+
+            transition:
+                background 0.3s ease,
+                color 0.3s ease;
+        }
+
+        .applications-section h2 {
+            color: #1f3c88;
+
+            margin-bottom: 20px;
+        }
+
+        .application-card {
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            padding: 18px;
+
+            margin-bottom: 15px;
+
+            transition:
+                background 0.3s ease,
+                border-color 0.3s ease,
+                color 0.3s ease;
+        }
+
+        .application-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .application-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 15px;
+        }
+
+        .application-header h3 {
+            color: #1f3c88;
+        }
+
+
+        /* =====================================================
+           STATUS BADGES
+        ===================================================== */
+
+        .status-badge {
+            padding: 6px 12px;
+
+            border-radius: 15px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+        .badge-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-approved {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .badge-rejected {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+
+        /* =====================================================
+           APPLICATION DETAILS
+        ===================================================== */
+
+        .application-details {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+        }
+
+        .detail {
+            font-size: 14px;
+        }
+
+        .detail strong {
+            color: #666;
+        }
+
+
+        /* =====================================================
+           RESUME
+        ===================================================== */
+
+        .resume-link {
+            display: inline-block;
+
+            margin-top: 15px;
+
+            text-decoration: none;
+
+            color: #1f3c88;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           MESSAGE
+        ===================================================== */
+
+        .message {
+            margin-top: 12px;
+
+            padding: 10px;
+
+            background: #f8f9fa;
+
+            border-radius: 6px;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           EMPTY / LOADING / ERROR
+        ===================================================== */
+
+        .empty {
+            text-align: center;
+
+            padding: 30px;
+
+            color: #777;
+        }
+
+        .loading {
+            text-align: center;
+
+            padding: 30px;
+
+            color: #666;
+        }
+
+        .error {
+            color: #b00020;
+
+            text-align: center;
+
+            margin: 20px 0;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           GLOBAL DARK MODE
+           
+           IMPORTANT:
+           auth.js adds "dark-mode" to BODY.
+        ===================================================== */
+
+        body.dark-mode {
+            background: #121212;
+            color: #e9ecef;
+        }
+
+        body.dark-mode nav {
+            background: #0b1736;
+        }
+
+        body.dark-mode .welcome h1 {
+            color: #6ea8fe;
+        }
+
+        body.dark-mode .welcome p {
+            color: #adb5bd;
+        }
+
+        body.dark-mode .profile-card,
+        body.dark-mode .stat-card,
+        body.dark-mode .status-card,
+        body.dark-mode .applications-section {
+            background: #1e1e1e;
+            color: #e9ecef;
+        }
+
+        body.dark-mode .profile-card h2,
+        body.dark-mode .status-section h2,
+        body.dark-mode .applications-section h2 {
+            color: #6ea8fe;
+        }
+
+        body.dark-mode .profile-item {
+            background: #2a2a2a;
+        }
+
+        body.dark-mode .profile-item strong,
+        body.dark-mode .stat-card h3,
+        body.dark-mode .detail strong {
+            color: #adb5bd;
+        }
+
+        body.dark-mode .profile-item span {
+            color: #f1f3f5;
+        }
+
+        body.dark-mode .stat-number {
+            color: #6ea8fe;
+        }
+
+        body.dark-mode .application-card {
+            border-color: #444;
+
+            background: #1e1e1e;
+        }
+
+        body.dark-mode .application-header h3 {
+            color: #6ea8fe;
+        }
+
+        body.dark-mode .message {
+            background: #2a2a2a;
+
+            color: #dee2e6;
+        }
+
+        body.dark-mode .empty,
+        body.dark-mode .loading {
+            color: #adb5bd;
+        }
+
+        body.dark-mode .resume-link {
+            color: #6ea8fe;
+        }
+
+        body.dark-mode .error {
+            color: #ff6b6b;
+        }
+
+        body.dark-mode .pending {
+            color: #ffd43b;
+        }
+
+        body.dark-mode .approved {
+            color: #69db7c;
+        }
+
+        body.dark-mode .rejected {
+            color: #ff8787;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .profile-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .dashboard-actions {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .application-details {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 15px 20px;
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            nav h2 {
+                font-size: 20px;
+            }
+
+            .nav-buttons {
+                width: 100%;
+
+                gap: 6px;
+            }
+
+            nav button {
+                flex: 1;
+
+                padding: 8px 10px;
+
+                font-size: 12px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .profile-grid,
+            .dashboard-actions,
+            .stats,
+            .application-details {
+                grid-template-columns: 1fr;
+            }
+
+            .application-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 10px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ===================================================== -->
+
+    <nav>
+
+        <h2>
+            SPMS Student
+        </h2>
+
+        <div class="nav-buttons">
+
+            <!-- GLOBAL THEME -->
+
+            <button
+                type="button"
+                class="theme-btn"
+                id="themeButton"
+                onclick="toggleDarkMode()">
+
+                🌙 Dark Mode
+
+            </button>
+
+
+            <!-- LOGOUT -->
+
+            <button
+                type="button"
+                class="logout-btn"
+                onclick="logout()">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN CONTAINER
+    ===================================================== -->
+
+    <div class="container">
+
+
+        <!-- =================================================
+             WELCOME
+        ================================================= -->
+
+        <div class="welcome">
+
+            <h1 id="welcomeMessage">
+                Welcome Student
+            </h1>
+
+            <p>
+                Manage your profile, companies,
+                applications and placement activities.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             PROFILE
+        ================================================= -->
+
+        <div class="profile-card">
+
+            <h2>
+                My Profile
+            </h2>
+
+            <div class="profile-grid">
+
+
+                <div class="profile-item">
+
+                    <strong>
+                        Name
+                    </strong>
+
+                    <span id="studentName">
+                        Loading...
+                    </span>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <strong>
+                        Email
+                    </strong>
+
+                    <span id="studentEmail">
+                        Loading...
+                    </span>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <strong>
+                        Branch
+                    </strong>
+
+                    <span id="studentBranch">
+                        Loading...
+                    </span>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <strong>
+                        CGPA
+                    </strong>
+
+                    <span id="studentCgpa">
+                        Loading...
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             DASHBOARD ACTIONS
+        ================================================= -->
+
+        <div class="dashboard-actions">
+
+
+            <button
+                type="button"
+                class="action-btn"
+                onclick="openPage('profile.html')">
+
+                My Profile
+
+            </button>
+
+
+            <button
+                type="button"
+                class="action-btn"
+                onclick="openPage('companies.html')">
+
+                Browse Companies
+
+            </button>
+
+
+            <button
+                type="button"
+                class="action-btn recommended-btn"
+                onclick="openPage('recommended-companies.html')">
+
+                Recommended Companies
+
+            </button>
+
+
+            <button
+                type="button"
+                class="action-btn application-btn"
+                onclick="openPage('my-applications.html')">
+
+                My Applications
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             MAIN STATISTICS
+        ================================================= -->
+
+        <div class="stats">
+
+
+            <div class="stat-card">
+
+                <h3>
+                    Companies Applied
+                </h3>
+
+                <div
+                    class="stat-number"
+                    id="companyCount">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>
+                    My Applications
+                </h3>
+
+                <div
+                    class="stat-number"
+                    id="applicationCount">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>
+                    My CGPA
+                </h3>
+
+                <div
+                    class="stat-number"
+                    id="cgpaValue">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>
+                    Recommended Companies
+                </h3>
+
+                <div
+                    class="stat-number"
+                    id="recommendedCount">
+
+                    0
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             APPLICATION STATUS
+        ================================================= -->
+
+        <div class="status-section">
+
+            <h2>
+                Application Status
+            </h2>
+
+            <div class="status-grid">
+
+
+                <div class="status-card">
+
+                    <h3>
+                        Pending
+                    </h3>
+
+                    <div
+                        class="number pending"
+                        id="pendingCount">
+
+                        0
+
+                    </div>
+
+                </div>
+
+
+                <div class="status-card">
+
+                    <h3>
+                        Approved
+                    </h3>
+
+                    <div
+                        class="number approved"
+                        id="approvedCount">
+
+                        0
+
+                    </div>
+
+                </div>
+
+
+                <div class="status-card">
+
+                    <h3>
+                        Rejected
+                    </h3>
+
+                    <div
+                        class="number rejected"
+                        id="rejectedCount">
+
+                        0
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             RECENT APPLICATIONS
+        ================================================= -->
+
+        <div class="applications-section">
+
+            <h2>
+                Recent Applications
+            </h2>
+
+            <div id="applicationsContainer">
+
+                <div class="loading">
+                    Loading applications...
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ERROR
+        ================================================= -->
+
+        <div
+            id="errorMessage"
+            class="error">
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         DASHBOARD JAVASCRIPT
+    ===================================================== -->
+
+    <script>
+
+
+        /* ==================================================
+           STUDENT ACCESS PROTECTION
+        ================================================== */
+
+        if (!requireStudent()) {
+
+            throw new Error(
+                "Unauthorized access"
+            );
+
+        }
+
+
+        /* ==================================================
+           STUDENT ID
+        ================================================== */
+
+        const studentId =
+            getStudentId();
+
+
+        console.log(
+            "Logged-in Student ID:",
+            studentId
+        );
+
+
+        if (!studentId) {
+
+            alert(
+                "Student ID not found. Please login again."
+            );
+
+            window.location.href =
+                "/login.html";
+
+        }
+
+
+        /* ==================================================
+           OPEN PAGE
+        ================================================== */
+
+        function openPage(page) {
+
+            window.location.href =
+                page;
+
+        }
+
+
+        /* ==================================================
+           LOAD STUDENT
+        ================================================== */
+
+        async function loadStudent() {
+
+            const errorMessage =
+                document.getElementById(
+                    "errorMessage"
+                );
+
+
+            try {
+
+                console.log(
+                    "Fetching student:",
+                    `/students/${studentId}`
+                );
+
+
+                const response =
+                    await fetch(
+                        `/students/${studentId}`,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Accept":
+                                    "application/json"
+                            },
+
+                            credentials:
+                                "same-origin"
+                        }
+                    );
+
+
+                console.log(
+                    "Student API status:",
+                    response.status
+                );
+
+
+                if (!response.ok) {
+
+                    const errorText =
+                        await response.text();
+
+                    console.error(
+                        "Student API error:",
+                        errorText
+                    );
+
+                    throw new Error(
+                        `Student API returned ${response.status}`
+                    );
+                }
+
+
+                const student =
+                    await response.json();
+
+
+                console.log(
+                    "Student data:",
+                    student
+                );
+
+
+                /* ==========================================
+                   WELCOME
+                ========================================== */
+
+                document.getElementById(
+                    "welcomeMessage"
+                ).textContent =
+                    `Welcome, ${student.name || "Student"}`;
+
+
+                /* ==========================================
+                   NAME
+                ========================================== */
+
+                document.getElementById(
+                    "studentName"
+                ).textContent =
+                    student.name || "N/A";
+
+
+                /* ==========================================
+                   EMAIL
+                ========================================== */
+
+                document.getElementById(
+                    "studentEmail"
+                ).textContent =
+                    student.email || "N/A";
+
+
+                /* ==========================================
+                   BRANCH
+                ========================================== */
+
+                document.getElementById(
+                    "studentBranch"
+                ).textContent =
+                    student.branch ||
+                    "Not Available";
+
+
+                /* ==========================================
+                   CGPA
+                ========================================== */
+
+                const cgpa =
+                    Number(student.cgpa);
+
+
+                document.getElementById(
+                    "studentCgpa"
+                ).textContent =
+
+                    !isNaN(cgpa)
+                        ? cgpa.toFixed(2)
+                        : "N/A";
+
+
+                document.getElementById(
+                    "cgpaValue"
+                ).textContent =
+
+                    !isNaN(cgpa)
+                        ? cgpa.toFixed(2)
+                        : "N/A";
+
+
+                /* ==========================================
+                   UPDATE LOCAL STORAGE
+                ========================================== */
+
+                if (student.name) {
+
+                    localStorage.setItem(
+                        "studentName",
+                        student.name
+                    );
+
+                }
+
+
+                if (student.email) {
+
+                    localStorage.setItem(
+                        "studentEmail",
+                        student.email
+                    );
+
+                }
+
+
+                return student;
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "loadStudent() failed:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "studentName"
+                ).textContent =
+                    "Unable to load";
+
+
+                document.getElementById(
+                    "studentEmail"
+                ).textContent =
+                    "Unable to load";
+
+
+                document.getElementById(
+                    "studentBranch"
+                ).textContent =
+                    "Unable to load";
+
+
+                document.getElementById(
+                    "studentCgpa"
+                ).textContent =
+                    "Unable to load";
+
+
+                document.getElementById(
+                    "cgpaValue"
+                ).textContent =
+                    "N/A";
+
+
+                errorMessage.textContent =
+                    "Unable to load student profile. Student ID: "
+                    + studentId;
+
+
+                throw error;
+
+            }
+
+        }
+
+
+        /* ==================================================
+           LOAD APPLICATIONS
+        ================================================== */
+
+        async function loadApplications(student) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/applications",
+                        {
+                            credentials:
+                                "same-origin"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to load applications"
+                    );
+
+                }
+
+
+                const allApplications =
+                    await response.json();
+
+
+                const studentApplications =
+                    allApplications
+
+                        .filter(function(app) {
+
+                            return (
+
+                                app.studentEmail &&
+
+                                student.email &&
+
+                                app.studentEmail
+                                    .toLowerCase() ===
+                                student.email
+                                    .toLowerCase()
+
+                            );
+
+                        })
+
+                        .sort(function(a, b) {
+
+                            return (
+
+                                new Date(
+                                    b.applicationDate || 0
+                                ) -
+
+                                new Date(
+                                    a.applicationDate || 0
+                                )
+
+                            );
+
+                        });
+
+
+                /* ==========================================
+                   APPLICATION COUNT
+                ========================================== */
+
+                document.getElementById(
+                    "applicationCount"
+                ).textContent =
+                    studentApplications.length;
+
+
+                /* ==========================================
+                   COMPANY COUNT
+                ========================================== */
+
+                const companyNames =
+                    new Set(
+
+                        studentApplications.map(
+                            app =>
+                                app.companyName
+                        )
+
+                    );
+
+
+                document.getElementById(
+                    "companyCount"
+                ).textContent =
+                    companyNames.size;
+
+
+                /* ==========================================
+                   STATUS COUNTS
+                ========================================== */
+
+                const pending =
+                    studentApplications.filter(
+
+                        app =>
+                            (app.status || "Pending")
+                                .toLowerCase() ===
+                            "pending"
+
+                    ).length;
+
+
+                const approved =
+                    studentApplications.filter(
+
+                        app =>
+                            (app.status || "")
+                                .toLowerCase() ===
+                            "approved"
+
+                    ).length;
+
+
+                const rejected =
+                    studentApplications.filter(
+
+                        app =>
+                            (app.status || "")
+                                .toLowerCase() ===
+                            "rejected"
+
+                    ).length;
+
+
+                document.getElementById(
+                    "pendingCount"
+                ).textContent =
+                    pending;
+
+
+                document.getElementById(
+                    "approvedCount"
+                ).textContent =
+                    approved;
+
+
+                document.getElementById(
+                    "rejectedCount"
+                ).textContent =
+                    rejected;
+
+
+                /* ==========================================
+                   RECENT APPLICATIONS
+                ========================================== */
+
+                displayRecentApplications(
+                    studentApplications.slice(0, 3)
+                );
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Application loading error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "applicationsContainer"
+                ).innerHTML = `
+
+                    <div class="empty">
+
+                        Unable to load applications.
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        /* ==================================================
+           LOAD RECOMMENDED COMPANIES
+        ================================================== */
+
+        async function loadRecommendedCompanies(student) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/companies",
+                        {
+                            credentials:
+                                "same-origin"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to load companies"
+                    );
+
+                }
+
+
+                const companies =
+                    await response.json();
+
+
+                const checks =
+                    await Promise.all(
+
+                        companies.map(
+                            async function(company) {
+
+                                try {
+
+                                    const result =
+                                        await fetch(
+                                            `/companies/${company.id}/eligibility/${student.id}`,
+                                            {
+                                                credentials:
+                                                    "same-origin"
+                                            }
+                                        );
+
+
+                                    if (!result.ok) {
+
+                                        return false;
+
+                                    }
+
+
+                                    const data =
+                                        await result.json();
+
+
+                                    return (
+                                        data.eligible === true
+                                    );
+
+                                }
+
+
+                                catch (error) {
+
+                                    console.error(
+                                        "Eligibility check failed:",
+                                        error
+                                    );
+
+                                    return false;
+
+                                }
+
+                            }
+                        )
+
+                    );
+
+
+                const recommendedCount =
+                    checks.filter(
+                        value =>
+                            value === true
+                    ).length;
+
+
+                document.getElementById(
+                    "recommendedCount"
+                ).textContent =
+                    recommendedCount;
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Recommended companies error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "recommendedCount"
+                ).textContent =
+                    "0";
+
+            }
+
+        }
+
+
+        /* ==================================================
+           DISPLAY RECENT APPLICATIONS
+        ================================================== */
+
+        function displayRecentApplications(
+            applications
+        ) {
+
+            const container =
+                document.getElementById(
+                    "applicationsContainer"
+                );
+
+
+            if (
+                !applications ||
+                applications.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="empty">
+
+                        You have not applied to any company yet.
+
+                        <br>
+                        <br>
+
+                        <button
+                            type="button"
+                            class="action-btn"
+                            onclick="openPage('companies.html')">
+
+                            Browse Companies
+
+                        </button>
+
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            container.innerHTML =
+                applications.map(function(app) {
+
+
+                    const status =
+                        app.status ||
+                        "Pending";
+
+
+                    const statusClass =
+                        status.toLowerCase();
+
+
+                    const percentage =
+                        (
+                            Number(
+                                app.cgpa || 0
+                            ) * 10
+                        ).toFixed(1);
+
+
+                    return `
+
+                        <div class="application-card">
+
+
+                            <div class="application-header">
+
+                                <h3>
+
+                                    ${escapeHTML(
+                                        app.companyName ||
+                                        "Unknown Company"
+                                    )}
+
+                                </h3>
+
+
+                                <span
+                                    class="status-badge badge-${statusClass}">
+
+                                    ${escapeHTML(
+                                        status
+                                    )}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="application-details">
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        Application ID:
+                                    </strong>
+
+                                    ${escapeHTML(
+                                        String(
+                                            app.id ||
+                                            "N/A"
+                                        )
+                                    )}
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        Student:
+                                    </strong>
+
+                                    ${escapeHTML(
+                                        app.studentName ||
+                                        "N/A"
+                                    )}
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        Email:
+                                    </strong>
+
+                                    ${escapeHTML(
+                                        app.studentEmail ||
+                                        "N/A"
+                                    )}
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        Phone:
+                                    </strong>
+
+                                    ${escapeHTML(
+                                        app.phone ||
+                                        "N/A"
+                                    )}
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        CGPA:
+                                    </strong>
+
+                                    ${Number(
+                                        app.cgpa || 0
+                                    ).toFixed(2)}
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        Percentage:
+                                    </strong>
+
+                                    ${percentage}%
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <strong>
+                                        Application Date:
+                                    </strong>
+
+                                    ${formatDate(
+                                        app.applicationDate
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                            ${
+                                app.resume
+                                    ? `
+
+                                        <a
+                                            class="resume-link"
+                                            href="/applications/${app.id}/resume"
+                                            target="_blank"
+                                            rel="noopener noreferrer">
+
+                                            View Resume
+
+                                        </a>
+
+                                    `
+                                    : ""
+                            }
+
+
+                            <div class="message">
+
+                                ${getStatusMessage(
+                                    status
+                                )}
+
+                            </div>
+
+
+                        </div>
+
+                    `;
+
+                }).join("");
+
+        }
+
+
+        /* ==================================================
+           STATUS MESSAGE
+        ================================================== */
+
+        function getStatusMessage(status) {
+
+            const value =
+                String(status)
+                    .toLowerCase();
+
+
+            if (value === "approved") {
+
+                return (
+                    "Congratulations! Your application has been approved."
+                );
+
+            }
+
+
+            if (value === "rejected") {
+
+                return (
+                    "Your application was rejected by the administrator."
+                );
+
+            }
+
+
+            return (
+                "Your application is currently under review."
+            );
+
+        }
+
+
+        /* ==================================================
+           DATE FORMAT
+        ================================================== */
+
+        function formatDate(dateValue) {
+
+            if (!dateValue) {
+
+                return "N/A";
+
+            }
+
+
+            const date =
+                new Date(dateValue);
+
+
+            if (
+                isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return "N/A";
+
+            }
+
+
+            return date.toLocaleString(
+                "en-IN",
+                {
+                    day: "2-digit",
+
+                    month: "2-digit",
+
+                    year: "numeric",
+
+                    hour: "2-digit",
+
+                    minute: "2-digit"
+                }
+            );
+
+        }
+
+
+        /* ==================================================
+           HTML ESCAPE
+        ================================================== */
+
+        function escapeHTML(value) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        /* ==================================================
+           LOGOUT
+        ================================================== */
+
+        function logout() {
+
+            logoutUser();
+
+        }
+
+
+        /* ==================================================
+           INITIALIZE DASHBOARD
+        ================================================== */
+
+        async function initializeDashboard() {
+
+            try {
+
+                const student =
+                    await loadStudent();
+
+
+                await Promise.all([
+
+                    loadApplications(
+                        student
+                    ),
+
+                    loadRecommendedCompanies(
+                        student
+                    )
+
+                ]);
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Dashboard initialization error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /* ==================================================
+           START
+        ================================================== */
+
+        initializeDashboard();
+
+    </script>
+
+</body>
+
+</html>
+
