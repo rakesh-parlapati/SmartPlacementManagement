@@ -1,8 +1,9 @@
-
 package com.placement.smartplacementmanagement.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import org.springframework.http.HttpMethod;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -55,7 +56,6 @@ public class SecurityConfig {
                     "/favicon.ico"
                 ).permitAll()
 
-
                 // =========================
                 // PUBLIC AUTH APIs
                 // =========================
@@ -67,6 +67,13 @@ public class SecurityConfig {
                     "/auth/reset-password"
                 ).permitAll()
 
+                // =========================
+                // STUDENT REGISTRATION
+                // =========================
+                .requestMatchers(
+                    HttpMethod.POST,
+                    "/students"
+                ).permitAll()
 
                 // =========================
                 // COMPANIES
@@ -76,7 +83,6 @@ public class SecurityConfig {
                     "/companies/**"
                 ).authenticated()
 
-
                 // =========================
                 // STUDENTS
                 // =========================
@@ -85,7 +91,6 @@ public class SecurityConfig {
                     "/students/**"
                 ).authenticated()
 
-
                 // =========================
                 // APPLICATIONS
                 // =========================
@@ -93,7 +98,6 @@ public class SecurityConfig {
                     "/applications",
                     "/applications/**"
                 ).authenticated()
-
 
                 // =========================
                 // EVERYTHING ELSE
@@ -104,4 +108,3 @@ public class SecurityConfig {
         return http.build();
     }
 }
-
