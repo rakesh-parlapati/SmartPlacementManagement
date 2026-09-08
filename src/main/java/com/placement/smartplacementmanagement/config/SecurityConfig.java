@@ -1,3 +1,4 @@
+
 package com.placement.smartplacementmanagement.config;
 
 import org.springframework.context.annotation.Bean;
@@ -19,9 +20,7 @@ public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
 
-    public SecurityConfig(
-            UserDetailsService userDetailsService) {
-
+    public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -68,6 +67,15 @@ public class SecurityConfig {
                 ).permitAll()
 
                 // =========================
+                // PASSWORD RESET APIs
+                // =========================
+                .requestMatchers(
+                    "/api/password/forgot",
+                    "/api/password/verify-otp",
+                    "/api/password/reset"
+                ).permitAll()
+
+                // =========================
                 // STUDENT REGISTRATION
                 // =========================
                 .requestMatchers(
@@ -108,3 +116,4 @@ public class SecurityConfig {
         return http.build();
     }
 }
+
