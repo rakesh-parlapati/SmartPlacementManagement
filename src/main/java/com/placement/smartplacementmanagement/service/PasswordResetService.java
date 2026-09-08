@@ -1,3 +1,4 @@
+
 package com.placement.smartplacementmanagement.service;
 
 import java.security.SecureRandom;
@@ -23,8 +24,9 @@ public class PasswordResetService {
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
 
-    @Value("${spring.mail.username}")
-    private String mailUsername;
+    // Brevo SMTP verified sender email
+    @Value("${MAIL_FROM}")
+    private String mailFrom;
 
     private final SecureRandom secureRandom = new SecureRandom();
 
@@ -43,7 +45,6 @@ public class PasswordResetService {
     // =========================
     // GENERATE AND SEND OTP
     // =========================
-
     @Transactional
     public boolean generateOtp(String email) {
 
@@ -53,6 +54,7 @@ public class PasswordResetService {
 
         email = email.trim().toLowerCase();
 
+        // Find student
         Student student = studentRepository.findByEmail(email);
 
         if (student == null) {
@@ -83,14 +85,12 @@ public class PasswordResetService {
         passwordResetTokenRepository.save(resetToken);
 
         // =========================
-        // SEND EMAIL
+        // SEND OTP EMAIL
         // =========================
-
         SimpleMailMessage message = new SimpleMailMessage();
 
-        // IMPORTANT:
-        // Use the VERIFIED Brevo sender email
-        message.setFrom("parlapatirakeshrakesh@gmail.com");
+        // Use verified Brevo sender
+        message.setFrom(mailFrom);
 
         message.setTo(email);
 
@@ -108,19 +108,32 @@ public class PasswordResetService {
                 + "Smart Placement Management System"
         );
 
-        mailSender.send(message);
+        try {
 
-        System.out.println(
-                "Password reset OTP email sent to: " + email
-        );
+            mailSender.send(message);
 
-        return true;
+            System.out.println(
+                    "Password reset OTP email sent successfully to: "
+                    + email
+            );
+
+            return true;
+
+        } catch (Exception e) {
+
+            System.err.println(
+                    "Failed to send password reset OTP email."
+            );
+
+            e.printStackTrace();
+
+            return false;
+        }
     }
 
     // =========================
     // VERIFY OTP
     // =========================
-
     @Transactional
     public boolean verifyOtp(String email, String otp) {
 
@@ -145,6 +158,7 @@ public class PasswordResetService {
                 .isAfter(resetToken.getExpiresAt())) {
 
             passwordResetTokenRepository.delete(resetToken);
+
             return false;
         }
 
@@ -152,6 +166,7 @@ public class PasswordResetService {
         if (resetToken.getAttempts() >= 5) {
 
             passwordResetTokenRepository.delete(resetToken);
+
             return false;
         }
 
@@ -185,7 +200,6 @@ public class PasswordResetService {
     // =========================
     // RESET PASSWORD
     // =========================
-
     @Transactional
     public boolean resetPassword(
             String email,
@@ -217,6 +231,7 @@ public class PasswordResetService {
                 .isAfter(resetToken.getExpiresAt())) {
 
             passwordResetTokenRepository.delete(resetToken);
+
             return false;
         }
 
@@ -255,3 +270,4 @@ public class PasswordResetService {
         return true;
     }
 }
+
