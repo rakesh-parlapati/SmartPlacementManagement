@@ -37,6 +37,7 @@ public class SecurityConfig {
             HttpSecurity http) throws Exception {
 
         http
+            // Disable CSRF because the application uses REST APIs
             .csrf(csrf -> csrf.disable())
 
             .userDetailsService(userDetailsService)
@@ -44,7 +45,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
 
                 // =========================
-                // PUBLIC FRONTEND FILES
+                // PUBLIC STATIC FILES
                 // =========================
                 .requestMatchers(
                     "/",
@@ -56,23 +57,25 @@ public class SecurityConfig {
                 ).permitAll()
 
                 // =========================
-                // PUBLIC AUTH APIs
+                // LOGIN / LOGOUT
                 // =========================
                 .requestMatchers(
                     "/auth/login",
-                    "/auth/logout",
-                    "/auth/forgot-password",
-                    "/auth/verify-otp",
-                    "/auth/reset-password"
+                    "/auth/logout"
                 ).permitAll()
 
                 // =========================
-                // PASSWORD RESET APIs
+                // PASSWORD RESET
                 // =========================
                 .requestMatchers(
-                    "/api/password/forgot",
-                    "/api/password/verify-otp",
-                    "/api/password/reset"
+                    "/api/password/**"
+                ).permitAll()
+
+                // Keep old password endpoints public too
+                .requestMatchers(
+                    "/auth/forgot-password",
+                    "/auth/verify-otp",
+                    "/auth/reset-password"
                 ).permitAll()
 
                 // =========================
