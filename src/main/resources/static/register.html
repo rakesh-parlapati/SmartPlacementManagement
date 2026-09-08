@@ -1,388 +1,494 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Student Registration | SPMS</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<!-- GLOBAL AUTH + THEME -->
-<script src="/JS/auth.js"></script>
+    <title>Student Registration | SPMS</title>
 
-<style>
+    <!-- GLOBAL AUTH + THEME -->
+    <script src="/JS/auth.js"></script>
 
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
+    <style>
 
-    body {
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-        background: #f4f6f9;
-
-        padding: 30px 15px;
-
-        transition:
-            background 0.3s ease,
-            color 0.3s ease;
-    }
-
-    /* ================================
-       REGISTER CONTAINER
-    ================================= */
-
-    .register-container {
-        width: 100%;
-        max-width: 500px;
-
-        background: white;
-
-        padding: 35px;
-
-        border-radius: 12px;
-
-        box-shadow:
-            0 5px 20px rgba(0, 0, 0, 0.10);
-
-        position: relative;
-
-        transition:
-            background 0.3s ease,
-            box-shadow 0.3s ease;
-    }
-
-    /* ================================
-       THEME BUTTON
-    ================================= */
-
-    .theme-btn {
-        position: absolute;
-
-        top: 15px;
-        right: 15px;
-
-        border: none;
-
-        background: #eff6ff;
-        color: #2563eb;
-
-        padding: 8px 12px;
-
-        border-radius: 8px;
-
-        cursor: pointer;
-
-        font-size: 12px;
-        font-weight: bold;
-
-        transition: 0.25s;
-    }
-
-    .theme-btn:hover {
-        background: #dbeafe;
-    }
-
-    /* ================================
-       TITLE
-    ================================= */
-
-    .title {
-        text-align: center;
-
-        margin-top: 20px;
-        margin-bottom: 8px;
-
-        color: #2563eb;
-    }
-
-    .subtitle {
-        text-align: center;
-
-        color: #64748b;
-
-        margin-bottom: 25px;
-
-        font-size: 14px;
-    }
-
-    /* ================================
-       FORM
-    ================================= */
-
-    .form-group {
-        margin-bottom: 18px;
-    }
-
-    label {
-        display: block;
-
-        margin-bottom: 7px;
-
-        font-weight: bold;
-
-        color: #334155;
-    }
-
-    input {
-        width: 100%;
-
-        padding: 12px;
-
-        border: 1px solid #cbd5e1;
-
-        border-radius: 6px;
-
-        font-size: 15px;
-
-        background: white;
-        color: #1e293b;
-
-        transition: 0.25s;
-    }
-
-    input:focus {
-        outline: none;
-
-        border-color: #2563eb;
-
-        box-shadow:
-            0 0 0 3px rgba(37, 99, 235, 0.10);
-    }
-
-    /* ================================
-       PASSWORD
-    ================================= */
-
-    .password-wrapper {
-        position: relative;
-    }
-
-    .password-wrapper input {
-        padding-right: 50px;
-    }
-
-    .view-password {
-        position: absolute;
-
-        right: 10px;
-        top: 50%;
-
-        transform: translateY(-50%);
-
-        border: none;
-
-        background: transparent;
-
-        cursor: pointer;
-
-        font-size: 18px;
-
-        padding: 5px;
-    }
-
-    /* ================================
-       REGISTER BUTTON
-    ================================= */
-
-    .register-btn {
-        width: 100%;
-
-        padding: 13px;
-
-        border: none;
-
-        border-radius: 6px;
-
-        background: #2563eb;
-
-        color: white;
-
-        font-size: 16px;
-
-        font-weight: bold;
-
-        cursor: pointer;
-
-        margin-top: 8px;
-
-        transition: 0.25s;
-    }
-
-    .register-btn:hover {
-        background: #1d4ed8;
-
-        transform: translateY(-1px);
-
-        box-shadow:
-            0 6px 15px rgba(37, 99, 235, 0.20);
-    }
-
-    .register-btn:disabled {
-        background: #94a3b8;
-
-        cursor: not-allowed;
-
-        transform: none;
-
-        box-shadow: none;
-    }
-
-    /* ================================
-       MESSAGE
-    ================================= */
-
-    .message {
-        text-align: center;
-
-        margin-top: 18px;
-
-        min-height: 20px;
-
-        font-weight: bold;
-
-        font-size: 14px;
-    }
-
-    /* ================================
-       LOGIN LINK
-    ================================= */
-
-    .login-link {
-        text-align: center;
-
-        margin-top: 22px;
-
-        padding-top: 18px;
-
-        border-top: 1px solid #e2e8f0;
-    }
-
-    .login-link p {
-        color: #64748b;
-
-        font-size: 14px;
-    }
-
-    .login-link a {
-        color: #2563eb;
-
-        text-decoration: none;
-
-        font-weight: bold;
-    }
-
-    .login-link a:hover {
-        text-decoration: underline;
-    }
-
-    /* ================================
-       DARK MODE
-    ================================= */
-
-    body.dark-mode {
-        background: #0f172a;
-        color: #e2e8f0;
-    }
-
-    body.dark-mode .register-container {
-        background: #1e293b;
-
-        box-shadow:
-            0 10px 35px rgba(0, 0, 0, 0.45);
-    }
-
-    body.dark-mode .title {
-        color: #60a5fa;
-    }
-
-    body.dark-mode .subtitle {
-        color: #94a3b8;
-    }
-
-    body.dark-mode label {
-        color: #e2e8f0;
-    }
-
-    body.dark-mode input {
-        background: #0f172a;
-
-        color: #e2e8f0;
-
-        border-color: #475569;
-    }
-
-    body.dark-mode input::placeholder {
-        color: #94a3b8;
-    }
-
-    body.dark-mode input:focus {
-        border-color: #60a5fa;
-
-        box-shadow:
-            0 0 0 3px rgba(96, 165, 250, 0.15);
-    }
-
-    body.dark-mode .theme-btn {
-        background: #334155;
-
-        color: #facc15;
-    }
-
-    body.dark-mode .theme-btn:hover {
-        background: #475569;
-    }
-
-    body.dark-mode .login-link {
-        border-top-color: #475569;
-    }
-
-    body.dark-mode .login-link p {
-        color: #94a3b8;
-    }
-
-    body.dark-mode .login-link a {
-        color: #60a5fa;
-    }
-
-    /* ================================
-       MOBILE
-    ================================= */
-
-    @media (max-width: 500px) {
+        /* ================================
+           BODY
+        ================================= */
 
         body {
-            padding: 20px 12px;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            background: #f4f6f9;
+
+            padding: 30px 15px;
+
+            transition:
+                background 0.3s ease,
+                color 0.3s ease;
         }
+
+        /* ================================
+           REGISTER CONTAINER
+        ================================= */
 
         .register-container {
-            padding: 30px 22px;
+
+            width: 100%;
+
+            max-width: 500px;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.10);
+
+            position: relative;
+
+            transition:
+                background 0.3s ease,
+                box-shadow 0.3s ease;
         }
 
-        .title {
-            font-size: 24px;
-        }
+        /* ================================
+           THEME BUTTON
+        ================================= */
 
         .theme-btn {
-            top: 12px;
-            right: 12px;
+
+            position: absolute;
+
+            top: 15px;
+
+            right: 15px;
+
+            border: none;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            padding: 8px 12px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            transition: 0.25s;
         }
-    }
 
-</style>
+        .theme-btn:hover {
 
+            background: #dbeafe;
+        }
+
+        /* ================================
+           TITLE
+        ================================= */
+
+        .title {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            margin-bottom: 8px;
+
+            color: #2563eb;
+        }
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #64748b;
+
+            margin-bottom: 25px;
+
+            font-size: 14px;
+        }
+
+        /* ================================
+           FORM
+        ================================= */
+
+        .form-group {
+
+            margin-bottom: 18px;
+        }
+
+        label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+
+            color: #334155;
+        }
+
+        input {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            background: white;
+
+            color: #1e293b;
+
+            transition: 0.25s;
+        }
+
+        input:focus {
+
+            outline: none;
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        /* ================================
+           BRANCH DROPDOWN
+        ================================= */
+
+        select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            background: white;
+
+            color: #1e293b;
+
+            transition: 0.25s;
+
+            cursor: pointer;
+        }
+
+        select:focus {
+
+            outline: none;
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        /* ================================
+           PASSWORD
+        ================================= */
+
+        .password-wrapper {
+
+            position: relative;
+        }
+
+        .password-wrapper input {
+
+            padding-right: 50px;
+        }
+
+        .view-password {
+
+            position: absolute;
+
+            right: 10px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+            padding: 5px;
+        }
+
+        /* ================================
+           REGISTER BUTTON
+        ================================= */
+
+        .register-btn {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 8px;
+
+            transition: 0.25s;
+        }
+
+        .register-btn:hover {
+
+            background: #1d4ed8;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 6px 15px rgba(37, 99, 235, 0.20);
+        }
+
+        .register-btn:disabled {
+
+            background: #94a3b8;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+            box-shadow: none;
+        }
+
+        /* ================================
+           MESSAGE
+        ================================= */
+
+        .message {
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            min-height: 20px;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+        /* ================================
+           LOGIN LINK
+        ================================= */
+
+        .login-link {
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            padding-top: 18px;
+
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .login-link p {
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        .login-link a {
+
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+
+            text-decoration: underline;
+        }
+
+        /* ================================
+           DARK MODE
+        ================================= */
+
+        body.dark-mode {
+
+            background: #0f172a;
+
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .register-container {
+
+            background: #1e293b;
+
+            box-shadow:
+                0 10px 35px rgba(0, 0, 0, 0.45);
+        }
+
+        body.dark-mode .title {
+
+            color: #60a5fa;
+        }
+
+        body.dark-mode .subtitle {
+
+            color: #94a3b8;
+        }
+
+        body.dark-mode label {
+
+            color: #e2e8f0;
+        }
+
+        body.dark-mode input {
+
+            background: #0f172a;
+
+            color: #e2e8f0;
+
+            border-color: #475569;
+        }
+
+        body.dark-mode input::placeholder {
+
+            color: #94a3b8;
+        }
+
+        body.dark-mode input:focus {
+
+            border-color: #60a5fa;
+
+            box-shadow:
+                0 0 0 3px rgba(96, 165, 250, 0.15);
+        }
+
+        body.dark-mode select {
+
+            background: #0f172a;
+
+            color: #e2e8f0;
+
+            border-color: #475569;
+        }
+
+        body.dark-mode select:focus {
+
+            border-color: #60a5fa;
+
+            box-shadow:
+                0 0 0 3px rgba(96, 165, 250, 0.15);
+        }
+
+        body.dark-mode .theme-btn {
+
+            background: #334155;
+
+            color: #facc15;
+        }
+
+        body.dark-mode .theme-btn:hover {
+
+            background: #475569;
+        }
+
+        body.dark-mode .login-link {
+
+            border-top-color: #475569;
+        }
+
+        body.dark-mode .login-link p {
+
+            color: #94a3b8;
+        }
+
+        body.dark-mode .login-link a {
+
+            color: #60a5fa;
+        }
+
+        /* ================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 500px) {
+
+            body {
+
+                padding: 20px 12px;
+            }
+
+            .register-container {
+
+                padding: 30px 22px;
+            }
+
+            .title {
+
+                font-size: 24px;
+            }
+
+            .theme-btn {
+
+                top: 12px;
+
+                right: 12px;
+            }
+        }
+
+    </style>
 
 </head>
 
 <body>
-
 
 <div class="register-container">
 
@@ -391,16 +497,25 @@
         type="button"
         class="theme-btn"
         onclick="toggleDarkMode()">
+
         🌙 Dark Mode
+
     </button>
 
+
     <h2 class="title">
+
         Student Registration
+
     </h2>
 
+
     <p class="subtitle">
+
         Create your account for Smart Placement Management System
+
     </p>
+
 
     <!-- ================================
          REGISTRATION FORM
@@ -408,12 +523,15 @@
 
     <form id="registerForm">
 
+
         <!-- STUDENT NAME -->
 
         <div class="form-group">
 
             <label for="name">
+
                 Student Name
+
             </label>
 
             <input
@@ -430,7 +548,9 @@
         <div class="form-group">
 
             <label for="email">
+
                 Email Address
+
             </label>
 
             <input
@@ -447,7 +567,9 @@
         <div class="form-group">
 
             <label for="phone">
+
                 Phone Number
+
             </label>
 
             <input
@@ -462,12 +584,71 @@
         </div>
 
 
+        <!-- ================================
+             BRANCH
+        ================================= -->
+
+        <div class="form-group">
+
+            <label for="branch">
+
+                Branch
+
+            </label>
+
+            <select
+                id="branch"
+                required>
+
+                <option value="">
+                    Select your branch
+                </option>
+
+                <option value="ECE">
+                    Electronics & Communication Engineering (ECE)
+                </option>
+
+                <option value="CSE">
+                    Computer Science & Engineering (CSE)
+                </option>
+
+                <option value="EEE">
+                    Electrical & Electronics Engineering (EEE)
+                </option>
+
+                <option value="ME">
+                    Mechanical Engineering (ME)
+                </option>
+
+                <option value="CE">
+                    Civil Engineering (CE)
+                </option>
+
+                <option value="IT">
+                    Information Technology (IT)
+                </option>
+
+                <option value="AI & DS">
+                    Artificial Intelligence & Data Science (AI & DS)
+                </option>
+
+                <option value="AI & ML">
+                    Artificial Intelligence & Machine Learning (AI & ML)
+                </option>
+
+            </select>
+
+        </div>
+
+
         <!-- PASSWORD -->
 
         <div class="form-group">
 
             <label for="password">
+
                 Password
+
             </label>
 
             <div class="password-wrapper">
@@ -497,7 +678,9 @@
         <div class="form-group">
 
             <label for="confirmPassword">
+
                 Confirm Password
+
             </label>
 
             <div class="password-wrapper">
@@ -527,7 +710,9 @@
         <div class="form-group">
 
             <label for="cgpa">
+
                 CGPA
+
             </label>
 
             <input
@@ -547,7 +732,9 @@
         <div class="form-group">
 
             <label for="resume">
+
                 Resume (PDF)
+
             </label>
 
             <input
@@ -578,6 +765,7 @@
     <div
         id="message"
         class="message">
+
     </div>
 
 
@@ -590,7 +778,9 @@
             Already have an account?
 
             <a href="/login.html">
+
                 Login Here
+
             </a>
 
         </p>
@@ -664,6 +854,16 @@
                         .trim();
 
 
+                // ==================================
+                // BRANCH
+                // ==================================
+
+                const branch =
+                    document
+                        .getElementById("branch")
+                        .value;
+
+
                 const password =
                     document
                         .getElementById("password")
@@ -707,6 +907,22 @@
                 // ==================================
 
                 message.textContent = "";
+
+
+                // ==================================
+                // BRANCH VALIDATION
+                // ==================================
+
+                if (!branch) {
+
+                    message.textContent =
+                        "Please select your branch.";
+
+                    message.style.color =
+                        "#dc2626";
+
+                    return;
+                }
 
 
                 // ==================================
@@ -818,25 +1034,36 @@
                     name
                 );
 
+
                 formData.append(
                     "email",
                     email
                 );
+
 
                 formData.append(
                     "phone",
                     phone
                 );
 
+
+                formData.append(
+                    "branch",
+                    branch
+                );
+
+
                 formData.append(
                     "password",
                     password
                 );
 
+
                 formData.append(
                     "cgpa",
                     cgpa
                 );
+
 
                 formData.append(
                     "resume",
@@ -867,10 +1094,7 @@
                             "/students",
                             {
                                 method: "POST",
-
-                                credentials:
-                                    "same-origin",
-
+                                credentials: "same-origin",
                                 body: formData
                             }
                         );
@@ -951,7 +1175,6 @@
         );
 
 </script>
-
 
 </body>
 

@@ -1,11 +1,14 @@
-
 package com.placement.smartplacementmanagement.service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.placement.smartplacementmanagement.entity.PasswordResetToken;
 import com.placement.smartplacementmanagement.entity.Student;
@@ -18,43 +21,55 @@ public class PasswordResetService {
     private final StudentRepository studentRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}")
+    private String mailUsername;
 
     private final SecureRandom secureRandom = new SecureRandom();
 
     public PasswordResetService(
             StudentRepository studentRepository,
             PasswordResetTokenRepository passwordResetTokenRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            JavaMailSender mailSender) {
 
         this.studentRepository = studentRepository;
         this.passwordResetTokenRepository = passwordResetTokenRepository;
         this.passwordEncoder = passwordEncoder;
+        this.mailSender = mailSender;
     }
 
-    public String generateOtp(String email) {
+    // =========================
+    // GENERATE AND SEND OTP
+    // =========================
+
+    @Transactional
+    public boolean generateOtp(String email) {
+
+        if (email == null || email.trim().isEmpty()) {
+            return false;
+        }
 
         email = email.trim().toLowerCase();
 
         Student student = studentRepository.findByEmail(email);
 
         if (student == null) {
-            return null;
+            return false;
         }
 
-        // Remove any previous OTP
+        // Delete old OTP
         passwordResetTokenRepository.deleteByEmail(email);
 
         // Generate 6-digit OTP
-        int otpNumber =
-                100000 + secureRandom.nextInt(900000);
-
+        int otpNumber = 100000 + secureRandom.nextInt(900000);
         String otp = String.valueOf(otpNumber);
 
-        // Store only hashed OTP
-        String otpHash =
-                passwordEncoder.encode(otp);
+        // Store hashed OTP
+        String otpHash = passwordEncoder.encode(otp);
 
-        // OTP valid for 5 minutes
+        // OTP expires after 5 minutes
         LocalDateTime expiresAt =
                 LocalDateTime.now().plusMinutes(5);
 
@@ -67,34 +82,54 @@ public class PasswordResetService {
 
         passwordResetTokenRepository.save(resetToken);
 
-        // For testing: OTP appears in Eclipse console
-        System.out.println(
-                "=========================================="
-        );
-        System.out.println(
-                "SPMS PASSWORD RESET OTP"
-        );
-        System.out.println(
-                "Email: " + email
-        );
-        System.out.println(
-                "OTP: " + otp
-        );
-        System.out.println(
-                "Expires: " + expiresAt
-        );
-        System.out.println(
-                "=========================================="
+        // =========================
+        // SEND EMAIL
+        // =========================
+
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        // IMPORTANT:
+        // Use the VERIFIED Brevo sender email
+        message.setFrom("parlapatirakeshrakesh@gmail.com");
+
+        message.setTo(email);
+
+        message.setSubject("SPMS Password Reset OTP");
+
+        message.setText(
+                "Hello,\n\n"
+                + "Your Smart Placement Management System "
+                + "password reset OTP is:\n\n"
+                + otp
+                + "\n\nThis OTP is valid for 5 minutes."
+                + "\n\nIf you did not request a password reset, "
+                + "please ignore this email."
+                + "\n\nRegards,\n"
+                + "Smart Placement Management System"
         );
 
-        return otp;
+        mailSender.send(message);
+
+        System.out.println(
+                "Password reset OTP email sent to: " + email
+        );
+
+        return true;
     }
 
-    public boolean verifyOtp(
-            String email,
-            String otp) {
+    // =========================
+    // VERIFY OTP
+    // =========================
+
+    @Transactional
+    public boolean verifyOtp(String email, String otp) {
+
+        if (email == null || otp == null) {
+            return false;
+        }
 
         email = email.trim().toLowerCase();
+        otp = otp.trim();
 
         PasswordResetToken resetToken =
                 passwordResetTokenRepository
@@ -105,12 +140,11 @@ public class PasswordResetService {
             return false;
         }
 
-        // Check expiry
+        // Check expiration
         if (LocalDateTime.now()
                 .isAfter(resetToken.getExpiresAt())) {
 
             passwordResetTokenRepository.delete(resetToken);
-
             return false;
         }
 
@@ -118,7 +152,6 @@ public class PasswordResetService {
         if (resetToken.getAttempts() >= 5) {
 
             passwordResetTokenRepository.delete(resetToken);
-
             return false;
         }
 
@@ -149,12 +182,26 @@ public class PasswordResetService {
         return false;
     }
 
+    // =========================
+    // RESET PASSWORD
+    // =========================
+
+    @Transactional
     public boolean resetPassword(
             String email,
             String otp,
             String newPassword) {
 
+        if (email == null ||
+            otp == null ||
+            newPassword == null ||
+            newPassword.trim().isEmpty()) {
+
+            return false;
+        }
+
         email = email.trim().toLowerCase();
+        otp = otp.trim();
 
         PasswordResetToken resetToken =
                 passwordResetTokenRepository
@@ -165,12 +212,11 @@ public class PasswordResetService {
             return false;
         }
 
-        // Check expiry
+        // Check expiration
         if (LocalDateTime.now()
                 .isAfter(resetToken.getExpiresAt())) {
 
             passwordResetTokenRepository.delete(resetToken);
-
             return false;
         }
 
@@ -187,6 +233,7 @@ public class PasswordResetService {
             return false;
         }
 
+        // Find student
         Student student =
                 studentRepository.findByEmail(email);
 
@@ -194,17 +241,17 @@ public class PasswordResetService {
             return false;
         }
 
-        // Hash the new password
+        // Encode new password
         student.setPassword(
                 passwordEncoder.encode(newPassword)
         );
 
+        // Save student
         studentRepository.save(student);
 
-        // Delete used reset token
+        // Delete used OTP
         passwordResetTokenRepository.delete(resetToken);
 
         return true;
     }
 }
-

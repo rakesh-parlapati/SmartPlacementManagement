@@ -1,4 +1,3 @@
-
 package com.placement.smartplacementmanagement.controller;
 
 import java.io.IOException;
@@ -213,11 +212,8 @@ public class StudentController {
 
             @RequestParam("cgpa") Double cgpa,
 
-            @RequestParam(
-                    value = "branch",
-                    required = false
-            )
-            String branch,
+            // BRANCH IS NOW REQUIRED
+            @RequestParam("branch") String branch,
 
             @RequestParam("resume") MultipartFile resume)
 
@@ -256,6 +252,20 @@ public class StudentController {
                     .badRequest()
                     .body(
                             "Phone number must contain exactly 10 digits"
+                    );
+        }
+
+        // ==========================================
+        // CHECK BRANCH
+        // ==========================================
+
+        if (branch == null ||
+                branch.trim().isEmpty()) {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(
+                            "Branch is required"
                     );
         }
 
@@ -375,13 +385,9 @@ public class StudentController {
         // SET BRANCH
         // ==========================================
 
-        if (branch != null &&
-                !branch.trim().isEmpty()) {
-
-            student.setBranch(
-                    branch.trim()
-            );
-        }
+        student.setBranch(
+                branch.trim()
+        );
 
         // ==========================================
         // SAVE STUDENT
@@ -561,9 +567,6 @@ public class StudentController {
         // ==========================================
         // STUDENT EMAIL SECURITY
         // ==========================================
-        // Students cannot change their login email.
-        // If student sends no email, existing email remains.
-        // Admin can change email.
 
         if (!isAdmin()) {
 
@@ -584,17 +587,13 @@ public class StudentController {
                         );
             }
 
-            // NEVER change student's email
             email = student.getEmail();
 
         } else {
 
-            // Admin
-
             if (email == null ||
                     email.trim().isEmpty()) {
 
-                // Keep existing email if admin did not send one.
                 email = student.getEmail();
 
             } else {
@@ -638,10 +637,6 @@ public class StudentController {
         // ==========================================
         // PASSWORD
         // ==========================================
-        // Student profile does NOT send password.
-        // Therefore existing password remains unchanged.
-        //
-        // Admin can still update password if supplied.
 
         if (isAdmin() &&
                 password != null &&
@@ -963,4 +958,3 @@ public class StudentController {
         );
     }
 }
-
