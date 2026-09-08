@@ -1,8 +1,8 @@
-
 package com.placement.smartplacementmanagement.service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -24,7 +24,6 @@ public class PasswordResetService {
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
 
-    // Brevo SMTP verified sender email
     @Value("${MAIL_FROM}")
     private String mailFrom;
 
@@ -42,9 +41,10 @@ public class PasswordResetService {
         this.mailSender = mailSender;
     }
 
-    // =========================
-    // GENERATE AND SEND OTP
-    // =========================
+    // =========================================================
+    // GENERATE OTP AND SEND EMAIL
+    // =========================================================
+
     @Transactional
     public boolean generateOtp(String email) {
 
@@ -61,14 +61,14 @@ public class PasswordResetService {
             return false;
         }
 
-        // Delete old OTP
+        // Delete previous OTP
         passwordResetTokenRepository.deleteByEmail(email);
 
-        // Generate 6-digit OTP
+        // Generate 6 digit OTP
         int otpNumber = 100000 + secureRandom.nextInt(900000);
         String otp = String.valueOf(otpNumber);
 
-        // Store hashed OTP
+        // Hash OTP before storing
         String otpHash = passwordEncoder.encode(otp);
 
         // OTP expires after 5 minutes
@@ -82,18 +82,17 @@ public class PasswordResetService {
                         expiresAt
                 );
 
+        // Save OTP immediately
         passwordResetTokenRepository.save(resetToken);
 
-        // =========================
-        // SEND OTP EMAIL
-        // =========================
+        // =====================================================
+        // PREPARE EMAIL
+        // =====================================================
+
         SimpleMailMessage message = new SimpleMailMessage();
 
-        // Use verified Brevo sender
         message.setFrom(mailFrom);
-
         message.setTo(email);
-
         message.setSubject("SPMS Password Reset OTP");
 
         message.setText(
@@ -108,32 +107,46 @@ public class PasswordResetService {
                 + "Smart Placement Management System"
         );
 
-        try {
+        // =====================================================
+        // SEND EMAIL IN BACKGROUND
+        // =====================================================
 
-            mailSender.send(message);
+        final String recipientEmail = email;
 
-            System.out.println(
-                    "Password reset OTP email sent successfully to: "
-                    + email
-            );
+        CompletableFuture.runAsync(() -> {
 
-            return true;
+            try {
 
-        } catch (Exception e) {
+                mailSender.send(message);
 
-            System.err.println(
-                    "Failed to send password reset OTP email."
-            );
+                System.out.println(
+                        "Password reset OTP email sent successfully to: "
+                        + recipientEmail
+                );
 
-            e.printStackTrace();
+            } catch (Exception e) {
 
-            return false;
-        }
+                System.err.println(
+                        "Failed to send password reset OTP email to: "
+                        + recipientEmail
+                );
+
+                e.printStackTrace();
+            }
+
+        });
+
+        // =====================================================
+        // RETURN IMMEDIATELY
+        // =====================================================
+
+        return true;
     }
 
-    // =========================
+    // =========================================================
     // VERIFY OTP
-    // =========================
+    // =========================================================
+
     @Transactional
     public boolean verifyOtp(String email, String otp) {
 
@@ -158,7 +171,6 @@ public class PasswordResetService {
                 .isAfter(resetToken.getExpiresAt())) {
 
             passwordResetTokenRepository.delete(resetToken);
-
             return false;
         }
 
@@ -166,7 +178,6 @@ public class PasswordResetService {
         if (resetToken.getAttempts() >= 5) {
 
             passwordResetTokenRepository.delete(resetToken);
-
             return false;
         }
 
@@ -175,7 +186,7 @@ public class PasswordResetService {
             return true;
         }
 
-        // Increase attempt count
+        // Increase attempts
         resetToken.setAttempts(
                 resetToken.getAttempts() + 1
         );
@@ -197,9 +208,10 @@ public class PasswordResetService {
         return false;
     }
 
-    // =========================
+    // =========================================================
     // RESET PASSWORD
-    // =========================
+    // =========================================================
+
     @Transactional
     public boolean resetPassword(
             String email,
@@ -231,11 +243,10 @@ public class PasswordResetService {
                 .isAfter(resetToken.getExpiresAt())) {
 
             passwordResetTokenRepository.delete(resetToken);
-
             return false;
         }
 
-        // OTP must be verified first
+        // OTP must be verified
         if (!resetToken.isVerified()) {
             return false;
         }
@@ -270,4 +281,3 @@ public class PasswordResetService {
         return true;
     }
 }
-
