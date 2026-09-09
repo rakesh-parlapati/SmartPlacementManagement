@@ -528,477 +528,242 @@
 </div>
 
 
+```html
 <script>
-
     // ==========================================
     // SHOW / HIDE PASSWORD
     // ==========================================
-
     function togglePassword(fieldId, button) {
-
-        const field =
-            document.getElementById(fieldId);
+        const field = document.getElementById(fieldId);
 
         if (field.type === "password") {
-
             field.type = "text";
             button.textContent = "🙈";
-
         } else {
-
             field.type = "password";
             button.textContent = "👁";
         }
     }
 
-
     // ==========================================
     // REGISTRATION
     // ==========================================
+    document.getElementById("registerForm").addEventListener(
+        "submit",
+        async function (event) {
 
-    document
-        .getElementById("registerForm")
-        .addEventListener(
-            "submit",
-            async function(event) {
+            event.preventDefault();
 
-                event.preventDefault();
+            const name =
+                document.getElementById("name").value.trim();
 
+            const email =
+                document.getElementById("email").value.trim();
 
-                // ==================================
-                // GET FORM VALUES
-                // ==================================
+            const phone =
+                document.getElementById("phone").value.trim();
 
-                const name =
-                    document
-                        .getElementById("name")
-                        .value
-                        .trim();
+            const branch =
+                document.getElementById("branch").value;
 
-                const email =
-                    document
-                        .getElementById("email")
-                        .value
-                        .trim();
+            const password =
+                document.getElementById("password").value;
 
-                const phone =
-                    document
-                        .getElementById("phone")
-                        .value
-                        .trim();
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
 
-                const branch =
-                    document
-                        .getElementById("branch")
-                        .value;
+            const cgpa =
+                parseFloat(
+                    document.getElementById("cgpa").value
+                );
 
-                const password =
-                    document
-                        .getElementById("password")
-                        .value;
+            const resumeInput =
+                document.getElementById("resume");
 
-                const confirmPassword =
-                    document
-                        .getElementById("confirmPassword")
-                        .value;
+            const resume =
+                resumeInput.files[0];
 
-                const cgpa =
-                    parseFloat(
-                        document
-                            .getElementById("cgpa")
-                            .value
+            const message =
+                document.getElementById("message");
+
+            const registerBtn =
+                document.getElementById("registerBtn");
+
+            message.textContent = "";
+            message.style.color = "#dc2626";
+
+            // ==========================================
+            // VALIDATION
+            // ==========================================
+
+            if (!name) {
+                message.textContent = "Please enter your name.";
+                return;
+            }
+
+            if (!email) {
+                message.textContent = "Please enter your email.";
+                return;
+            }
+
+            if (!/^[0-9]{10}$/.test(phone)) {
+                message.textContent =
+                    "Phone number must contain exactly 10 digits.";
+                return;
+            }
+
+            if (!branch) {
+                message.textContent =
+                    "Please select your branch.";
+                return;
+            }
+
+            if (password.length < 6) {
+                message.textContent =
+                    "Password must contain at least 6 characters.";
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                message.textContent =
+                    "Passwords do not match.";
+                return;
+            }
+
+            if (isNaN(cgpa) || cgpa < 0 || cgpa > 10) {
+                message.textContent =
+                    "CGPA must be between 0 and 10.";
+                return;
+            }
+
+            if (!resume) {
+                message.textContent =
+                    "Please select your resume.";
+                return;
+            }
+
+            if (!resume.name.toLowerCase().endsWith(".pdf")) {
+                message.textContent =
+                    "Only PDF resume is allowed.";
+                return;
+            }
+
+            // ==========================================
+            // FORM DATA
+            // ==========================================
+
+            const formData = new FormData();
+
+            formData.append("name", name);
+            formData.append("email", email);
+            formData.append("phone", phone);
+            formData.append("branch", branch);
+            formData.append("password", password);
+            formData.append("cgpa", cgpa.toString());
+            formData.append("resume", resume);
+
+            // ==========================================
+            // IMPORTANT
+            // ==========================================
+
+            const apiUrl =
+                "https://smartplacementmanagement-4.onrender.com/students";
+
+            console.log("Registration API:", apiUrl);
+
+            registerBtn.disabled = true;
+            registerBtn.textContent = "Registering...";
+            message.textContent = "Please wait...";
+            message.style.color = "#2563eb";
+
+            // ==========================================
+            // SEND REQUEST
+            // ==========================================
+
+            try {
+
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    body: formData
+                });
+
+                const responseText =
+                    await response.text();
+
+                console.log(
+                    "HTTP Status:",
+                    response.status
+                );
+
+                console.log(
+                    "Server Response:",
+                    responseText
+                );
+
+                // ==========================================
+                // SERVER ERROR
+                // ==========================================
+
+                if (!response.ok) {
+
+                    let errorMessage = responseText;
+
+                    if (!errorMessage ||
+                        errorMessage.trim() === "") {
+
+                        errorMessage =
+                            "Registration failed.";
+                    }
+
+                    throw new Error(
+                        "Server error (" +
+                        response.status +
+                        "): " +
+                        errorMessage
                     );
-
-                const resumeInput =
-                    document.getElementById("resume");
-
-                const resume =
-                    resumeInput.files[0];
-
-                const message =
-                    document.getElementById("message");
-
-                const registerBtn =
-                    document.getElementById("registerBtn");
-
-
-                // ==================================
-                // CLEAR MESSAGE
-                // ==================================
-
-                message.textContent = "";
-                message.style.color = "#dc2626";
-
-
-                // ==================================
-                // BASIC VALIDATION
-                // ==================================
-
-                if (!name) {
-
-                    message.textContent =
-                        "Please enter your name.";
-
-                    return;
                 }
 
-
-                if (!email) {
-
-                    message.textContent =
-                        "Please enter your email.";
-
-                    return;
-                }
-
-
-                // ==================================
-                // BRANCH VALIDATION
-                // ==================================
-
-                if (!branch) {
-
-                    message.textContent =
-                        "Please select your branch.";
-
-                    return;
-                }
-
-
-                // ==================================
-                // PHONE VALIDATION
-                // ==================================
-
-                if (!/^[0-9]{10}$/.test(phone)) {
-
-                    message.textContent =
-                        "Phone number must contain exactly 10 digits.";
-
-                    return;
-                }
-
-
-                // ==================================
-                // PASSWORD VALIDATION
-                // ==================================
-
-                if (password.length < 6) {
-
-                    message.textContent =
-                        "Password must contain at least 6 characters.";
-
-                    return;
-                }
-
-
-                if (password !== confirmPassword) {
-
-                    message.textContent =
-                        "Passwords do not match.";
-
-                    return;
-                }
-
-
-                // ==================================
-                // CGPA VALIDATION
-                // ==================================
-
-                if (
-                    isNaN(cgpa) ||
-                    cgpa < 0 ||
-                    cgpa > 10
-                ) {
-
-                    message.textContent =
-                        "CGPA must be between 0 and 10.";
-
-                    return;
-                }
-
-
-                // ==================================
-                // RESUME VALIDATION
-                // ==================================
-
-                if (!resume) {
-
-                    message.textContent =
-                        "Please select your resume.";
-
-                    return;
-                }
-
-
-                if (
-                    !resume.name
-                        .toLowerCase()
-                        .endsWith(".pdf")
-                ) {
-
-                    message.textContent =
-                        "Only PDF resume is allowed.";
-
-                    return;
-                }
-
-
-                // ==================================
-                // FORM DATA
-                // ==================================
-
-                const formData =
-                    new FormData();
-
-                formData.append(
-                    "name",
-                    name
-                );
-
-                formData.append(
-                    "email",
-                    email
-                );
-
-                formData.append(
-                    "phone",
-                    phone
-                );
-
-                formData.append(
-                    "branch",
-                    branch
-                );
-
-                formData.append(
-                    "password",
-                    password
-                );
-
-                formData.append(
-                    "cgpa",
-                    cgpa.toString()
-                );
-
-                formData.append(
-                    "resume",
-                    resume
-                );
-
-
-                // ==================================
-                // DISABLE BUTTON
-                // ==================================
-
-                registerBtn.disabled = true;
-
-                registerBtn.textContent =
-                    "Registering...";
+                // ==========================================
+                // SUCCESS
+                // ==========================================
 
                 message.textContent =
-                    "Please wait...";
+                    "Registration successful! ✓";
 
-                message.style.color =
-                    "#2563eb";
+                message.style.color = "#16a34a";
 
+                document
+                    .getElementById("registerForm")
+                    .reset();
 
-                // ==================================
-                // SEND REQUEST
-                // ==================================
+                setTimeout(function () {
 
-                try {
+                    window.location.href =
+                        "/login.html";
 
-                    /*
-                     * IMPORTANT:
-                     *
-                     * Use the current website origin.
-                     *
-                     * This automatically creates:
-                     *
-                     * https://smartplacementmanagement-4.onrender.com/students
-                     *
-                     * on your deployed website.
-                     */
+                }, 1500);
 
-                    const apiUrl =
-                        window.location.origin + "/students";
+            } catch (error) {
 
-                    console.log(
-                        "Registration URL:",
-                        apiUrl
-                    );
+                console.error(
+                    "Registration error:",
+                    error
+                );
 
+                message.textContent =
+                    error.message ||
+                    "Unable to connect to the server.";
 
-                    const response =
-                        await fetch(
-                            apiUrl,
-                            {
-                                method: "POST",
-                                body: formData
-                            }
-                        );
+                message.style.color = "#dc2626";
 
-
-                    // ==================================
-                    // READ SERVER RESPONSE
-                    // ==================================
-
-                    const responseText =
-                        await response.text();
-
-
-                    console.log(
-                        "Registration HTTP Status:",
-                        response.status
-                    );
-
-                    console.log(
-                        "Registration Server Response:",
-                        responseText
-                    );
-
-
-                    // ==================================
-                    // SERVER ERROR
-                    // ==================================
-
-                    if (!response.ok) {
-
-                        let errorMessage =
-                            responseText;
-
-
-                        /*
-                         * If Spring Boot returns JSON,
-                         * try to extract the useful message.
-                         */
-
-                        try {
-
-                            const errorJson =
-                                JSON.parse(responseText);
-
-
-                            if (errorJson.message) {
-
-                                errorMessage =
-                                    errorJson.message;
-
-                            } else if (errorJson.error) {
-
-                                errorMessage =
-                                    errorJson.error;
-                            }
-
-                        } catch (jsonError) {
-
-                            // Response was not JSON.
-                            // Keep original response text.
-                        }
-
-
-                        if (
-                            !errorMessage ||
-                            errorMessage.trim() === ""
-                        ) {
-
-                            errorMessage =
-                                "Registration failed.";
-                        }
-
-
-                        throw new Error(
-                            "Server error (" +
-                            response.status +
-                            "): " +
-                            errorMessage
-                        );
-                    }
-
-
-                    // ==================================
-                    // SUCCESS
-                    // ==================================
-
-                    message.textContent =
-                        "Registration successful! ✓";
-
-                    message.style.color =
-                        "#16a34a";
-
-
-                    document
-                        .getElementById("registerForm")
-                        .reset();
-
-
-                    // ==================================
-                    // REDIRECT TO LOGIN
-                    // ==================================
-
-                    setTimeout(
-                        function() {
-
-                            window.location.href =
-                                "/login.html";
-
-                        },
-                        1500
-                    );
-
-                }
-
-
-                // ==================================
-                // NETWORK / SERVER ERROR
-                // ==================================
-
-                catch (error) {
-
-                    console.error(
-                        "Registration error:",
-                        error
-                    );
-
-
-                    let displayMessage =
-                        error.message;
-
-
-                    /*
-                     * Mobile browsers commonly show
-                     * "Failed to fetch" when the request
-                     * cannot reach the server.
-                     */
-
-                    if (
-                        !displayMessage ||
-                        displayMessage.trim() === ""
-                    ) {
-
-                        displayMessage =
-                            "Unable to connect to the server. Please check your internet connection and try again.";
-                    }
-
-
-                    message.textContent =
-                        displayMessage;
-
-                    message.style.color =
-                        "#dc2626";
-
-
-                    registerBtn.disabled =
-                        false;
-
-                    registerBtn.textContent =
-                        "Register";
-                }
-
+                registerBtn.disabled = false;
+                registerBtn.textContent = "Register";
             }
-        );
-
+        }
+    );
 </script>
+
+
 
 </body>
 </html>
