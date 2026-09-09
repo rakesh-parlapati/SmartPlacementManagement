@@ -1,5 +1,6 @@
 
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -29,6 +30,7 @@
 
         body {
             min-height: 100vh;
+
             display: flex;
             justify-content: center;
             align-items: center;
@@ -42,10 +44,14 @@
             );
 
             background-size: 400% 400%;
-            animation: backgroundMove 12s ease infinite;
+
+            animation:
+                backgroundMove 12s ease infinite;
 
             padding: 20px;
+
             overflow-x: hidden;
+
             position: relative;
 
             transition:
@@ -78,8 +84,11 @@
 
         .background-circle {
             position: absolute;
+
             border-radius: 50%;
+
             pointer-events: none;
+
             z-index: 0;
         }
 
@@ -87,7 +96,8 @@
             width: 300px;
             height: 300px;
 
-            background: rgba(96, 165, 250, 0.22);
+            background:
+                rgba(96, 165, 250, 0.22);
 
             top: -100px;
             left: -100px;
@@ -100,7 +110,8 @@
             width: 350px;
             height: 350px;
 
-            background: rgba(147, 197, 253, 0.28);
+            background:
+                rgba(147, 197, 253, 0.28);
 
             right: -120px;
             bottom: -120px;
@@ -113,7 +124,8 @@
             width: 180px;
             height: 180px;
 
-            background: rgba(125, 211, 252, 0.20);
+            background:
+                rgba(125, 211, 252, 0.20);
 
             right: 20%;
             top: 8%;
@@ -171,8 +183,11 @@
 
         .particles {
             position: absolute;
+
             inset: 0;
+
             z-index: 1;
+
             pointer-events: none;
         }
 
@@ -182,7 +197,8 @@
             width: 5px;
             height: 5px;
 
-            background: rgba(37, 99, 235, 0.35);
+            background:
+                rgba(37, 99, 235, 0.35);
 
             border-radius: 50%;
 
@@ -279,9 +295,11 @@
 
         .register-container {
             width: 100%;
+
             max-width: 500px;
 
-            background: rgba(255, 255, 255, 0.97);
+            background:
+                rgba(255, 255, 255, 0.97);
 
             padding: 35px;
 
@@ -292,6 +310,7 @@
                 rgba(30, 64, 175, 0.18);
 
             position: relative;
+
             z-index: 5;
 
             animation:
@@ -332,14 +351,17 @@
             right: 15px;
 
             border: none;
+
             border-radius: 7px;
 
             background: #111827;
+
             color: white;
 
             padding: 8px 12px;
 
             font-size: 12px;
+
             font-weight: bold;
 
             cursor: pointer;
@@ -359,6 +381,7 @@
             text-align: center;
 
             margin-top: 20px;
+
             margin-bottom: 8px;
 
             color: #1e293b;
@@ -410,6 +433,7 @@
             font-size: 15px;
 
             background: white;
+
             color: #1e293b;
 
             outline: none;
@@ -447,6 +471,7 @@
             position: absolute;
 
             right: 10px;
+
             top: 50%;
 
             transform:
@@ -477,9 +502,11 @@
             border-radius: 9px;
 
             background: #3b82f6;
+
             color: white;
 
             font-size: 16px;
+
             font-weight: bold;
 
             cursor: pointer;
@@ -754,8 +781,6 @@
 
     <div class="register-container">
 
-        <!-- DARK MODE -->
-
         <button
             type="button"
             class="theme-btn"
@@ -782,9 +807,7 @@
         </p>
 
 
-        <!-- ==========================================
-             REGISTRATION FORM
-        =========================================== -->
+        <!-- REGISTRATION FORM -->
 
         <form
             id="registerForm"
@@ -798,9 +821,7 @@
             <div class="form-group">
 
                 <label for="name">
-
                     Student Name
-
                 </label>
 
                 <input
@@ -819,9 +840,7 @@
             <div class="form-group">
 
                 <label for="email">
-
                     Email Address
-
                 </label>
 
                 <input
@@ -840,9 +859,7 @@
             <div class="form-group">
 
                 <label for="phone">
-
                     Phone Number
-
                 </label>
 
                 <input
@@ -864,9 +881,7 @@
             <div class="form-group">
 
                 <label for="branch">
-
                     Branch
-
                 </label>
 
                 <select
@@ -875,57 +890,39 @@
                     required>
 
                     <option value="">
-
                         Select your branch
-
                     </option>
 
                     <option value="ECE">
-
                         Electronics & Communication Engineering (ECE)
-
                     </option>
 
                     <option value="CSE">
-
                         Computer Science & Engineering (CSE)
-
                     </option>
 
                     <option value="EEE">
-
                         Electrical & Electronics Engineering (EEE)
-
                     </option>
 
                     <option value="ME">
-
                         Mechanical Engineering (ME)
-
                     </option>
 
                     <option value="CE">
-
                         Civil Engineering (CE)
-
                     </option>
 
                     <option value="IT">
-
                         Information Technology (IT)
-
                     </option>
 
                     <option value="AI & DS">
-
                         Artificial Intelligence & Data Science (AI & DS)
-
                     </option>
 
                     <option value="AI & ML">
-
                         Artificial Intelligence & Machine Learning (AI & ML)
-
                     </option>
 
                 </select>
@@ -938,9 +935,7 @@
             <div class="form-group">
 
                 <label for="password">
-
                     Password
-
                 </label>
 
                 <div class="password-wrapper">
@@ -972,9 +967,7 @@
             <div class="form-group">
 
                 <label for="confirmPassword">
-
                     Confirm Password
-
                 </label>
 
                 <div class="password-wrapper">
@@ -1006,9 +999,7 @@
             <div class="form-group">
 
                 <label for="cgpa">
-
                     CGPA
-
                 </label>
 
                 <input
@@ -1030,9 +1021,7 @@
             <div class="form-group">
 
                 <label for="resume">
-
                     Resume (PDF)
-
                 </label>
 
                 <input
@@ -1076,9 +1065,7 @@
                 Already have an account?
 
                 <a href="/login.html">
-
                     Login Here
-
                 </a>
 
             </p>
@@ -1088,9 +1075,7 @@
     </div>
 
 
-    <!-- ==========================================
-         JAVASCRIPT
-    =========================================== -->
+    <!-- JAVASCRIPT -->
 
     <script>
 
@@ -1114,6 +1099,7 @@
                 field.type = "password";
 
                 button.textContent = "👁";
+
             }
         }
 
@@ -1135,24 +1121,16 @@
 
 
         // ==========================================
-        // REGISTRATION SUCCESS
+        // IMMEDIATE REDIRECT
         // ==========================================
 
-        if (success === "true") {
+        if (
+            success === "true" ||
+            existing === "true"
+        ) {
 
-            // Redirect immediately to login
             window.location.replace("/login.html");
-        }
 
-
-        // ==========================================
-        // EXISTING ACCOUNT
-        // ==========================================
-
-        if (existing === "true") {
-
-            // Redirect immediately to login
-            window.location.replace("/login.html");
         }
 
 
