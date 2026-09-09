@@ -901,14 +901,11 @@
             message.className =
                 "message error";
 
-            /*
-             * Redirect immediately — no delay
-             */
-            window.location.replace(
-                "/login.html"
-            );
+            // Keep message visible for 2 seconds
+            setTimeout(() => {
+                window.location.replace("/login.html");
+            }, 2000);
         }
-
     </script>
 
 </body>
