@@ -1,8 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
@@ -12,6 +15,7 @@
     <script src="/JS/auth.js"></script>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -267,6 +271,7 @@
         }
 
         @media (max-width: 500px) {
+
             body {
                 padding: 20px 12px;
                 align-items: flex-start;
@@ -296,8 +301,11 @@
                 min-height: 48px;
             }
         }
+
     </style>
+
 </head>
+
 
 <body>
 
@@ -308,22 +316,34 @@
         type="button"
         class="theme-btn"
         onclick="toggleDarkMode()">
+
         🌙 Dark Mode
+
     </button>
+
 
     <h2 class="title">
         Student Registration
     </h2>
 
+
     <p class="subtitle">
         Create your account for Smart Placement Management System
     </p>
 
+
     <!-- REGISTRATION FORM -->
-    <form id="registerForm">
+    <!-- IMPORTANT: Normal multipart form submission -->
+    <form
+        id="registerForm"
+        action="/students"
+        method="POST"
+        enctype="multipart/form-data">
+
 
         <!-- STUDENT NAME -->
         <div class="form-group">
+
             <label for="name">
                 Student Name
             </label>
@@ -331,13 +351,17 @@
             <input
                 type="text"
                 id="name"
+                name="name"
                 placeholder="Enter your name"
                 autocomplete="name"
                 required>
+
         </div>
+
 
         <!-- EMAIL -->
         <div class="form-group">
+
             <label for="email">
                 Email Address
             </label>
@@ -345,13 +369,17 @@
             <input
                 type="email"
                 id="email"
+                name="email"
                 placeholder="Enter your email"
                 autocomplete="email"
                 required>
+
         </div>
+
 
         <!-- PHONE -->
         <div class="form-group">
+
             <label for="phone">
                 Phone Number
             </label>
@@ -359,22 +387,27 @@
             <input
                 type="tel"
                 id="phone"
+                name="phone"
                 placeholder="Enter 10-digit phone number"
                 maxlength="10"
                 pattern="[0-9]{10}"
                 inputmode="numeric"
                 autocomplete="tel"
                 required>
+
         </div>
+
 
         <!-- BRANCH -->
         <div class="form-group">
+
             <label for="branch">
                 Branch
             </label>
 
             <select
                 id="branch"
+                name="branch"
                 required>
 
                 <option value="">
@@ -414,10 +447,13 @@
                 </option>
 
             </select>
+
         </div>
+
 
         <!-- PASSWORD -->
         <div class="form-group">
+
             <label for="password">
                 Password
             </label>
@@ -427,6 +463,7 @@
                 <input
                     type="password"
                     id="password"
+                    name="password"
                     placeholder="Enter password"
                     autocomplete="new-password"
                     required>
@@ -435,14 +472,19 @@
                     type="button"
                     class="view-password"
                     onclick="togglePassword('password', this)">
+
                     👁
+
                 </button>
 
             </div>
+
         </div>
+
 
         <!-- CONFIRM PASSWORD -->
         <div class="form-group">
+
             <label for="confirmPassword">
                 Confirm Password
             </label>
@@ -452,6 +494,7 @@
                 <input
                     type="password"
                     id="confirmPassword"
+                    name="confirmPassword"
                     placeholder="Confirm password"
                     autocomplete="new-password"
                     required>
@@ -460,14 +503,19 @@
                     type="button"
                     class="view-password"
                     onclick="togglePassword('confirmPassword', this)">
+
                     👁
+
                 </button>
 
             </div>
+
         </div>
+
 
         <!-- CGPA -->
         <div class="form-group">
+
             <label for="cgpa">
                 CGPA
             </label>
@@ -475,16 +523,20 @@
             <input
                 type="number"
                 id="cgpa"
+                name="cgpa"
                 min="0"
                 max="10"
                 step="0.01"
                 placeholder="Enter CGPA (0 - 10)"
                 inputmode="decimal"
                 required>
+
         </div>
+
 
         <!-- RESUME -->
         <div class="form-group">
+
             <label for="resume">
                 Resume (PDF)
             </label>
@@ -492,19 +544,25 @@
             <input
                 type="file"
                 id="resume"
+                name="resume"
                 accept=".pdf,application/pdf"
                 required>
+
         </div>
+
 
         <!-- REGISTER BUTTON -->
         <button
             type="submit"
             class="register-btn"
             id="registerBtn">
+
             Register
+
         </button>
 
     </form>
+
 
     <!-- MESSAGE -->
     <div
@@ -512,15 +570,18 @@
         class="message">
     </div>
 
+
     <!-- LOGIN -->
     <div class="login-link">
 
         <p>
+
             Already have an account?
 
             <a href="/login.html">
                 Login Here
             </a>
+
         </p>
 
     </div>
@@ -528,60 +589,74 @@
 </div>
 
 
-```html
 <script>
+
     // ==========================================
     // SHOW / HIDE PASSWORD
     // ==========================================
+
     function togglePassword(fieldId, button) {
-        const field = document.getElementById(fieldId);
+
+        const field =
+            document.getElementById(fieldId);
 
         if (field.type === "password") {
+
             field.type = "text";
+
             button.textContent = "🙈";
+
         } else {
+
             field.type = "password";
+
             button.textContent = "👁";
+
         }
     }
 
-    // ==========================================
-    // REGISTRATION
-    // ==========================================
-    document.getElementById("registerForm").addEventListener(
-        "submit",
-        async function (event) {
 
-            event.preventDefault();
+    // ==========================================
+    // REGISTRATION VALIDATION
+    // ==========================================
+
+    document
+        .getElementById("registerForm")
+        .addEventListener("submit", function(event) {
 
             const name =
-                document.getElementById("name").value.trim();
+                document.getElementById("name")
+                    .value.trim();
 
             const email =
-                document.getElementById("email").value.trim();
+                document.getElementById("email")
+                    .value.trim();
 
             const phone =
-                document.getElementById("phone").value.trim();
+                document.getElementById("phone")
+                    .value.trim();
 
             const branch =
-                document.getElementById("branch").value;
+                document.getElementById("branch")
+                    .value;
 
             const password =
-                document.getElementById("password").value;
+                document.getElementById("password")
+                    .value;
 
             const confirmPassword =
-                document.getElementById("confirmPassword").value;
+                document.getElementById("confirmPassword")
+                    .value;
 
             const cgpa =
                 parseFloat(
-                    document.getElementById("cgpa").value
+                    document.getElementById("cgpa")
+                        .value
                 );
 
-            const resumeInput =
-                document.getElementById("resume");
-
             const resume =
-                resumeInput.files[0];
+                document.getElementById("resume")
+                    .files[0];
 
             const message =
                 document.getElementById("message");
@@ -589,181 +664,144 @@
             const registerBtn =
                 document.getElementById("registerBtn");
 
-            message.textContent = "";
-            message.style.color = "#dc2626";
 
             // ==========================================
             // VALIDATION
             // ==========================================
 
             if (!name) {
-                message.textContent = "Please enter your name.";
+
+                event.preventDefault();
+
+                message.textContent =
+                    "Please enter your name.";
+
                 return;
             }
+
 
             if (!email) {
-                message.textContent = "Please enter your email.";
+
+                event.preventDefault();
+
+                message.textContent =
+                    "Please enter your email.";
+
                 return;
             }
+
 
             if (!/^[0-9]{10}$/.test(phone)) {
+
+                event.preventDefault();
+
                 message.textContent =
                     "Phone number must contain exactly 10 digits.";
+
                 return;
             }
+
 
             if (!branch) {
+
+                event.preventDefault();
+
                 message.textContent =
                     "Please select your branch.";
+
                 return;
             }
+
 
             if (password.length < 6) {
+
+                event.preventDefault();
+
                 message.textContent =
                     "Password must contain at least 6 characters.";
+
                 return;
             }
+
 
             if (password !== confirmPassword) {
+
+                event.preventDefault();
+
                 message.textContent =
                     "Passwords do not match.";
+
                 return;
             }
+
 
             if (isNaN(cgpa) || cgpa < 0 || cgpa > 10) {
+
+                event.preventDefault();
+
                 message.textContent =
                     "CGPA must be between 0 and 10.";
+
                 return;
             }
+
 
             if (!resume) {
+
+                event.preventDefault();
+
                 message.textContent =
                     "Please select your resume.";
+
                 return;
             }
+
 
             if (!resume.name.toLowerCase().endsWith(".pdf")) {
+
+                event.preventDefault();
+
                 message.textContent =
                     "Only PDF resume is allowed.";
+
                 return;
             }
 
-            // ==========================================
-            // FORM DATA
-            // ==========================================
-
-            const formData = new FormData();
-
-            formData.append("name", name);
-            formData.append("email", email);
-            formData.append("phone", phone);
-            formData.append("branch", branch);
-            formData.append("password", password);
-            formData.append("cgpa", cgpa.toString());
-            formData.append("resume", resume);
 
             // ==========================================
-            // IMPORTANT
+            // ALLOW NORMAL FORM SUBMISSION
             // ==========================================
-
-            const apiUrl =
-                "https://smartplacementmanagement-4.onrender.com/students";
-
-            console.log("Registration API:", apiUrl);
 
             registerBtn.disabled = true;
-            registerBtn.textContent = "Registering...";
-            message.textContent = "Please wait...";
-            message.style.color = "#2563eb";
 
-            // ==========================================
-            // SEND REQUEST
-            // ==========================================
+            registerBtn.textContent =
+                "Registering...";
 
-            try {
+            message.textContent =
+                "Uploading resume and registering...";
 
-                const response = await fetch(apiUrl, {
-                    method: "POST",
-                    body: formData
-                });
+            message.style.color =
+                "#2563eb";
 
-                const responseText =
-                    await response.text();
+            /*
+             * IMPORTANT:
+             *
+             * We intentionally DO NOT use fetch()
+             * here.
+             *
+             * The browser will submit:
+             *
+             * POST /students
+             *
+             * as multipart/form-data.
+             */
 
-                console.log(
-                    "HTTP Status:",
-                    response.status
-                );
+        });
 
-                console.log(
-                    "Server Response:",
-                    responseText
-                );
-
-                // ==========================================
-                // SERVER ERROR
-                // ==========================================
-
-                if (!response.ok) {
-
-                    let errorMessage = responseText;
-
-                    if (!errorMessage ||
-                        errorMessage.trim() === "") {
-
-                        errorMessage =
-                            "Registration failed.";
-                    }
-
-                    throw new Error(
-                        "Server error (" +
-                        response.status +
-                        "): " +
-                        errorMessage
-                    );
-                }
-
-                // ==========================================
-                // SUCCESS
-                // ==========================================
-
-                message.textContent =
-                    "Registration successful! ✓";
-
-                message.style.color = "#16a34a";
-
-                document
-                    .getElementById("registerForm")
-                    .reset();
-
-                setTimeout(function () {
-
-                    window.location.href =
-                        "/login.html";
-
-                }, 1500);
-
-            } catch (error) {
-
-                console.error(
-                    "Registration error:",
-                    error
-                );
-
-                message.textContent =
-                    error.message ||
-                    "Unable to connect to the server.";
-
-                message.style.color = "#dc2626";
-
-                registerBtn.disabled = false;
-                registerBtn.textContent = "Register";
-            }
-        }
-    );
 </script>
 
 
-
 </body>
+
 </html>
+
