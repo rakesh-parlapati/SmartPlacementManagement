@@ -267,7 +267,6 @@
         }
 
         @media (max-width: 500px) {
-
             body {
                 padding: 20px 12px;
                 align-items: flex-start;
@@ -370,7 +369,6 @@
 
         <!-- BRANCH -->
         <div class="form-group">
-
             <label for="branch">
                 Branch
             </label>
@@ -420,7 +418,6 @@
 
         <!-- PASSWORD -->
         <div class="form-group">
-
             <label for="password">
                 Password
             </label>
@@ -446,7 +443,6 @@
 
         <!-- CONFIRM PASSWORD -->
         <div class="form-group">
-
             <label for="confirmPassword">
                 Confirm Password
             </label>
@@ -472,7 +468,6 @@
 
         <!-- CGPA -->
         <div class="form-group">
-
             <label for="cgpa">
                 CGPA
             </label>
@@ -486,12 +481,10 @@
                 placeholder="Enter CGPA (0 - 10)"
                 inputmode="decimal"
                 required>
-
         </div>
 
         <!-- RESUME -->
         <div class="form-group">
-
             <label for="resume">
                 Resume (PDF)
             </label>
@@ -501,7 +494,6 @@
                 id="resume"
                 accept=".pdf,application/pdf"
                 required>
-
         </div>
 
         <!-- REGISTER BUTTON -->
@@ -509,9 +501,7 @@
             type="submit"
             class="register-btn"
             id="registerBtn">
-
             Register
-
         </button>
 
     </form>
@@ -820,19 +810,30 @@
 
                     /*
                      * IMPORTANT:
-                     * Relative URL works both on
-                     * laptop and mobile.
                      *
-                     * It automatically uses:
-                     * https://smartplacementmanagement-4.onrender.com
+                     * Use the current website origin.
+                     *
+                     * This automatically creates:
+                     *
+                     * https://smartplacementmanagement-4.onrender.com/students
+                     *
+                     * on your deployed website.
                      */
+
+                    const apiUrl =
+                        window.location.origin + "/students";
+
+                    console.log(
+                        "Registration URL:",
+                        apiUrl
+                    );
+
 
                     const response =
                         await fetch(
-                            "/students",
+                            apiUrl,
                             {
                                 method: "POST",
-                                credentials: "same-origin",
                                 body: formData
                             }
                         );
@@ -866,16 +867,17 @@
                         let errorMessage =
                             responseText;
 
+
                         /*
                          * If Spring Boot returns JSON,
-                         * try to extract the useful
-                         * message.
+                         * try to extract the useful message.
                          */
 
                         try {
 
                             const errorJson =
                                 JSON.parse(responseText);
+
 
                             if (errorJson.message) {
 
@@ -891,7 +893,7 @@
                         } catch (jsonError) {
 
                             // Response was not JSON.
-                            // Keep the original text.
+                            // Keep original response text.
                         }
 
 
@@ -926,9 +928,7 @@
 
 
                     document
-                        .getElementById(
-                            "registerForm"
-                        )
+                        .getElementById("registerForm")
                         .reset();
 
 
@@ -961,14 +961,15 @@
                     );
 
 
-                    /*
-                     * Show the REAL error instead
-                     * of only "Registration failed".
-                     */
-
                     let displayMessage =
                         error.message;
 
+
+                    /*
+                     * Mobile browsers commonly show
+                     * "Failed to fetch" when the request
+                     * cannot reach the server.
+                     */
 
                     if (
                         !displayMessage ||
