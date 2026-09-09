@@ -1,6 +1,5 @@
 
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -24,59 +23,362 @@
             font-family: Arial, sans-serif;
         }
 
+        /* ==============================
+           BODY + ANIMATED BACKGROUND
+        ============================== */
+
         body {
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #f4f6f9;
-            padding: 30px 15px;
-            transition: background 0.3s ease, color 0.3s ease;
+
+            background: linear-gradient(
+                120deg,
+                #e0f2fe,
+                #dbeafe,
+                #eff6ff,
+                #dbeafe
+            );
+
+            background-size: 400% 400%;
+            animation: backgroundMove 12s ease infinite;
+
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+
+            transition:
+                background 0.3s,
+                color 0.3s;
         }
+
+        /* ==============================
+           BACKGROUND ANIMATION
+        ============================== */
+
+        @keyframes backgroundMove {
+
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* ==============================
+           BACKGROUND CIRCLES
+        ============================== */
+
+        .background-circle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .circle-one {
+            width: 300px;
+            height: 300px;
+
+            background: rgba(96, 165, 250, 0.22);
+
+            top: -100px;
+            left: -100px;
+
+            animation:
+                circleOne 10s ease-in-out infinite;
+        }
+
+        .circle-two {
+            width: 350px;
+            height: 350px;
+
+            background: rgba(147, 197, 253, 0.28);
+
+            right: -120px;
+            bottom: -120px;
+
+            animation:
+                circleTwo 12s ease-in-out infinite;
+        }
+
+        .circle-three {
+            width: 180px;
+            height: 180px;
+
+            background: rgba(125, 211, 252, 0.20);
+
+            right: 20%;
+            top: 8%;
+
+            animation:
+                circleThree 8s ease-in-out infinite;
+        }
+
+        @keyframes circleOne {
+
+            0%, 100% {
+                transform:
+                    translate(0, 0)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate(120px, 100px)
+                    scale(1.15);
+            }
+        }
+
+        @keyframes circleTwo {
+
+            0%, 100% {
+                transform:
+                    translate(0, 0)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate(-100px, -100px)
+                    scale(1.12);
+            }
+        }
+
+        @keyframes circleThree {
+
+            0%, 100% {
+                transform:
+                    translate(0, 0);
+            }
+
+            50% {
+                transform:
+                    translate(-70px, 90px);
+            }
+        }
+
+        /* ==============================
+           PARTICLES
+        ============================== */
+
+        .particles {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+
+            width: 5px;
+            height: 5px;
+
+            background: rgba(37, 99, 235, 0.35);
+
+            border-radius: 50%;
+
+            animation:
+                particleFloat 8s linear infinite;
+        }
+
+        .particle:nth-child(1) {
+            left: 10%;
+            top: 80%;
+            animation-duration: 8s;
+        }
+
+        .particle:nth-child(2) {
+            left: 20%;
+            top: 60%;
+            animation-duration: 10s;
+        }
+
+        .particle:nth-child(3) {
+            left: 35%;
+            top: 90%;
+            animation-duration: 9s;
+        }
+
+        .particle:nth-child(4) {
+            left: 50%;
+            top: 75%;
+            animation-duration: 11s;
+        }
+
+        .particle:nth-child(5) {
+            left: 65%;
+            top: 85%;
+            animation-duration: 10s;
+        }
+
+        .particle:nth-child(6) {
+            left: 75%;
+            top: 50%;
+            animation-duration: 12s;
+        }
+
+        .particle:nth-child(7) {
+            left: 85%;
+            top: 75%;
+            animation-duration: 9s;
+        }
+
+        .particle:nth-child(8) {
+            left: 92%;
+            top: 35%;
+            animation-duration: 11s;
+        }
+
+        @keyframes particleFloat {
+
+            0% {
+                transform:
+                    translateY(0)
+                    scale(0.5);
+
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.8;
+            }
+
+            50% {
+                transform:
+                    translateY(-220px)
+                    scale(1);
+
+                opacity: 0.7;
+            }
+
+            80% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform:
+                    translateY(-450px)
+                    scale(0.3);
+
+                opacity: 0;
+            }
+        }
+
+        /* ==============================
+           REGISTRATION CARD
+        ============================== */
 
         .register-container {
             width: 100%;
             max-width: 500px;
-            background: white;
+
+            background: rgba(255, 255, 255, 0.97);
+
             padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(30, 64, 175, 0.18);
+
             position: relative;
-            transition: background 0.3s ease, box-shadow 0.3s ease;
+            z-index: 5;
+
+            animation:
+                cardEnter 0.8s ease;
+
+            transition:
+                background 0.3s,
+                box-shadow 0.3s;
         }
+
+        @keyframes cardEnter {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(35px)
+                    scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+        /* ==============================
+           THEME BUTTON
+        ============================== */
 
         .theme-btn {
             position: absolute;
+
             top: 15px;
             right: 15px;
+
             border: none;
-            background: #eff6ff;
-            color: #2563eb;
+            border-radius: 7px;
+
+            background: #111827;
+            color: white;
+
             padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
+
             font-size: 12px;
             font-weight: bold;
+
+            cursor: pointer;
+
             transition: 0.25s;
         }
 
         .theme-btn:hover {
-            background: #dbeafe;
+            opacity: 0.85;
         }
+
+        /* ==============================
+           TITLE
+        ============================== */
 
         .title {
             text-align: center;
+
             margin-top: 20px;
             margin-bottom: 8px;
-            color: #2563eb;
+
+            color: #1e293b;
+
+            font-size: 30px;
         }
 
         .subtitle {
             text-align: center;
+
             color: #64748b;
+
             margin-bottom: 25px;
+
             font-size: 14px;
         }
+
+        /* ==============================
+           FORM
+        ============================== */
 
         .form-group {
             margin-bottom: 18px;
@@ -84,45 +386,54 @@
 
         label {
             display: block;
+
             margin-bottom: 7px;
+
             font-weight: bold;
+
             color: #334155;
+
+            font-size: 14px;
         }
 
-        input {
+        input,
+        select {
             width: 100%;
+
             padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
+
+            border:
+                1px solid #cbd5e1;
+
+            border-radius: 9px;
+
             font-size: 15px;
+
             background: white;
             color: #1e293b;
+
+            outline: none;
+
             transition: 0.25s;
         }
 
-        input:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        input:focus,
+        select:focus {
+
+            border-color: #60a5fa;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(96, 165, 250, 0.15);
         }
 
         select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 15px;
-            background: white;
-            color: #1e293b;
-            transition: 0.25s;
             cursor: pointer;
         }
 
-        select:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
-        }
+        /* ==============================
+           PASSWORD
+        ============================== */
 
         .password-wrapper {
             position: relative;
@@ -134,176 +445,260 @@
 
         .view-password {
             position: absolute;
+
             right: 10px;
             top: 50%;
-            transform: translateY(-50%);
+
+            transform:
+                translateY(-50%);
+
             border: none;
+
             background: transparent;
+
             cursor: pointer;
+
             font-size: 18px;
+
             padding: 5px;
         }
 
+        /* ==============================
+           REGISTER BUTTON
+        ============================== */
+
         .register-btn {
             width: 100%;
-            padding: 13px;
+
+            padding: 14px;
+
             border: none;
-            border-radius: 6px;
-            background: #2563eb;
+
+            border-radius: 9px;
+
+            background: #3b82f6;
             color: white;
+
             font-size: 16px;
             font-weight: bold;
+
             cursor: pointer;
+
             margin-top: 8px;
+
             transition: 0.25s;
         }
 
         .register-btn:hover {
-            background: #1d4ed8;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.20);
+            background: #2563eb;
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(37, 99, 235, 0.25);
         }
 
         .register-btn:disabled {
-            background: #94a3b8;
+            background: #93c5fd;
+
             cursor: not-allowed;
+
             transform: none;
-            box-shadow: none;
         }
+
+        /* ==============================
+           MESSAGE
+        ============================== */
 
         .message {
             text-align: center;
-            margin-top: 18px;
+
             min-height: 20px;
-            font-weight: bold;
+
+            margin-top: 16px;
+
             font-size: 14px;
+
+            font-weight: bold;
+
             word-break: break-word;
         }
 
-        /* SUCCESS MESSAGE */
         .success-message {
             background: #dcfce7;
+
             color: #166534;
-            border: 1px solid #86efac;
+
+            border:
+                1px solid #86efac;
+
             padding: 12px;
+
             border-radius: 8px;
+
             margin-top: 18px;
+
             text-align: center;
+
             font-size: 14px;
+
             font-weight: bold;
         }
 
+        /* ==============================
+           LOGIN LINK
+        ============================== */
+
         .login-link {
             text-align: center;
+
             margin-top: 22px;
+
             padding-top: 18px;
-            border-top: 1px solid #e2e8f0;
+
+            border-top:
+                1px solid #e2e8f0;
         }
 
         .login-link p {
             color: #64748b;
+
             font-size: 14px;
         }
 
         .login-link a {
             color: #2563eb;
+
             text-decoration: none;
+
             font-weight: bold;
+
+            margin-left: 5px;
         }
 
         .login-link a:hover {
             text-decoration: underline;
         }
 
+        /* ==============================
+           DARK MODE
+        ============================== */
+
         body.dark-mode {
-            background: #0f172a;
-            color: #e2e8f0;
+            background: #111827;
         }
 
         body.dark-mode .register-container {
-            background: #1e293b;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
+            background:
+                rgba(31, 41, 55, 0.97);
+
+            box-shadow:
+                0 20px 60px
+                rgba(0, 0, 0, 0.45);
         }
 
         body.dark-mode .title {
-            color: #60a5fa;
+            color: #f3f4f6;
         }
 
         body.dark-mode .subtitle {
-            color: #94a3b8;
+            color: #cbd5e1;
         }
 
         body.dark-mode label {
-            color: #e2e8f0;
+            color: #e5e7eb;
         }
 
-        body.dark-mode input {
-            background: #0f172a;
-            color: #e2e8f0;
-            border-color: #475569;
+        body.dark-mode input,
+        body.dark-mode select {
+            background: #374151;
+
+            color: #f3f4f6;
+
+            border-color: #4b5563;
         }
 
         body.dark-mode input::placeholder {
-            color: #94a3b8;
+            color: #9ca3af;
         }
 
-        body.dark-mode input:focus {
-            border-color: #60a5fa;
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
-        }
-
-        body.dark-mode select {
-            background: #0f172a;
-            color: #e2e8f0;
-            border-color: #475569;
-        }
-
+        body.dark-mode input:focus,
         body.dark-mode select:focus {
             border-color: #60a5fa;
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
-        }
-
-        body.dark-mode .theme-btn {
-            background: #334155;
-            color: #facc15;
-        }
-
-        body.dark-mode .theme-btn:hover {
-            background: #475569;
         }
 
         body.dark-mode .login-link {
-            border-top-color: #475569;
+            border-top-color:
+                #4b5563;
         }
 
         body.dark-mode .login-link p {
-            color: #94a3b8;
+            color: #cbd5e1;
         }
 
         body.dark-mode .login-link a {
             color: #60a5fa;
         }
 
+        body.dark-mode .theme-btn {
+            background: #f3f4f6;
+
+            color: #111827;
+        }
+
         body.dark-mode .success-message {
             background: #14532d;
+
             color: #bbf7d0;
+
             border-color: #166534;
         }
+
+        /* ==============================
+           MOBILE
+        ============================== */
 
         @media (max-width: 500px) {
 
             body {
                 padding: 20px 12px;
+
                 align-items: flex-start;
+
+                overflow-x: hidden;
             }
 
             .register-container {
                 margin-top: 20px;
-                padding: 30px 22px;
+
+                padding: 35px 25px;
+
+                border-radius: 15px;
             }
 
             .title {
-                font-size: 24px;
+                font-size: 26px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+            }
+
+            .circle-one {
+                width: 200px;
+                height: 200px;
+            }
+
+            .circle-two {
+                width: 230px;
+                height: 230px;
+            }
+
+            .circle-three {
+                width: 130px;
+                height: 130px;
             }
 
             .theme-btn {
@@ -318,6 +713,7 @@
 
             .register-btn {
                 font-size: 16px;
+
                 min-height: 48px;
             }
         }
@@ -326,520 +722,640 @@
 
 </head>
 
-
 <body>
 
-<div class="register-container">
+    <!-- ==========================================
+         BACKGROUND ANIMATION
+    =========================================== -->
 
-    <!-- DARK MODE -->
-    <button
-        type="button"
-        class="theme-btn"
-        onclick="toggleDarkMode()">
-        🌙 Dark Mode
-    </button>
+    <div class="background-circle circle-one"></div>
 
+    <div class="background-circle circle-two"></div>
 
-    <h2 class="title">
-        Student Registration
-    </h2>
+    <div class="background-circle circle-three"></div>
 
+    <div class="particles">
 
-    <p class="subtitle">
-        Create your account for Smart Placement Management System
-    </p>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
 
+    </div>
 
-    <!-- REGISTRATION FORM -->
-    <form
-        id="registerForm"
-        action="/students"
-        method="POST"
-        enctype="multipart/form-data">
 
+    <!-- ==========================================
+         REGISTRATION CARD
+    =========================================== -->
 
-        <!-- STUDENT NAME -->
-        <div class="form-group">
+    <div class="register-container">
 
-            <label for="name">
-                Student Name
-            </label>
+        <!-- DARK MODE -->
 
-            <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Enter your name"
-                autocomplete="name"
-                required>
-
-        </div>
-
-
-        <!-- EMAIL -->
-        <div class="form-group">
-
-            <label for="email">
-                Email Address
-            </label>
-
-            <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                autocomplete="email"
-                required>
-
-        </div>
-
-
-        <!-- PHONE -->
-        <div class="form-group">
-
-            <label for="phone">
-                Phone Number
-            </label>
-
-            <input
-                type="tel"
-                id="phone"
-                name="phone"
-                placeholder="Enter 10-digit phone number"
-                maxlength="10"
-                pattern="[0-9]{10}"
-                inputmode="numeric"
-                autocomplete="tel"
-                required>
-
-        </div>
-
-
-        <!-- BRANCH -->
-        <div class="form-group">
-
-            <label for="branch">
-                Branch
-            </label>
-
-            <select
-                id="branch"
-                name="branch"
-                required>
-
-                <option value="">
-                    Select your branch
-                </option>
-
-                <option value="ECE">
-                    Electronics & Communication Engineering (ECE)
-                </option>
-
-                <option value="CSE">
-                    Computer Science & Engineering (CSE)
-                </option>
-
-                <option value="EEE">
-                    Electrical & Electronics Engineering (EEE)
-                </option>
-
-                <option value="ME">
-                    Mechanical Engineering (ME)
-                </option>
-
-                <option value="CE">
-                    Civil Engineering (CE)
-                </option>
-
-                <option value="IT">
-                    Information Technology (IT)
-                </option>
-
-                <option value="AI & DS">
-                    Artificial Intelligence & Data Science (AI & DS)
-                </option>
-
-                <option value="AI & ML">
-                    Artificial Intelligence & Machine Learning (AI & ML)
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <!-- PASSWORD -->
-        <div class="form-group">
-
-            <label for="password">
-                Password
-            </label>
-
-            <div class="password-wrapper">
-
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter password"
-                    autocomplete="new-password"
-                    required>
-
-                <button
-                    type="button"
-                    class="view-password"
-                    onclick="togglePassword('password', this)">
-                    👁
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- CONFIRM PASSWORD -->
-        <div class="form-group">
-
-            <label for="confirmPassword">
-                Confirm Password
-            </label>
-
-            <div class="password-wrapper">
-
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    placeholder="Confirm password"
-                    autocomplete="new-password"
-                    required>
-
-                <button
-                    type="button"
-                    class="view-password"
-                    onclick="togglePassword('confirmPassword', this)">
-                    👁
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- CGPA -->
-        <div class="form-group">
-
-            <label for="cgpa">
-                CGPA
-            </label>
-
-            <input
-                type="number"
-                id="cgpa"
-                name="cgpa"
-                min="0"
-                max="10"
-                step="0.01"
-                placeholder="Enter CGPA (0 - 10)"
-                inputmode="decimal"
-                required>
-
-        </div>
-
-
-        <!-- RESUME -->
-        <div class="form-group">
-
-            <label for="resume">
-                Resume (PDF)
-            </label>
-
-            <input
-                type="file"
-                id="resume"
-                name="resume"
-                accept=".pdf,application/pdf"
-                required>
-
-        </div>
-
-
-        <!-- REGISTER BUTTON -->
         <button
-            type="submit"
-            class="register-btn"
-            id="registerBtn">
+            type="button"
+            class="theme-btn"
+            onclick="toggleDarkMode()">
 
-            Register
+            🌙 Dark Mode
 
         </button>
 
-    </form>
+
+        <h2 class="title">
+
+            Student Registration
+
+        </h2>
 
 
-    <!-- MESSAGE -->
-    <div
-        id="message"
-        class="message">
-    </div>
+        <p class="subtitle">
 
+            Create your account for
 
-    <!-- LOGIN -->
-    <div class="login-link">
-
-        <p>
-
-            Already have an account?
-
-            <a href="/login.html">
-                Login Here
-            </a>
+            Smart Placement Management System
 
         </p>
 
+
+        <!-- ==========================================
+             REGISTRATION FORM
+        =========================================== -->
+
+        <form
+            id="registerForm"
+            action="/students"
+            method="POST"
+            enctype="multipart/form-data">
+
+
+            <!-- STUDENT NAME -->
+
+            <div class="form-group">
+
+                <label for="name">
+
+                    Student Name
+
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your name"
+                    autocomplete="name"
+                    required>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+
+                    Email Address
+
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required>
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="form-group">
+
+                <label for="phone">
+
+                    Phone Number
+
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="Enter 10-digit phone number"
+                    maxlength="10"
+                    pattern="[0-9]{10}"
+                    inputmode="numeric"
+                    autocomplete="tel"
+                    required>
+
+            </div>
+
+
+            <!-- BRANCH -->
+
+            <div class="form-group">
+
+                <label for="branch">
+
+                    Branch
+
+                </label>
+
+                <select
+                    id="branch"
+                    name="branch"
+                    required>
+
+                    <option value="">
+
+                        Select your branch
+
+                    </option>
+
+                    <option value="ECE">
+
+                        Electronics & Communication Engineering (ECE)
+
+                    </option>
+
+                    <option value="CSE">
+
+                        Computer Science & Engineering (CSE)
+
+                    </option>
+
+                    <option value="EEE">
+
+                        Electrical & Electronics Engineering (EEE)
+
+                    </option>
+
+                    <option value="ME">
+
+                        Mechanical Engineering (ME)
+
+                    </option>
+
+                    <option value="CE">
+
+                        Civil Engineering (CE)
+
+                    </option>
+
+                    <option value="IT">
+
+                        Information Technology (IT)
+
+                    </option>
+
+                    <option value="AI & DS">
+
+                        Artificial Intelligence & Data Science (AI & DS)
+
+                    </option>
+
+                    <option value="AI & ML">
+
+                        Artificial Intelligence & Machine Learning (AI & ML)
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+
+                    Password
+
+                </label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter password"
+                        autocomplete="new-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="view-password"
+                        onclick="togglePassword('password', this)">
+
+                        👁
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="confirmPassword">
+
+                    Confirm Password
+
+                </label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Confirm password"
+                        autocomplete="new-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="view-password"
+                        onclick="togglePassword('confirmPassword', this)">
+
+                        👁
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- CGPA -->
+
+            <div class="form-group">
+
+                <label for="cgpa">
+
+                    CGPA
+
+                </label>
+
+                <input
+                    type="number"
+                    id="cgpa"
+                    name="cgpa"
+                    min="0"
+                    max="10"
+                    step="0.01"
+                    placeholder="Enter CGPA (0 - 10)"
+                    inputmode="decimal"
+                    required>
+
+            </div>
+
+
+            <!-- RESUME -->
+
+            <div class="form-group">
+
+                <label for="resume">
+
+                    Resume (PDF)
+
+                </label>
+
+                <input
+                    type="file"
+                    id="resume"
+                    name="resume"
+                    accept=".pdf,application/pdf"
+                    required>
+
+            </div>
+
+
+            <!-- REGISTER BUTTON -->
+
+            <button
+                type="submit"
+                class="register-btn"
+                id="registerBtn">
+
+                Register
+
+            </button>
+
+        </form>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="message"
+            class="message">
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <div class="login-link">
+
+            <p>
+
+                Already have an account?
+
+                <a href="/login.html">
+
+                    Login Here
+
+                </a>
+
+            </p>
+
+        </div>
+
     </div>
 
-</div>
 
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
 
-<script>
+    <script>
 
-    // ==========================================
-    // SHOW / HIDE PASSWORD
-    // ==========================================
+        // ==========================================
+        // SHOW / HIDE PASSWORD
+        // ==========================================
 
-    function togglePassword(fieldId, button) {
+        function togglePassword(fieldId, button) {
 
-        const field =
-            document.getElementById(fieldId);
+            const field =
+                document.getElementById(fieldId);
 
-        if (field.type === "password") {
+            if (field.type === "password") {
 
-            field.type = "text";
-            button.textContent = "🙈";
+                field.type = "text";
 
-        } else {
+                button.textContent = "🙈";
 
-            field.type = "password";
-            button.textContent = "👁";
+            } else {
 
+                field.type = "password";
+
+                button.textContent = "👁";
+            }
         }
 
-    }
 
+        // ==========================================
+        // URL PARAMETERS
+        // ==========================================
 
-    // ==========================================
-    // SHOW SUCCESS MESSAGE AFTER REDIRECT
-    // ==========================================
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
 
-    const urlParams =
-        new URLSearchParams(window.location.search);
+        const success =
+            urlParams.get("success");
 
-    const success =
-        urlParams.get("success");
+        const existing =
+            urlParams.get("existing");
 
-    if (success === "true") {
 
-        const message =
-            document.getElementById("message");
+        // ==========================================
+        // REGISTRATION SUCCESS
+        // ==========================================
 
-        message.className =
-            "success-message";
+        if (success === "true") {
 
-        message.textContent =
-            "✓ Registration successful! Redirecting to login...";
+            // Redirect immediately to login
+            window.location.replace("/login.html");
+        }
 
-        setTimeout(function () {
 
-            window.location.href = "/login.html";
+        // ==========================================
+        // EXISTING ACCOUNT
+        // ==========================================
 
-        }, 2000);
+        if (existing === "true") {
 
-    }
+            // Redirect immediately to login
+            window.location.replace("/login.html");
+        }
 
 
-    // ==========================================
-    // REGISTRATION VALIDATION
-    // ==========================================
+        // ==========================================
+        // REGISTRATION VALIDATION
+        // ==========================================
 
-    document
-        .getElementById("registerForm")
-        .addEventListener("submit", function(event) {
+        document
+            .getElementById("registerForm")
+            .addEventListener(
+                "submit",
+                function(event) {
 
-            const name =
-                document
-                    .getElementById("name")
-                    .value
-                    .trim();
+                    const name =
+                        document
+                            .getElementById("name")
+                            .value
+                            .trim();
 
-            const email =
-                document
-                    .getElementById("email")
-                    .value
-                    .trim();
+                    const email =
+                        document
+                            .getElementById("email")
+                            .value
+                            .trim();
 
-            const phone =
-                document
-                    .getElementById("phone")
-                    .value
-                    .trim();
+                    const phone =
+                        document
+                            .getElementById("phone")
+                            .value
+                            .trim();
 
-            const branch =
-                document
-                    .getElementById("branch")
-                    .value;
+                    const branch =
+                        document
+                            .getElementById("branch")
+                            .value;
 
-            const password =
-                document
-                    .getElementById("password")
-                    .value;
+                    const password =
+                        document
+                            .getElementById("password")
+                            .value;
 
-            const confirmPassword =
-                document
-                    .getElementById("confirmPassword")
-                    .value;
+                    const confirmPassword =
+                        document
+                            .getElementById("confirmPassword")
+                            .value;
 
-            const cgpa =
-                parseFloat(
-                    document
-                        .getElementById("cgpa")
-                        .value
-                );
+                    const cgpa =
+                        parseFloat(
+                            document
+                                .getElementById("cgpa")
+                                .value
+                        );
 
-            const resume =
-                document
-                    .getElementById("resume")
-                    .files[0];
+                    const resume =
+                        document
+                            .getElementById("resume")
+                            .files[0];
 
-            const message =
-                document.getElementById("message");
+                    const message =
+                        document.getElementById(
+                            "message"
+                        );
 
-            const registerBtn =
-                document.getElementById("registerBtn");
+                    const registerBtn =
+                        document.getElementById(
+                            "registerBtn"
+                        );
 
 
-            // ==========================================
-            // VALIDATION
-            // ==========================================
+                    // ==================================
+                    // VALIDATION
+                    // ==================================
 
-            if (!name) {
+                    if (!name) {
 
-                event.preventDefault();
+                        event.preventDefault();
 
-                message.textContent =
-                    "Please enter your name.";
+                        message.textContent =
+                            "Please enter your name.";
 
-                return;
-            }
+                        return;
+                    }
 
 
-            if (!email) {
+                    if (!email) {
 
-                event.preventDefault();
+                        event.preventDefault();
 
-                message.textContent =
-                    "Please enter your email.";
+                        message.textContent =
+                            "Please enter your email.";
 
-                return;
-            }
+                        return;
+                    }
 
 
-            if (!/^[0-9]{10}$/.test(phone)) {
+                    if (!/^[0-9]{10}$/.test(phone)) {
 
-                event.preventDefault();
+                        event.preventDefault();
 
-                message.textContent =
-                    "Phone number must contain exactly 10 digits.";
+                        message.textContent =
+                            "Phone number must contain exactly 10 digits.";
 
-                return;
-            }
+                        return;
+                    }
 
 
-            if (!branch) {
+                    if (!branch) {
 
-                event.preventDefault();
+                        event.preventDefault();
 
-                message.textContent =
-                    "Please select your branch.";
+                        message.textContent =
+                            "Please select your branch.";
 
-                return;
-            }
+                        return;
+                    }
 
 
-            if (password.length < 6) {
+                    if (password.length < 6) {
 
-                event.preventDefault();
+                        event.preventDefault();
 
-                message.textContent =
-                    "Password must contain at least 6 characters.";
+                        message.textContent =
+                            "Password must contain at least 6 characters.";
 
-                return;
-            }
+                        return;
+                    }
 
 
-            if (password !== confirmPassword) {
+                    if (password !== confirmPassword) {
 
-                event.preventDefault();
+                        event.preventDefault();
 
-                message.textContent =
-                    "Passwords do not match.";
+                        message.textContent =
+                            "Passwords do not match.";
 
-                return;
-            }
+                        return;
+                    }
 
 
-            if (isNaN(cgpa) || cgpa < 0 || cgpa > 10) {
+                    if (
+                        isNaN(cgpa) ||
+                        cgpa < 0 ||
+                        cgpa > 10
+                    ) {
 
-                event.preventDefault();
+                        event.preventDefault();
 
-                message.textContent =
-                    "CGPA must be between 0 and 10.";
+                        message.textContent =
+                            "CGPA must be between 0 and 10.";
 
-                return;
-            }
+                        return;
+                    }
 
 
-            if (!resume) {
+                    if (!resume) {
 
-                event.preventDefault();
+                        event.preventDefault();
 
-                message.textContent =
-                    "Please select your resume.";
+                        message.textContent =
+                            "Please select your resume.";
 
-                return;
-            }
+                        return;
+                    }
 
 
-            if (!resume.name.toLowerCase().endsWith(".pdf")) {
+                    if (
+                        !resume.name
+                            .toLowerCase()
+                            .endsWith(".pdf")
+                    ) {
 
-                event.preventDefault();
+                        event.preventDefault();
 
-                message.textContent =
-                    "Only PDF resume is allowed.";
+                        message.textContent =
+                            "Only PDF resume is allowed.";
 
-                return;
-            }
+                        return;
+                    }
 
 
-            // ==========================================
-            // NORMAL FORM SUBMISSION
-            // ==========================================
+                    // ==================================
+                    // NORMAL FORM SUBMISSION
+                    //
+                    // IMPORTANT:
+                    // DO NOT CHANGE THIS TO FETCH()
+                    // because normal multipart submission
+                    // is working with mobile PDF upload.
+                    // ==================================
 
-            registerBtn.disabled = true;
+                    registerBtn.disabled = true;
 
-            registerBtn.textContent =
-                "Registering...";
+                    registerBtn.textContent =
+                        "Registering...";
 
-            message.textContent =
-                "Uploading resume and registering...";
+                    message.textContent =
+                        "Uploading resume and registering...";
 
-            message.style.color =
-                "#2563eb";
+                    message.style.color =
+                        "#2563eb";
+                }
+            );
 
-        });
-
-</script>
-
+    </script>
 
 </body>
 

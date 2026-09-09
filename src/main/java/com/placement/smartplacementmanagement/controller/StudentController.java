@@ -284,6 +284,27 @@ public class StudentController {
         }
 
         // ==========================================
+        // CHECK EXISTING ACCOUNT
+        // ==========================================
+
+        Student existingStudent =
+                studentService.getStudentByEmail(
+                        email.trim()
+                );
+
+        if (existingStudent != null) {
+
+            return ResponseEntity
+                    .status(HttpStatus.FOUND)
+                    .location(
+                            URI.create(
+                                    "/register.html?existing=true"
+                            )
+                    )
+                    .build();
+        }
+
+        // ==========================================
         // CHECK RESUME
         // ==========================================
 
@@ -970,5 +991,3 @@ public class StudentController {
         );
     }
 }
-
-
