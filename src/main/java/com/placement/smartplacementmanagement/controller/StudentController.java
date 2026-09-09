@@ -1,6 +1,8 @@
+
 package com.placement.smartplacementmanagement.controller;
 
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -212,7 +214,6 @@ public class StudentController {
 
             @RequestParam("cgpa") Double cgpa,
 
-            // BRANCH IS NOW REQUIRED
             @RequestParam("branch") String branch,
 
             @RequestParam("resume") MultipartFile resume)
@@ -393,9 +394,20 @@ public class StudentController {
         // SAVE STUDENT
         // ==========================================
 
-        return ResponseEntity.ok(
-                studentService.saveStudent(student)
-        );
+        studentService.saveStudent(student);
+
+        // ==========================================
+        // REGISTRATION SUCCESS REDIRECT
+        // ==========================================
+
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .location(
+                        URI.create(
+                                "/register.html?success=true"
+                        )
+                )
+                .build();
     }
 
     // ==========================================
@@ -958,3 +970,5 @@ public class StudentController {
         );
     }
 }
+
+
